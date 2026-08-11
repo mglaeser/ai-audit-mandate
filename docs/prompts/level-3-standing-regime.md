@@ -8,6 +8,19 @@ The full mandate. Controls are calibrated against their own decay, baselines
 ratchet, the constitution is ratified, and `production_eligible` becomes
 computable.
 
+**Typically adds:** 5,000–10,000 lines of audit and governance documentation,
+5,000–15,000 lines of control code, and 3,000–10,000 lines of tests, across
+30–60 pull requests. One observed engagement that built a fully write-separated
+verifier lane wrote roughly 36,000 lines of control code and 31,000 of tests —
+if you are building that lane rather than configuring one, plan for multiples.
+*(See [adoption levels](../adoption-levels.md).)*
+
+**One-liner, if you prefer:**
+
+```text
+Read https://github.com/mglaeser/ai-audit-mandate/blob/main/docs/prompts/level-3-standing-regime.md and execute it against this repository.
+```
+
 ---
 
 ````markdown

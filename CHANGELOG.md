@@ -7,6 +7,28 @@ checks across three tracks.
 Because engagements pin the mandate by hash, every release records the combined
 digest of the two volumes.
 
+## 2.2.0
+
+Answers the question a visitor asks before starting: what is this going to cost?
+
+### Added
+
+- **Measured effort per level** in the README, adoption guide and each prompt —
+  documentation lines, control-code lines, test lines and pull requests. Figures
+  come from four real implementations of this mandate, with the mandate's own
+  text excluded since it is copied rather than written.
+- **One-liner prompts.** Each level can now be started by pasting a single line
+  that points the agent at its full prompt, instead of pasting the whole block.
+
+### Notes
+
+Two findings from the measurement worth stating plainly. Audit documentation is
+remarkably stable across engagements — three to seven thousand lines regardless
+of depth, because the catalogue is fixed at 119 checks. Control code is not: it
+varies by an order of magnitude, and the engagement that built a fully
+write-separated verifier lane wrote roughly 36,000 lines of it. The ranges
+published are typical, not maximal, and say so.
+
 ## 2.1.1
 
 Correction to the adoption guidance. The 2.1.0 levels treated depth as a single

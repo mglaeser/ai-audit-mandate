@@ -7,6 +7,16 @@
 Use this when you want an honest picture before deciding how much apparatus the
 project deserves. It changes nothing about how the repository works.
 
+**Typically adds:** 2,500–6,000 lines of audit documentation, no code, no tests,
+across 1–3 pull requests. *(Measured across four real engagements; see
+[adoption levels](../adoption-levels.md).)*
+
+**One-liner, if you prefer:**
+
+```text
+Read https://github.com/mglaeser/ai-audit-mandate/blob/main/docs/prompts/level-1-baseline.md and execute it against this repository.
+```
+
 ---
 
 ````markdown

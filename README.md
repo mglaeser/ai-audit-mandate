@@ -22,19 +22,28 @@ It is not a checklist you tick. Every finding closes with a control you have
 
 ## Start in one paste
 
-Pick a depth, copy its prompt into your coding agent, and it reads the mandate
-itself and starts working.
+Pick a depth and paste its one-liner into your coding agent. It reads the full
+prompt from this repository and starts working.
 
-| Level | Prompt | Answers | Effort |
-| --- | --- | --- | --- |
-| **1** | [Baseline](docs/prompts/level-1-baseline.md) | What is actually true here? | hours |
-| **2** | [Governed](docs/prompts/level-2-governed.md) | What is true, and what keeps it true? | days |
-| **3** | [Standing regime](docs/prompts/level-3-standing-regime.md) | What survives everyone leaving? | weeks, then permanent |
+| Level | Answers | Paste this | Docs | Code | Tests | PRs |
+| --- | --- | --- | --- | --- | --- | --- |
+| **1** — Baseline | What is actually true here? | `Read https://github.com/mglaeser/ai-audit-mandate/blob/main/docs/prompts/level-1-baseline.md and execute it against this repository.` | 2.5–6k | — | — | 1–3 |
+| **2** — Governed | What is true, and what keeps it true? | `Read https://github.com/mglaeser/ai-audit-mandate/blob/main/docs/prompts/level-2-governed.md and execute it against this repository.` | 4–8k | 1.5–4k | 0.5–3k | 10–25 |
+| **3** — Standing regime | What survives everyone leaving? | `Read https://github.com/mglaeser/ai-audit-mandate/blob/main/docs/prompts/level-3-standing-regime.md and execute it against this repository.` | 5–10k | 5–15k | 3–10k | 30–60 |
+
+Lines are what a completed engagement **adds**, measured across four real
+implementations of this mandate — the mandate's own text excluded, since you copy
+rather than write it. "Docs" is the `audit/` and `governance/` artifact set;
+"Code" is standing controls, gates and CI. Expect wide variance: a repository that
+builds a full write-separated verifier lane can exceed 25k lines of control code
+on its own.
 
 **Level 1** if the repository cannot reach production. **Level 2** if it is real
 but single-operator — the honest ceiling for most projects. **Level 3** if you can
 field an independent verifier from a second vendor and a scheduled runner.
-[Compare them](docs/adoption-levels.md).
+[Compare them](docs/adoption-levels.md), or open the prompts directly:
+[1](docs/prompts/level-1-baseline.md) · [2](docs/prompts/level-2-governed.md) ·
+[3](docs/prompts/level-3-standing-regime.md).
 
 Prefer to drive it yourself?
 

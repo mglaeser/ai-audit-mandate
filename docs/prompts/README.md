@@ -7,11 +7,37 @@ Each prompt names the parts of the mandate to adopt and — just as importantly 
 the parts to skip, so the agent does not build apparatus the project cannot
 sustain.
 
-| Level | Prompt | Answers | Effort |
-| --- | --- | --- | --- |
-| **1** | [Baseline](level-1-baseline.md) | What is actually true here? | hours |
-| **2** | [Governed](level-2-governed.md) | What is true, and what keeps it true? | days |
-| **3** | [Standing regime](level-3-standing-regime.md) | What survives everyone leaving? | weeks, then permanent |
+| Level | Prompt | Answers | Adds | PRs | Time |
+| --- | --- | --- | --- | --- | --- |
+| **1** | [Baseline](level-1-baseline.md) | What is actually true here? | 2.5–6k docs | 1–3 | hours |
+| **2** | [Governed](level-2-governed.md) | What is true, and what keeps it true? | 4–8k docs, 1.5–4k code, 0.5–3k tests | 10–25 | days |
+| **3** | [Standing regime](level-3-standing-regime.md) | What survives everyone leaving? | 5–10k docs, 5–15k code, 3–10k tests | 30–60 | weeks |
+
+Line counts are what a completed engagement adds, averaged over four real
+implementations with the mandate's own text excluded. See
+[adoption levels](../adoption-levels.md) for the caveats — control code varies by
+an order of magnitude depending on how much verification you build rather than
+configure.
+
+## The one-liners
+
+If you would rather not paste a whole prompt, paste one of these instead. The
+agent fetches the full instructions itself.
+
+```text
+Read https://github.com/mglaeser/ai-audit-mandate/blob/main/docs/prompts/level-1-baseline.md and execute it against this repository.
+```
+
+```text
+Read https://github.com/mglaeser/ai-audit-mandate/blob/main/docs/prompts/level-2-governed.md and execute it against this repository.
+```
+
+```text
+Read https://github.com/mglaeser/ai-audit-mandate/blob/main/docs/prompts/level-3-standing-regime.md and execute it against this repository.
+```
+
+Agents without network access need the full prompt pasted directly — the blocks
+in each level's page are self-contained.
 
 Not sure which? [Adoption levels](../adoption-levels.md) has the comparison. The
 short version: **Level 1** if the repository cannot reach production, **Level 2**

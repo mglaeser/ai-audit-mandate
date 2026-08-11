@@ -19,6 +19,36 @@ Constitution already defines in Article XV.
 | **Clears production** | no | no | yes, when computed |
 | **Effort** | hours | days | weeks, then permanent |
 
+## What it costs
+
+Measured across four real implementations of this mandate. The mandate's own text
+is excluded — you copy that rather than write it — so these are lines an
+engagement actually authors.
+
+| | Level 1 | Level 2 | Level 3 |
+| --- | --- | --- | --- |
+| Audit and governance docs | 2,500–6,000 | 4,000–8,000 | 5,000–10,000 |
+| Control and CI code | — | 1,500–4,000 | 5,000–15,000 |
+| Tests | — | 500–3,000 | 3,000–10,000 |
+| Pull requests | 1–3 | 10–25 | 30–60 |
+| Calendar time | hours | days | weeks, then permanent |
+
+Two cautions about these numbers.
+
+**Documentation is the stable part.** Across every engagement observed, the
+`audit/` artifact set landed between three and seven thousand lines regardless of
+depth. The catalogue is fixed at 119 checks, so the writing is roughly fixed too.
+
+**Control code is the volatile part**, and the range understates the ceiling. One
+engagement that built a fully write-separated verifier lane wrote about 36,000
+lines of control code and 31,000 lines of tests — the verifier alone was 25,000.
+If Level 3 means building that lane rather than configuring one, plan for
+multiples of the figure above.
+
+Pull-request counts track remediation waves rather than findings: controls land
+one reviewed change at a time, which is the point. A three-PR engagement batched
+its waves; a forty-PR engagement did not.
+
 ## What separates the levels
 
 Not the number of checks. Every serious engagement runs all 119 — a check you

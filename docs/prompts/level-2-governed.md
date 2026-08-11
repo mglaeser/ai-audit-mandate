@@ -8,6 +8,17 @@ The level most real projects should reach and stop at. Findings become gates,
 the worst defects get designed away rather than policed, and deploy admission
 fails closed.
 
+**Typically adds:** 4,000–8,000 lines of audit and governance documentation,
+1,500–4,000 lines of control and CI code, and 500–3,000 lines of tests, across
+10–25 pull requests. *(Measured across four real engagements; see
+[adoption levels](../adoption-levels.md).)*
+
+**One-liner, if you prefer:**
+
+```text
+Read https://github.com/mglaeser/ai-audit-mandate/blob/main/docs/prompts/level-2-governed.md and execute it against this repository.
+```
+
 ---
 
 ````markdown
