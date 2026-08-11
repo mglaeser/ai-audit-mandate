@@ -7,17 +7,16 @@ Each prompt names the parts of the mandate to adopt and — just as importantly 
 the parts to skip, so the agent does not build apparatus the project cannot
 sustain.
 
-| Level | Prompt | Answers | Adds | PRs | Time |
-| --- | --- | --- | --- | --- | --- |
-| **1** | [Baseline](level-1-baseline.md) | What is actually true here? | 2.5–6k docs | 1–3 | hours |
-| **2** | [Governed](level-2-governed.md) | What is true, and what keeps it true? | 4–8k docs, 1.5–4k code, 0.5–3k tests | 10–25 | days |
-| **3** | [Standing regime](level-3-standing-regime.md) | What survives everyone leaving? | 5–10k docs, 5–15k code, 3–10k tests | 30–60 | weeks |
+| Level | Prompt | Answers | Control scripts | New tests | PRs | Time |
+| --- | --- | --- | --- | --- | --- | --- |
+| **1** | [Baseline](level-1-baseline.md) | What is actually true here? | none | none | 1–3 | an afternoon |
+| **2** | [Governed](level-2-governed.md) | What is true, and what keeps it true? | 10–25 | 15–200 | 10–25 | a few days |
+| **3** | [Standing regime](level-3-standing-regime.md) | What survives everyone leaving? | 25–30 | 200–2,000 | 30–60 | weeks |
 
-Line counts are what a completed engagement adds, averaged over four real
-implementations with the mandate's own text excluded. See
-[adoption levels](../adoption-levels.md) for the caveats — control code varies by
-an order of magnitude depending on how much verification you build rather than
-configure.
+Counts are what four real implementations actually added — individual test cases,
+not lines of test code. The test range is wide because it reflects whether you
+configure verification or build it; see
+[adoption levels](../adoption-levels.md).
 
 ## The one-liners
 

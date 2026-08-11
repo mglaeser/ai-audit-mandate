@@ -22,28 +22,56 @@ It is not a checklist you tick. Every finding closes with a control you have
 
 ## Start in one paste
 
-Pick a depth and paste its one-liner into your coding agent. It reads the full
-prompt from this repository and starts working.
+Three depths. Pick one, paste its line into your coding agent, and it reads the
+full instructions from here and starts working.
 
-| Level | Answers | Paste this | Docs | Code | Tests | PRs |
-| --- | --- | --- | --- | --- | --- | --- |
-| **1** — Baseline | What is actually true here? | `Read https://github.com/mglaeser/ai-audit-mandate/blob/main/docs/prompts/level-1-baseline.md and execute it against this repository.` | 2.5–6k | — | — | 1–3 |
-| **2** — Governed | What is true, and what keeps it true? | `Read https://github.com/mglaeser/ai-audit-mandate/blob/main/docs/prompts/level-2-governed.md and execute it against this repository.` | 4–8k | 1.5–4k | 0.5–3k | 10–25 |
-| **3** — Standing regime | What survives everyone leaving? | `Read https://github.com/mglaeser/ai-audit-mandate/blob/main/docs/prompts/level-3-standing-regime.md and execute it against this repository.` | 5–10k | 5–15k | 3–10k | 30–60 |
+### Level 1 · Baseline — *what is actually true here?*
 
-Lines are what a completed engagement **adds**, measured across four real
-implementations of this mandate — the mandate's own text excluded, since you copy
-rather than write it. "Docs" is the `audit/` and `governance/` artifact set;
-"Code" is standing controls, gates and CI. Expect wide variance: a repository that
-builds a full write-separated verifier lane can exceed 25k lines of control code
-on its own.
+An honest inventory. All 119 checks get a verdict backed by evidence. Nothing in
+your repository changes.
 
-**Level 1** if the repository cannot reach production. **Level 2** if it is real
-but single-operator — the honest ceiling for most projects. **Level 3** if you can
-field an independent verifier from a second vendor and a scheduled runner.
-[Compare them](docs/adoption-levels.md), or open the prompts directly:
-[1](docs/prompts/level-1-baseline.md) · [2](docs/prompts/level-2-governed.md) ·
-[3](docs/prompts/level-3-standing-regime.md).
+```text
+Read https://github.com/mglaeser/ai-audit-mandate/blob/main/docs/prompts/level-1-baseline.md and execute it against this repository.
+```
+
+> Adds an `audit/` folder of findings. **No** new code, **no** new tests.
+> Usually **1–3 pull requests**, done in an afternoon.
+
+### Level 2 · Governed — *what is true, and what keeps it true?*
+
+The findings become gates. Your CI starts refusing the mistakes the audit found,
+and deploy admission fails closed.
+
+```text
+Read https://github.com/mglaeser/ai-audit-mandate/blob/main/docs/prompts/level-2-governed.md and execute it against this repository.
+```
+
+> Adds roughly **10–25 small control scripts** (a secret scanner, a
+> dependency-existence check, an authorisation-coverage gate…) and **15–200 new
+> tests**, one per fix. Usually **10–25 pull requests** over a few days.
+
+### Level 3 · Standing regime — *what survives everyone leaving?*
+
+The controls start proving themselves. Seeded defects are re-injected on a
+schedule, the gate self-tests, and baselines can only improve.
+
+```text
+Read https://github.com/mglaeser/ai-audit-mandate/blob/main/docs/prompts/level-3-standing-regime.md and execute it against this repository.
+```
+
+> Adds **25–30 control scripts** plus calibration and verification machinery, and
+> **200–2,000 new tests** — the controls get tested too. Usually **30–60 pull
+> requests** over weeks.
+
+**Which one?** Level 1 if the repository cannot reach production. Level 2 if it is
+real but single-operator — the honest ceiling for most projects. Level 3 if you
+can field an independent verifier from a second vendor and a scheduled runner.
+[Compare them side by side](docs/adoption-levels.md).
+
+*Figures are what four real implementations of this mandate actually added,
+counting individual tests rather than lines of test code. The wide range is real:
+a project that builds its own verification infrastructure wrote 2,000 tests; one
+that configured existing tools wrote 15.*
 
 Prefer to drive it yourself?
 

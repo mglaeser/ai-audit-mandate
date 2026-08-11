@@ -21,33 +21,32 @@ Constitution already defines in Article XV.
 
 ## What it costs
 
-Measured across four real implementations of this mandate. The mandate's own text
-is excluded — you copy that rather than write it — so these are lines an
-engagement actually authors.
+What four real implementations of this mandate actually added to their
+repositories.
 
-| | Level 1 | Level 2 | Level 3 |
+| What you get | Level 1 | Level 2 | Level 3 |
 | --- | --- | --- | --- |
-| Audit and governance docs | 2,500–6,000 | 4,000–8,000 | 5,000–10,000 |
-| Control and CI code | — | 1,500–4,000 | 5,000–15,000 |
-| Tests | — | 500–3,000 | 3,000–10,000 |
-| Pull requests | 1–3 | 10–25 | 30–60 |
-| Calendar time | hours | days | weeks, then permanent |
+| **New control scripts** — the checks that run in CI | none | 10–25 | 25–30 |
+| **New tests** — individual test cases | none | 15–200 | 200–2,000 |
+| **Pull requests** to get there | 1–3 | 10–25 | 30–60 |
+| **Calendar time** | an afternoon | a few days | weeks, then permanent |
+| **Written findings** | `audit/` folder | `audit/` + constitution | + regime and evidence records |
 
-Two cautions about these numbers.
+### Reading these numbers
 
-**Documentation is the stable part.** Across every engagement observed, the
-`audit/` artifact set landed between three and seven thousand lines regardless of
-depth. The catalogue is fixed at 119 checks, so the writing is roughly fixed too.
+**The written findings barely vary.** Every engagement produced a similar
+`audit/` set, because the catalogue is fixed at 119 checks — so the writing is
+roughly fixed too. It is the one predictable part.
 
-**Control code is the volatile part**, and the range understates the ceiling. One
-engagement that built a fully write-separated verifier lane wrote about 36,000
-lines of control code and 31,000 lines of tests — the verifier alone was 25,000.
-If Level 3 means building that lane rather than configuring one, plan for
-multiples of the figure above.
+**The tests vary enormously, and that is the honest signal.** One project added
+15 tests; another added 2,023. The difference is not thoroughness — it is whether
+you *configure* verification or *build* it. A project that wrote its own
+cross-vendor verifier and write-separated lane produced 36,000 lines of control
+code, and had to test all of it.
 
-Pull-request counts track remediation waves rather than findings: controls land
-one reviewed change at a time, which is the point. A three-PR engagement batched
-its waves; a forty-PR engagement did not.
+**Pull requests track remediation waves, not findings.** Controls land one
+reviewed change at a time, which is the point of the exercise. One engagement
+batched everything into 3; another spread it across 48. Both were legitimate.
 
 ## What separates the levels
 

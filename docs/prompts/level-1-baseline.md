@@ -7,8 +7,9 @@
 Use this when you want an honest picture before deciding how much apparatus the
 project deserves. It changes nothing about how the repository works.
 
-**Typically adds:** 2,500–6,000 lines of audit documentation, no code, no tests,
-across 1–3 pull requests. *(Measured across four real engagements; see
+**What it adds to your repository:** an `audit/` folder of findings. No control
+scripts, no new tests, no changes to how anything runs. Typically **1–3 pull
+requests**, done in an afternoon. *(Measured across four real engagements; see
 [adoption levels](../adoption-levels.md).)*
 
 **One-liner, if you prefer:**

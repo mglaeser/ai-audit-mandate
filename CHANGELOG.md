@@ -7,6 +7,22 @@ checks across three tracks.
 Because engagements pin the mandate by hash, every release records the combined
 digest of the two volumes.
 
+## 2.2.1
+
+Rework of how effort is presented. The 2.2.0 table put a seven-column grid and a
+wrapped URL in every row, and labelled a column "Docs" — a number with no unit
+and no meaning to a first-time reader.
+
+### Changed
+
+- The README's start section is now one short block per level: what it does, the
+  line to paste, and a plain-language note on what lands in the repository. The
+  paste command sits in its own code block instead of inside a table cell.
+- Effort is stated in units a reader can picture — **how many control scripts**,
+  **how many tests**, **how many pull requests** — rather than lines of code.
+- Test figures are re-measured as individual test cases rather than lines of test
+  code: the observed engagements added 0, 15, 176 and 2,023 tests respectively.
+
 ## 2.2.0
 
 Answers the question a visitor asks before starting: what is this going to cost?

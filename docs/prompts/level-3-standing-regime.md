@@ -8,12 +8,16 @@ The full mandate. Controls are calibrated against their own decay, baselines
 ratchet, the constitution is ratified, and `production_eligible` becomes
 computable.
 
-**Typically adds:** 5,000–10,000 lines of audit and governance documentation,
-5,000–15,000 lines of control code, and 3,000–10,000 lines of tests, across
-30–60 pull requests. One observed engagement that built a fully write-separated
-verifier lane wrote roughly 36,000 lines of control code and 31,000 of tests —
-if you are building that lane rather than configuring one, plan for multiples.
-*(See [adoption levels](../adoption-levels.md).)*
+**What it adds to your repository:** everything Level 2 adds, plus the machinery
+that proves the controls still work — a calibration corpus, a gate self-test, a
+ratchet register, decay detectors. Roughly **25–30 control scripts** and
+**200–2,000 new tests**, because the controls get tested too. Typically **30–60
+pull requests** over weeks.
+
+The upper end is not hypothetical: one engagement that built its own cross-vendor
+verifier and write-separated lane wrote 2,023 tests and 36,000 lines of control
+code. If you are building that infrastructure rather than configuring it, plan
+accordingly. *(See [adoption levels](../adoption-levels.md).)*
 
 **One-liner, if you prefer:**
 
