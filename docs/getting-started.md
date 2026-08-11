@@ -3,6 +3,18 @@
 This guide takes you from a clone to a running engagement. It assumes you have a
 repository you want audited and Node.js 20 or newer for the tooling.
 
+> **Want to skip the manual route?** [Three prompts](prompts/README.md) — one per
+> adoption level — hand the whole procedure to a coding agent. This guide is for
+> driving it yourself, or for understanding what the agent is doing.
+
+## 0. Decide how deep to go
+
+Level 1 inventories, Level 2 enforces, Level 3 keeps enforcing after you leave.
+All three run all 119 checks; they differ in whether the controls execute. See
+[adoption levels](adoption-levels.md) — choosing a level you cannot sustain
+produces documentation of controls nobody runs, which is the failure mode the
+mandate exists to catch.
+
 ## 1. Scaffold the workspace
 
 ```bash

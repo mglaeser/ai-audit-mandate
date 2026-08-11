@@ -7,6 +7,33 @@ checks across three tracks.
 Because engagements pin the mandate by hash, every release records the combined
 digest of the two volumes.
 
+## 2.1.0
+
+Adoption guidance. The mandate is written for the hardest case — a production
+system nobody reviews — and applying it wholesale to a prototype produces
+documentation of controls nobody runs, which is the failure mode it exists to
+catch. This release makes depth an explicit, honest choice.
+
+The volumes are unchanged; their hashes are identical to 2.0.0.
+
+### Added
+
+- **Three adoption levels** at `docs/adoption-levels.md`, mapped onto the
+  repository classes the Constitution already defines in Article XV: Baseline
+  (Experimental), Governed (Incubating), Standing regime (Production). All three
+  run all 119 checks; they differ in whether the controls execute.
+- **Three prompts** at `docs/prompts/`, one per level, each naming the parts of
+  the mandate to adopt *and* the parts to skip, so an agent does not build
+  apparatus the project cannot sustain.
+- Level guidance in the README and getting-started guide.
+
+### Notes
+
+The levels are derived from observed practice rather than invented: several real
+engagements were compared, and the variable that actually separated them was not
+how many checks they ran — all serious ones ran 119 — but whether their controls
+executed, blocked, and were tested against their own decay.
+
 ## 2.0.0
 
 First release as a standalone repository. The mandate previously lived inside the

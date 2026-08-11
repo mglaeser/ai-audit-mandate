@@ -20,7 +20,23 @@ after the audit ends.
 It is not a checklist you tick. Every finding closes with a control you have
 *watched* block something, or it does not close.
 
-## Start an engagement
+## Start in one paste
+
+Pick a depth, copy its prompt into your coding agent, and it reads the mandate
+itself and starts working.
+
+| Level | Prompt | Answers | Effort |
+| --- | --- | --- | --- |
+| **1** | [Baseline](docs/prompts/level-1-baseline.md) | What is actually true here? | hours |
+| **2** | [Governed](docs/prompts/level-2-governed.md) | What is true, and what keeps it true? | days |
+| **3** | [Standing regime](docs/prompts/level-3-standing-regime.md) | What survives everyone leaving? | weeks, then permanent |
+
+**Level 1** if the repository cannot reach production. **Level 2** if it is real
+but single-operator — the honest ceiling for most projects. **Level 3** if you can
+field an independent verifier from a second vendor and a scheduled runner.
+[Compare them](docs/adoption-levels.md).
+
+Prefer to drive it yourself?
 
 ```bash
 git clone https://github.com/mglaeser/ai-audit-mandate.git
@@ -128,13 +144,27 @@ generated [catalogue](catalogue/checks.json):
 jq -r '.checks[] | select(.has_structural_fix) | "\(.id)  \(.title)"' catalogue/checks.json
 ```
 
+## How deep to go
+
+All three levels run all 119 checks — a check you skip is a denominator you
+quietly shrank. What separates them is whether a control **executes**.
+
+| | Level 1 | Level 2 | Level 3 |
+| --- | --- | --- | --- |
+| Controls | described | run and block | calibrated against their own decay |
+| Constitution | none | in force | ratified |
+| Clears production | no | no | when computed |
+
+A described control is a claim. A running control is a fact. A calibrated control
+is a fact that stays true after you stop paying attention.
+
 ## Repository layout
 
 | Path | What lives there |
 | --- | --- |
 | [`mandate/`](mandate) | The two volumes and their integrity manifest. **The source of truth.** |
 | [`catalogue/`](catalogue) | `checks.json`, generated from the prose. Never edited by hand. |
-| [`docs/`](docs) | Getting started, concepts, the browsable check index. |
+| [`docs/`](docs) | Adoption levels, the three prompts, concepts, the browsable check index. |
 | [`templates/`](templates) | The workspace and record formats an engagement fills in. |
 | [`scripts/`](scripts) | Catalogue extraction, manifest generation, engagement scaffolding. |
 
@@ -162,6 +192,8 @@ Wire this into CI.
 
 ## Documentation
 
+- **[Adoption levels](docs/adoption-levels.md)** — how deep to go, and how to choose honestly.
+- **[Prompts](docs/prompts/README.md)** — three copy-paste starting points, one per level.
 - **[Getting started](docs/getting-started.md)** — clone to running engagement, phase by phase.
 - **[Concepts](docs/concepts.md)** — the operating model, the five hazards, substitution, ratchets and decay.
 - **[Check index](docs/check-index.md)** — all 119 checks, browsable, with bands and structural-fix markers.
