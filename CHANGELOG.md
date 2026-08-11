@@ -7,6 +7,36 @@ checks across three tracks.
 Because engagements pin the mandate by hash, every release records the combined
 digest of the two volumes.
 
+## 2.1.1
+
+Correction to the adoption guidance. The 2.1.0 levels treated depth as a single
+ladder. Re-examination of the source engagements showed that breadth and depth
+are separate axes: a repository can evidence all 119 checks and ratify a
+constitution while remaining shallow on the two hardest controls, and another can
+skip the constitution entirely while going far deeper on exactly those.
+
+### Changed
+
+- `docs/adoption-levels.md` now states that Level 3 requires both independent
+  cross-vendor verification (`A-39`, Article IV) and separation of the gate from
+  the gated (`B-35`, Article II) — broad coverage without them is Level 2 with
+  good documentation.
+- The Level 3 prompt gains concrete construction guidance for a verifier panel
+  that cannot be faked green — required approver, distinct corroborators,
+  anti-canned-green reason attestation, and a per-run challenge — plus explicit
+  merge-authority rules for exact-head pinning.
+
+### Added
+
+- **The credential-boundary trap**, now called out in the Level 3 prompt. A
+  verifier that executes candidate code while holding the reviewer's credential
+  is a credential-disclosure path with a review-shaped name: editing the panel
+  script in a pull request is then sufficient to run arbitrary code with provider
+  keys and to control what the reviewer reports. The prompt requires the
+  credential-bearing job to run from a protected ref, the candidate to be treated
+  as inert data, and `pull_request_target` and ref-selectable dispatch to be
+  refused.
+
 ## 2.1.0
 
 Adoption guidance. The mandate is written for the hardest case — a production

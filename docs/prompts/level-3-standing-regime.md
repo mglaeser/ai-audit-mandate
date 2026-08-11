@@ -83,11 +83,58 @@ does not care what any model concluded. If you cannot field this, you cannot
 reach Level 3 — say so plainly rather than simulating it, and deliver Level 2
 with the gap recorded.
 
+Build the panel so it cannot be faked green:
+  - a named REQUIRED approver that must explicitly approve; a refutation at any
+    confidence is a veto, and a missing or fallback-replaced approver blocks;
+  - at least one additional DISTINCT model approving — repeat votes from the same
+    model never count twice;
+  - anti-canned-green: a majority of approvals must carry substantive, mutually
+    distinct reasons;
+  - anti-hardcoded-green: issue a random per-run challenge each approval must
+    echo, so a future "return green" shortcut without a real round-trip fails;
+  - no key present means the panel is INACTIVE and says so, exiting visibly with
+    the residual recorded — never fake-green, never fake-blocking.
+
+AND MIND WHERE THE CREDENTIAL LIVES — THIS IS THE TRAP
+
+A verifier that runs candidate code while holding the reviewer's credential is
+not a verifier; it is a credential-disclosure path with a review-shaped name.
+If your CI runs the panel from the pull request's own checkout, then opening a
+PR that edits the panel script is sufficient to run arbitrary code with your
+provider keys — and to control what the reviewer reports about the change.
+
+So: the reviewed artifact must never hold the reviewer's credentials, and
+candidate code must never authenticate its own review. Concretely —
+  - run the credential-bearing job from a PROTECTED ref or a separate verifier
+    repository, never from the candidate checkout;
+  - take the candidate in as INERT DATA: fetched, hashed, never imported and
+    never executed;
+  - refuse `pull_request_target` and any `workflow_dispatch` whose ref input can
+    select a candidate branch — both run with secrets against content the PR
+    controls;
+  - pin every action to an immutable commit SHA, never a moving tag;
+  - assert at runtime that the engine is not the candidate checkout, by path AND
+    by module origin.
+
+Audit this before you build anything else on top of it. If you find this hole in
+an existing setup, do not patch the workflow — remove the secrets from it and
+rebuild the lane write-separated. A patched credential boundary is still a
+credential boundary that was wrong once.
+
 SEPARATION OF POWERS (B-35, Article II)
 
 The identity that writes code cannot be the identity that modifies the gate. Put
 the policy bundle under separate ownership with its own credentials and prove the
 separation with a CI assertion.
+
+MERGE AUTHORITY
+
+If a person presses merge, mechanise the parts that are catastrophic to get
+wrong: pin the exact reviewed head (a green check describes a COMMIT, not a pull
+request — the author can push between your reading the verdict and your merging),
+and refuse admin overrides and auto-merge. A status that describes itself as
+trusted, write-separated or independently attested when it is none of those must
+be rejected by the gate, not believed.
 
 RATIFY (Phase 7, then 7')
 

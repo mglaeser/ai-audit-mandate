@@ -37,6 +37,25 @@ A described control is a claim. A running control is a fact. A calibrated contro
 is a fact that stays true after you stop paying attention — and that last step is
 the one that decides whether any of this survives the quarter.
 
+### Breadth and depth are different axes
+
+A repository can be broad — all 119 checks evidenced, constitution ratified — and
+still shallow on the two hardest controls. Another can skip the constitution
+entirely and go far deeper on exactly those.
+
+The two that separate a serious regime from a thorough one:
+
+- **Independent verification (`A-39`, Article IV).** A verifier from a different
+  vendor that attacks the change, with the deterministic gate as sole merge
+  authority. Hard, and usually the first thing dropped.
+- **Separation of the gate from the gated (`B-35`, Article II).** The identity
+  that writes code cannot modify the gate, and the reviewed artifact never holds
+  the reviewer's credentials.
+
+Level 3 requires both. If you have broad coverage but neither of these, you are
+at Level 2 with good documentation — which is a fine place to be, provided the
+residual register says so.
+
 ## Level 1 — Baseline
 
 **You get:** an honest inventory. All 119 checks carry a verdict backed by
