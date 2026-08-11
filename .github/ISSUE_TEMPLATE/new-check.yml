@@ -1,0 +1,86 @@
+name: New check
+description: Propose a check the catalogue is missing
+labels:
+  - catalogue
+  - new-check
+body:
+  - type: markdown
+    attributes:
+      value: |
+        The catalogue grows additively: the founding 119 do not change, and a new check
+        enters as a registered extension. A proposal without a standing control is not
+        yet a check — it is a wish.
+
+  - type: dropdown
+    id: track
+    attributes:
+      label: Track
+      options:
+        - A — Product, Design and Code Integrity
+        - B — Platform, Delivery and Runtime
+        - C — Security, Privacy and Assurance
+    validations:
+      required: true
+
+  - type: textarea
+    id: gap
+    attributes:
+      label: What does the catalogue miss?
+      description: |
+        Which real failure gets through all 119 existing checks? Say why the nearest
+        existing check does not already cover it.
+    validations:
+      required: true
+
+  - type: textarea
+    id: probe
+    attributes:
+      label: Probe
+      description: What you do, now, to find out what is true. A command, a request, an attack.
+    validations:
+      required: true
+
+  - type: textarea
+    id: passes
+    attributes:
+      label: Passes only if
+      description: The binary condition. No hedging words.
+    validations:
+      required: true
+
+  - type: textarea
+    id: targets
+    attributes:
+      label: Targets
+      description: Concrete numbers and artifacts.
+    validations:
+      required: true
+
+  - type: textarea
+    id: control
+    attributes:
+      label: Standing control
+      description: |
+        The permanent machinery that keeps this true after the audit leaves: the mechanism,
+        its cadence, the ratchet on its metric, how it is re-calibrated, what it blocks when
+        it trips, and the owning role.
+    validations:
+      required: true
+
+  - type: textarea
+    id: structural
+    attributes:
+      label: Structural fix, if one exists
+      description: |
+        The refactor that makes this defect unrepresentable rather than detectable. If there
+        is none, say so explicitly — a "no" arrived at by default rather than by decision is
+        itself worth recording.
+
+  - type: input
+    id: priority
+    attributes:
+      label: Proposed priority
+      description: 1–10. The severity band follows from it.
+      placeholder: "7"
+    validations:
+      required: true

@@ -1,0 +1,23 @@
+{
+  "name": "ai-audit-mandate",
+  "version": "2.0.0",
+  "private": true,
+  "description": "A due-diligence and remediation mandate for software that no human reviews",
+  "license": "CC-BY-4.0",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "catalogue": "node scripts/build-catalogue.mjs",
+    "manifest": "node scripts/build-manifest.mjs",
+    "docs": "node scripts/build-check-index.mjs",
+    "build": "npm run catalogue && npm run docs && npm run manifest",
+    "verify": "node scripts/build-catalogue.mjs --check && node scripts/build-check-index.mjs --check && node scripts/build-manifest.mjs --check",
+    "lint": "markdownlint-cli2",
+    "test": "npm run verify && npm run lint"
+  },
+  "devDependencies": {
+    "markdownlint-cli2": "0.23.2"
+  }
+}

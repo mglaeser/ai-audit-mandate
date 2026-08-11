@@ -1,0 +1,9 @@
+node_modules/
+*.log
+.DS_Store
+.env
+.env.*
+
+# Scratch space for trying the scaffolder without committing the result.
+/tmp/
+/scratch/

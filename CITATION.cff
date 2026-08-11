@@ -1,0 +1,24 @@
+cff-version: 1.2.0
+message: "If this mandate supports your work, please cite it using this metadata."
+title: "AI Audit Mandate"
+type: software
+authors:
+  - name: mglaeser
+    website: "https://github.com/mglaeser"
+repository-code: "https://github.com/mglaeser/ai-audit-mandate"
+url: "https://github.com/mglaeser/ai-audit-mandate"
+version: 2.0.0
+license: CC-BY-4.0
+keywords:
+  - software audit
+  - due diligence
+  - AI-generated code
+  - security assurance
+  - governance
+  - remediation
+abstract: >-
+  A two-volume due-diligence and remediation mandate for software written,
+  configured and tested end-to-end by AI agents and maintained without human
+  code review. 119 checks across product integrity, platform and runtime, and
+  security, privacy and assurance — each closing on a permanent, machine-executed
+  standing control rather than on human review.

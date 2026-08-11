@@ -1,0 +1,70 @@
+name: Check improvement
+description: Strengthen an existing check, or argue that one is wrong
+labels:
+  - catalogue
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this for changes to an existing check. To propose a **new** check, use the
+        new-check form. To report a check that can be passed while the underlying property
+        is false, report it privately as a security advisory instead.
+
+  - type: input
+    id: check-id
+    attributes:
+      label: Check identifier
+      description: For example, C-01 or A-14.
+      placeholder: C-01
+    validations:
+      required: true
+
+  - type: dropdown
+    id: kind
+    attributes:
+      label: What kind of change is this?
+      options:
+        - The check is too weak — it can be satisfied decoratively
+        - The probe is unclear or not reproducible
+        - The target is unmeasurable as written
+        - The standing control decays and nothing notices
+        - The check is wrong or redundant and should be removed
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: What is wrong today?
+      description: Be concrete. If a check can be gamed, show how.
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed wording
+      description: |
+        The replacement text, in the mandate's field structure where it applies:
+        Probe, Passes only if, Targets, On failure, Structural fix, Standing control.
+    validations:
+      required: true
+
+  - type: textarea
+    id: falsifiable
+    attributes:
+      label: How could your proposal be proven wrong?
+      description: A check that cannot fail is decoration. Say what evidence would falsify yours.
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: rules
+    attributes:
+      label: Confirmations
+      options:
+        - label: This change strengthens the check or makes it more precisely falsifiable — it does not soften it.
+          required: true
+        - label: The proposal does not discharge any control by having a human review something.
+          required: true

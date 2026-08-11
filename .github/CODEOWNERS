@@ -1,0 +1,11 @@
+# Default review responsibility
+* @mglaeser
+
+# The volumes are hash-attested; changes to them change what engagements pinned.
+/mandate/ @mglaeser
+
+# Generated from the prose — review alongside the volume that produced them.
+/catalogue/ @mglaeser
+/scripts/ @mglaeser
+/.github/workflows/ @mglaeser
+/SECURITY.md @mglaeser

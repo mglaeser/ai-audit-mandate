@@ -1,0 +1,35 @@
+{
+  "$schema": "./manifest.schema.json",
+  "catalogue_version": "2.0",
+  "generated_by": "scripts/build-manifest.mjs",
+  "note": "Integrity manifest for the two mandate volumes. The combined hash covers the deterministic concatenation of the parts, joined by the separator below.",
+  "concatenation_rule": "mandate/01-foundation-and-core-tracks.md + '\\n---\\n' + mandate/02-security-privacy-assurance.md",
+  "parts": [
+    {
+      "id": "volume-i",
+      "part": 1,
+      "path": "mandate/01-foundation-and-core-tracks.md",
+      "title": "Foundation and Core Tracks",
+      "scope": "Track A + Track B (79 checks), execution protocol, standing regime, Constitution",
+      "bytes": 278405,
+      "sha256": "sha256:dee659438b8fe1e40d8cff0d37c691f8e9a4181f641db5b6c25e99aca9a460dd"
+    },
+    {
+      "id": "volume-ii",
+      "part": 2,
+      "path": "mandate/02-security-privacy-assurance.md",
+      "title": "Security, Privacy and Assurance",
+      "scope": "Track C (40 checks), closing definition of done",
+      "bytes": 112011,
+      "sha256": "sha256:9a906d415341eea37b081bf4d3b169d09a8a0551077e1c14a5c502e35eb8bba0"
+    }
+  ],
+  "combined": {
+    "sha256": "sha256:c381de215fdda59e7a9c1ea856144edbdcfdd39b0d169d84495d622756099c52"
+  },
+  "catalogue_file": {
+    "path": "catalogue/checks.json",
+    "check_count": 119
+  },
+  "required_check_ids_count": 119
+}

@@ -1,0 +1,43 @@
+{
+  "_comment": "One finding record, matching the schema in Volume I §5. Findings live as an array in audit/03-findings.json — one object per check, all 119 present. A check with no standing_control cannot be recorded as PASS.",
+  "id": "C-01",
+  "title": "Core application security",
+  "priority": 10,
+  "band": "STOP-SHIP",
+  "verdict": "NO-EVIDENCE",
+  "probe": "What you actually did to find out what is true — the command, the request, the attack.",
+  "evidence": [
+    "Concrete, checkable artifacts: file paths, line ranges, request/response pairs, run identifiers.",
+    "Not impressions. Not 'appears to'. An assertion with no artifact behind it is NO-EVIDENCE."
+  ],
+  "clone_sweep": {
+    "pattern": "The repository-wide search that proves this defect class has no survivors.",
+    "instances_found": 0,
+    "instances_fixed": 0,
+    "note": "A finding stays open while a clone of it remains."
+  },
+  "structural_fix": {
+    "taken": false,
+    "description": "The refactor that makes the defect unrepresentable rather than detectable.",
+    "declined_reason": "If not taken, say why here — and register the standing control that runs forever instead. A 'no' arrived at by default rather than by decision is itself a finding."
+  },
+  "standing_control": {
+    "mechanism": "The permanent machinery that keeps this true after the audit leaves.",
+    "cadence": "every merge | nightly | weekly",
+    "ratchet": "The metric that may never regress (S11).",
+    "calibration": "How the control is itself re-proven (S12).",
+    "blocks_on_breach": "merge | deploy | release",
+    "owning_role": "platform-security",
+    "demonstrated": "Evidence you WATCHED it block something: re-introduce the defect, record the refusal. A control you have not seen fire is a control you are hoping about."
+  },
+  "verification": {
+    "failing_test": "The test that went red before the fix.",
+    "passing_test": "The same test, green after.",
+    "mutation_score": null,
+    "independent_verifier": "Model/vendor that did not write the fix and tried to falsify it.",
+    "gate_decision": "The deterministic gate's verdict — not a model's opinion."
+  },
+  "residual_risk": null,
+  "baseline_commit": null,
+  "verified_at": null
+}

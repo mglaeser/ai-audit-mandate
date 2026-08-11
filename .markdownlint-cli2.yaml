@@ -1,0 +1,29 @@
+config:
+  default: true
+  # The volumes are long-form prose; hard wrapping them would churn hashes.
+  MD013: false
+  MD024:
+    siblings_only: true
+  MD033:
+    allowed_elements:
+      - h1
+      - p
+      - a
+      - img
+      - details
+      - summary
+      - br
+      - b
+  MD041: false
+  # Emphasis is used as a structural device throughout the mandate.
+  MD036: false
+  MD049: false
+globs:
+  - "**/*.md"
+  - "!.git/**"
+  - "!node_modules/**"
+  # The mandate volumes are hash-attested source documents, carried over verbatim.
+  # Reformatting them to satisfy a linter would change the digests engagements pin,
+  # for no gain in meaning. Their content is reviewed; their layout is frozen.
+  - "!mandate/01-foundation-and-core-tracks.md"
+  - "!mandate/02-security-privacy-assurance.md"

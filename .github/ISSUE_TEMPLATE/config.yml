@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: A check that can be passed while the property is false
+    url: https://github.com/mglaeser/ai-audit-mandate/security/advisories/new
+    about: Report bypasses privately. A check with a trivial bypass is a vulnerability in the mandate itself.
+  - name: Questions and discussion
+    url: https://github.com/mglaeser/ai-audit-mandate/discussions
+    about: Ask about applying the mandate, or discuss an idea before proposing a change.

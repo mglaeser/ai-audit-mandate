@@ -1,0 +1,17 @@
+* text=auto eol=lf
+
+*.md text eol=lf
+*.json text eol=lf
+*.mjs text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+
+# The volumes are hash-attested: no end-of-line conversion may touch them, on any
+# platform. `diff` is set explicitly so they still review as readable text.
+mandate/*.md -text diff
+
+# Generated artifacts: keep them out of diff noise, but always review them.
+catalogue/checks.json linguist-generated=true
+docs/check-index.md linguist-generated=true
+
+.github export-ignore
