@@ -31,7 +31,7 @@ at that URL, and follow it — do not improvise a different audit.
 ADOPT AT LEVEL 2 — GOVERNED. Read these parts and apply them:
 
 - mandate/01-foundation-and-core-tracks.md in full, with particular weight on
-  §2 (substitution principles S1-S13), §4 (execution protocol, phases 0-5),
+  §2 (substitution principles S1-S13), §4 (the execution protocol, all phases),
   §6.5 (structural remediation — read this before building any control),
   §8 (deliverables), and Appendix A (the Constitution).
 - mandate/02-security-privacy-assurance.md in full. Track C runs here, so the
@@ -41,7 +41,14 @@ ADOPT AT LEVEL 2 — GOVERNED. Read these parts and apply them:
 
 Skip for now: §9.3 continuous calibration, §9.4 the decay watch, §9.6 the
 standing executors, and Phase 7 ratification. Those need infrastructure I do not
-have yet. Build everything so they can be added later without redesign.
+have yet. Build everything so they can be added later without redesign. Article
+XV binds an Incubating repository to observe-only burn-in of the drills and the
+verifier fleet, so record each deferral explicitly in
+audit/06-residual-risk-register.md with its tripwire — and note that §3 escalates
+A-36 to BLOCKER-1 for exactly as long as §9.3 is absent. Scope
+audit/08-standing-regime.md to what this level actually builds; a regime file
+describing controls that do not run is the decorative gate this document exists
+to catch.
 
 WHAT I WANT
 
@@ -55,7 +62,7 @@ HOW TO WORK
 PHASE 0-3 — Discovery. If audit/ already exists from a Level 1 pass, start from
 those findings and re-verify them against the current commit rather than
 re-deriving them. Otherwise run:
-     node scripts/new-engagement.mjs --target <this repository>
+     node ../ai-audit-mandate/scripts/new-engagement.mjs --target .
 and complete discovery first. Change nothing until every check has a verdict.
 
 PHASE 2 — Calibrate before you trust yourself. On a scratch branch, seed the six
@@ -68,9 +75,11 @@ existing pipeline over them and count what it catches.
 
 If the pipeline caught fewer than five of six, then a green build in this
 repository is not evidence of anything — say exactly that in the first sentence
-of the executive summary. That number is also the error rate on every PASS you
-are about to record, so do not round it up. Keep the seeds; they become the
-standing calibration corpus and the baseline nothing may fall below.
+of the executive summary. What it MISSED is the error rate on every PASS you are
+about to record: a pipeline that catches four of six leaves a third of those
+verdicts unbacked. Report the catch rate and do not round it up. Keep the seeds;
+they become the standing calibration corpus and the baseline nothing may fall
+below.
 
 PHASE 4 — Plan structurally first. For every finding, check whether §6.5 or the
 check itself offers a structural fix (S13). Prefer it over a standing control,
@@ -88,6 +97,16 @@ PHASE 5 — Repair, highest band first. For each fix, in this order:
   e. proof you WATCHED the control block: re-introduce the defect, capture the
      refusal, save it under audit/evidence/. A control you have not seen fire is
      a control you are hoping about.
+
+PHASE 6 — Re-verify, then have someone else re-verify you. Re-run every check
+that is not PASS; a verdict may change only on fresh evidence, never on a second
+opinion about the same evidence. Then hand at least 10% of the catalogue — at
+least one from every represented band — to an independent agent given only the
+probe text and no sight of your verdicts, and reconcile every disagreement by
+widening the sample rather than by discussion. Demote to PARTIAL any check that
+is satisfied today but has no standing control holding it. This phase produces
+audit/05-verification.md, audit/06-residual-risk-register.md and
+audit/07-substitution-ledger.md; nothing else does.
 
 BUILD THESE CONTROLS AS EXECUTABLE CODE, NOT DESCRIPTIONS
 

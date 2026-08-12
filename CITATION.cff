@@ -3,11 +3,17 @@ message: "If this mandate supports your work, please cite it using this metadata
 title: "AI Audit Mandate"
 type: software
 authors:
-  - name: mglaeser
+  - family-names: Klee
+    given-names: Marian
+    alias: mglaeser
     website: "https://github.com/mglaeser"
 repository-code: "https://github.com/mglaeser/ai-audit-mandate"
 url: "https://github.com/mglaeser/ai-audit-mandate"
-version: 2.3.0
+version: 2.4.0
+date-released: 2026-08-12
+# CFF 1.2.0 restricts this to a single SPDX identifier, so it names the licence
+# of the work being cited — the prose. The executable parts are MIT; see
+# LICENSE-CODE.
 license: CC-BY-4.0
 keywords:
   - software audit

@@ -17,20 +17,22 @@ import { dirname, join } from 'node:path';
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const SEPARATOR = '\n---\n';
 
+// `scope` is templated from the catalogue rather than written out, so the counts
+// cannot drift from the checks the volume actually defines.
 const PARTS = [
   {
     id: 'volume-i',
     part: 1,
     path: 'mandate/01-foundation-and-core-tracks.md',
     title: 'Foundation and Core Tracks',
-    scope: 'Track A + Track B (79 checks), execution protocol, standing regime, Constitution',
+    scope: (count) => `Track A + Track B (${count} checks), execution protocol, standing regime, Constitution`,
   },
   {
     id: 'volume-ii',
     part: 2,
     path: 'mandate/02-security-privacy-assurance.md',
     title: 'Security, Privacy and Assurance',
-    scope: 'Track C (40 checks), closing definition of done',
+    scope: (count) => `Track C (${count} checks), closing definition of done`,
   },
 ];
 
@@ -54,7 +56,7 @@ const manifest = {
     part,
     path,
     title,
-    scope,
+    scope: scope(catalogue.checks.filter((check) => check.part === part).length),
     bytes: Buffer.byteLength(text, 'utf8'),
     sha256: sha256(text),
   })),
@@ -71,7 +73,19 @@ const manifest = {
 const serialised = `${JSON.stringify(manifest, null, 2)}\n`;
 const target = join(root, 'mandate/manifest.json');
 
-if (process.argv.includes('--check')) {
+// Mode selection is explicit and closed: an unrecognised argument must never
+// fall through to write mode, where it would silently re-attest whatever the
+// prose currently says. `--verify` — the name of this repo's own npm script —
+// is exactly the near-miss that would do it.
+const args = process.argv.slice(2);
+const unknown = args.filter((arg) => arg !== '--check');
+if (unknown.length > 0) {
+  console.error(`build-manifest: unknown argument(s): ${unknown.join(', ')}. Only --check is accepted.`);
+  process.exit(2);
+}
+const checkMode = args.includes('--check');
+
+if (checkMode) {
   const current = await readFile(target, 'utf8').catch(() => null);
   if (current !== serialised) {
     console.error('build-manifest: mandate/manifest.json is stale — run `npm run manifest`.');

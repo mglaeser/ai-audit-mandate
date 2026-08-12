@@ -30,9 +30,9 @@ agent, and it reads the full instructions from here and starts working.
 
 | If this is true of your repository | Start at |
 | --- | --- |
-| It cannot reach production — no live credentials, no real user data | [**Level 1**](#level-1--baseline) |
-| It serves real users, and nobody reads the diffs | [**Level 2**](#level-2--governed) |
-| It must outlive you, and you can field a second-vendor verifier | [**Level 3**](#level-3--standing-regime) |
+| It structurally cannot reach production — no secrets, no production credentials, no personal data, sandboxed egress | [**Level 1**](#level-1--baseline) |
+| It must outlive you, and you can field a second-vendor verifier, a scheduled runner, and a gate its authors cannot write to | [**Level 3**](#level-3--standing-regime) |
+| Anything else — including a prototype that holds real credentials | [**Level 2**](#level-2--governed) |
 
 What separates them is not how many checks you run. Every serious engagement runs
 all 119. It is whether a control **executes**: described, then running, then
@@ -42,7 +42,7 @@ proven to still be running.
 
 **Finds out what is true.** Every check gets a verdict backed by an artifact
 someone else can re-examine, and every claim your repository makes about itself
-is reconciled against the code. Nothing changes.
+is reconciled against the code. Your code is not changed.
 
 ```text
 Read https://github.com/mglaeser/ai-audit-mandate/blob/main/docs/prompts/level-1-baseline.md and execute it against this repository.
@@ -80,8 +80,9 @@ Read https://github.com/mglaeser/ai-audit-mandate/blob/main/docs/prompts/level-3
 
 Leaves 25–30 control scripts and 200–2,000 tests behind, because the controls get
 tested too. Weeks, usually 30–60 pull requests. It needs an independent verifier
-from a second vendor and a scheduled runner — if you cannot field both, Level 2
-with the gap recorded is the stronger and more truthful outcome.
+from a second vendor, a scheduled runner, and separation of the gate from the
+gated (`B-35`) — if you cannot field all three, Level 2 with the gap recorded is
+the stronger and more truthful outcome.
 
 Levels are cumulative and resumable: Level 2 starts from Level 1's findings
 rather than re-deriving them. [Compare the three side by side](docs/adoption-levels.md).
@@ -89,6 +90,12 @@ rather than re-deriving them. [Compare the three side by side](docs/adoption-lev
 > [!IMPORTANT]
 > Whichever you start, do not fix anything before Phase 3 completes. A fix
 > applied during discovery destroys the evidence that justified it.
+
+*Effort figures are what four real implementations of this mandate actually
+added, counting individual test cases rather than lines of test code. The spread
+is real, and the upper end is not a round number: a project that built its own
+verification infrastructure wrote 2,023 tests; one that configured existing tools
+wrote 15.*
 
 <details>
 <summary><b>Prefer to drive it yourself, without an agent?</b></summary>
@@ -103,25 +110,24 @@ node scripts/new-engagement.mjs --target ../your-repository
 ```
 
 ```text
-new-engagement: scaffolded ../your-repository/audit
-  119 checks seeded at NO-EVIDENCE (79 active, 40 registered for Volume II)
+new-engagement: scaffolded /home/you/your-repository/audit
+  79 active checks seeded at NO-EVIDENCE (40 Track C checks registered for Volume II)
   mandate pinned at sha256:60ad9a3f…
+
+Next: Phase 0 — freeze the baseline, then map the audit surface. Change nothing until Phase 3 closes.
 ```
 
-Your repository now has an `audit/` workspace where every check starts at
+Your repository now has an `audit/` workspace where every active check starts at
 `NO-EVIDENCE` and `production_eligible` reads `false`. Both are correct. Unknown
 is not neutral — it fails closed, and keeps failing closed until evidence says
-otherwise.
+otherwise. Track C's 40 checks are not missing: they are registered in the
+workspace catalogue and named in `pending_check_ids`, counting against
+production eligibility from the first commit.
 
 Then read [Volume I](mandate/01-foundation-and-core-tracks.md) before you touch
 anything, and work the phases in order.
 
 </details>
-
-*Effort figures are what four real implementations of this mandate actually
-added, counting individual test cases rather than lines of test code. The spread
-is real: a project that builds its own verification infrastructure wrote 2,023
-tests; one that configured existing tools wrote 15.*
 
 ## The problem this solves
 
@@ -232,7 +238,8 @@ is a fact that stays true after you stop paying attention.
 | [`scripts/`](scripts) | Catalogue extraction, manifest generation, engagement scaffolding. |
 
 The prose is authoritative and the JSON is derived — never the reverse. `npm run
-verify` regenerates both and fails if either drifted. Byte comparison alone would
+verify` re-derives all three generated artifacts in memory and fails if any of
+them drifted; `npm run build` is what rewrites them. Byte comparison alone would
 only prove the catalogue matches today's extractor, so the build additionally
 asserts the extracted bands and escalations against the mandate's own §3 and §7
 tables, and refuses to write a catalogue that disagrees with them.
@@ -249,6 +256,7 @@ npm run verify
 
 ```text
 build-catalogue: catalogue is current (119 checks).
+build-check-index: index is current.
 build-manifest: manifest is current (combined sha256:60ad9a3f…).
 ```
 
@@ -282,4 +290,9 @@ easier to pass is the failure mode this whole document exists to prevent.
 
 ## License
 
+The prose — `mandate/`, `docs/`, and the generated `catalogue/` — is
 [CC BY 4.0](LICENSE). Use it, adapt it to your own systems, keep the attribution.
+
+The executable parts — `scripts/` and `templates/` — are [MIT](LICENSE-CODE). A
+content licence grants no patent rights and is not written for software, so the
+things you actually run are licensed as software.

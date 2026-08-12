@@ -38,7 +38,7 @@
         "available": { "type": "boolean" },
         "move": { "type": ["string", "null"] },
         "collapses": { "type": "array", "items": { "type": "string" } },
-        "taken": { "type": "boolean" },
+        "taken": { "type": ["boolean", "null"] },
         "standing_control_avoided": { "type": ["string", "null"] },
         "rationale": { "type": ["string", "null"] }
       }
@@ -104,12 +104,11 @@
       }
     },
     {
-      "$comment": "§5: if structural_fix.available is true and taken is false, rationale may not be null. Choosing to police forever rather than make the defect unrepresentable is a decision with a permanent cost, and must be stated. Scoped to a decided finding: at NO-EVIDENCE nothing has been declined yet, so a freshly scaffolded record is not in breach.",
+      "$comment": "§5: if structural_fix.available is true and taken is false, rationale may not be null. Choosing to police forever rather than make the defect unrepresentable is a decision with a permanent cost, and must be stated. The rule is unconditional; an undecided finding carries taken: null, which is not the same as having decided against.",
       "if": {
         "type": "object",
-        "required": ["verdict", "structural_fix"],
+        "required": ["structural_fix"],
         "properties": {
-          "verdict": { "not": { "const": "NO-EVIDENCE" } },
           "structural_fix": {
             "type": "object",
             "required": ["available", "taken"],

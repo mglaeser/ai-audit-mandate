@@ -16,7 +16,15 @@ import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
-const read = (path) => readFile(join(root, path), 'utf8');
+const read = async (path) =>
+  readFile(join(root, path), 'utf8').catch((error) => {
+    console.error(
+      error.code === 'ENOENT'
+        ? `check-release: ${path} is missing`
+        : `check-release: cannot read ${path}: ${error.message}`,
+    );
+    process.exit(2);
+  });
 
 const [pkgText, lockText, citationText, manifestText, readme] = await Promise.all([
   read('package.json'),
@@ -51,12 +59,23 @@ check(
   `package-lock.json packages[""].version ${lock.packages?.['']?.version} does not match package.json ${pkg.version}`,
 );
 
-// 2. Every truncated digest quoted in the README must be a prefix of the
-//    combined digest the manifest actually records.
+// 2. Every digest quoted in the README must be a prefix of the combined digest
+//    the manifest actually records. The pattern must not require the ellipsis:
+//    matching only `…`-terminated quotes means a full-length wrong digest is
+//    skipped rather than caught, which is the opposite of the point.
 const combined = manifest.combined.sha256.replace(/^sha256:/, '');
-const quoted = [...readme.matchAll(/sha256:([0-9a-f]{6,})…/g)].map((match) => match[1]);
+const DIGEST = /sha256:([0-9a-fA-F]{6,})(?:…|\.\.\.)?/g;
+const quotedIn = (text) => [...text.matchAll(DIGEST)].map((match) => match[1].toLowerCase());
 
-check(quoted.length > 0, 'README.md quotes no mandate digest — the integrity example has gone missing');
+const EXPECTED_README_DIGESTS = 2;
+const quoted = quotedIn(readme);
+
+// An exact count, not "at least one": losing a quotation site is itself the
+// drift this check exists to catch.
+check(
+  quoted.length === EXPECTED_README_DIGESTS,
+  `README.md quotes ${quoted.length} mandate digest(s), expected ${EXPECTED_README_DIGESTS}`,
+);
 for (const prefix of quoted) {
   check(
     combined.startsWith(prefix),
@@ -65,10 +84,72 @@ for (const prefix of quoted) {
   );
 }
 
-// 3. The manifest must describe the volumes it actually hashed.
+// The changelog records the combined digest of the release it describes. Only
+// the newest entry is checked; older entries correctly name older digests.
+const changelog = await read('CHANGELOG.md');
+const firstEntry = changelog.indexOf('\n## ');
+const secondEntry = changelog.indexOf('\n## ', firstEntry + 1);
+const newestEntry = changelog.slice(firstEntry, secondEntry === -1 ? changelog.length : secondEntry);
+for (const prefix of quotedIn(newestEntry)) {
+  check(
+    combined.startsWith(prefix),
+    `CHANGELOG.md's newest entry quotes sha256:${prefix}…, which is not the digest the manifest records`,
+  );
+}
+
+// 3. The manifest must agree with the catalogue it was built beside. Comparing
+//    two fields the same generator wrote from one expression cannot fail; these
+//    compare across artifacts, which can.
+const catalogue = JSON.parse(await read('catalogue/checks.json'));
+
+check(Number.isInteger(manifest.catalogue_file?.check_count), 'manifest catalogue_file.check_count is missing or not an integer');
+check(manifest.catalogue_file?.check_count === catalogue.check_count, 'manifest check_count does not match the catalogue');
 check(
-  manifest.catalogue_file.check_count === manifest.required_check_ids_count,
-  'manifest check_count and required_check_ids_count disagree',
+  manifest.required_check_ids_count === catalogue.required_check_ids.length,
+  'manifest required_check_ids_count does not match the catalogue',
+);
+
+for (const part of manifest.parts) {
+  const volume = catalogue.volumes.find((entry) => entry.path === part.path);
+  check(volume !== undefined, `manifest names a volume the catalogue does not: ${part.path}`);
+  check(part.sha256 === volume?.sha256, `manifest and catalogue disagree on the digest of ${part.path}`);
+  check(
+    new RegExp(`\\(${volume?.check_count} checks\\)`).test(part.scope),
+    `manifest scope for ${part.path} does not state ${volume?.check_count} checks`,
+  );
+}
+
+// 4. The README's hand-written severity table mirrors generated data and is
+//    compared by nothing else. These are the numbers that were wrong before.
+const bandRow = (band) => new RegExp(`\\|\\s*\`${band}\`\\s*\\|[^|]*\\|\\s*([0-9]+)\\s*\\|`);
+for (const [band, count] of Object.entries(catalogue.totals.by_band)) {
+  if (band === 'STOP-SHIP') continue;
+  const match = readme.match(bandRow(band));
+  check(match !== null, `README.md's severity table has no row for \`${band}\``);
+  check(
+    match === null || Number(match[1]) === count,
+    `README.md states ${match?.[1]} checks in \`${band}\`; the catalogue has ${count}`,
+  );
+}
+
+const stopShip = readme.match(/\|\s*`STOP-SHIP`\s*\|[^|]*\|\s*([0-9]+) direct, ([0-9]+) conditional\s*\|/);
+check(stopShip !== null, "README.md's severity table has no STOP-SHIP row in the expected form");
+if (stopShip) {
+  check(
+    Number(stopShip[1]) === catalogue.totals.stop_ship_direct.length,
+    `README.md states ${stopShip[1]} direct STOP-SHIP checks; the catalogue has ${catalogue.totals.stop_ship_direct.length}`,
+  );
+  check(
+    Number(stopShip[2]) === catalogue.totals.stop_ship_conditional.length,
+    `README.md states ${stopShip[2]} conditional STOP-SHIP checks; the catalogue has ${catalogue.totals.stop_ship_conditional.length}`,
+  );
+}
+
+const structural = readme.match(/\*\*Structure beats policing\.\*\* (\d+) checks carry/);
+check(structural !== null, 'README.md no longer states how many checks carry a structural fix');
+check(
+  structural === null || Number(structural[1]) === catalogue.totals.with_structural_fix,
+  `README.md states ${structural?.[1]} structural fixes; the catalogue has ${catalogue.totals.with_structural_fix}`,
 );
 
 for (const problem of problems) console.error(`check-release: ${problem}`);

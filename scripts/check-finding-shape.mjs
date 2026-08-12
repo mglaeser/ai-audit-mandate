@@ -15,7 +15,7 @@
 //
 // Accepts a single record or an array of them.
 
-import { readFile } from 'node:fs/promises';
+import { readdir, readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 
@@ -82,52 +82,152 @@ function validate(value, schema, path = '') {
       }
     }
 
-    if (schema.additionalProperties === false && schema.properties !== undefined) {
+    if (schema.additionalProperties === false) {
       for (const key of Object.keys(value)) {
-        if (!Object.hasOwn(schema.properties, key)) problems.push(`${at}: unknown property "${key}"`);
+        if (!Object.hasOwn(schema.properties ?? {}, key)) problems.push(`${at}: unknown property "${key}"`);
       }
     }
   }
 
   for (const branch of schema.allOf ?? []) {
-    if (branch.if !== undefined) {
-      // An `if` that does not match is not a failure — it simply does not apply.
-      if (validate(value, branch.if, path).length === 0 && branch.then !== undefined) {
-        problems.push(...validate(value, branch.then, path));
-      }
-      continue;
-    }
+    // A branch's `if`/`then` are evaluated, and so are its sibling keywords —
+    // skipping them would silently drop constraints written alongside.
     problems.push(...validate(value, branch, path));
+  }
+
+  if (schema.if !== undefined) {
+    // An `if` that does not match is not a failure — it simply does not apply.
+    const matched = validate(value, schema.if, path).length === 0;
+    if (matched && schema.then !== undefined) problems.push(...validate(value, schema.then, path));
+    if (!matched && schema.else !== undefined) problems.push(...validate(value, schema.else, path));
   }
 
   return problems;
 }
 
-const argv = process.argv.slice(2);
-const fileIndex = argv.indexOf('--file');
-const file = fileIndex === -1 ? null : argv[fileIndex + 1];
+// Keywords this evaluator actually implements. Anything else in the schema is a
+// constraint that would be silently ignored, which turns a future tightening of
+// §5 into a no-op while CI still reports conformance. So it fails closed: the
+// validator refuses to run against a schema it cannot fully honour.
+const SUPPORTED = new Set([
+  '$schema', '$id', '$comment', 'title', 'description',
+  'type', 'const', 'enum', 'not', 'pattern', 'minimum', 'maximum',
+  'items', 'required', 'properties', 'additionalProperties',
+  'allOf', 'if', 'then', 'else',
+]);
 
-if (!file) {
-  console.error('Usage: node scripts/check-finding-shape.mjs --file <path to a finding record or an array of them>');
+// Walks only schema positions. `properties` maps property NAMES to schemas, so
+// its keys are data, not keywords, and must not be checked against SUPPORTED.
+function assertSupported(node, at = '#') {
+  if (!node || typeof node !== 'object') return;
+  if (Array.isArray(node)) {
+    node.forEach((entry, index) => assertSupported(entry, `${at}[${index}]`));
+    return;
+  }
+
+  for (const key of Object.keys(node)) {
+    if (!SUPPORTED.has(key)) {
+      console.error(
+        `check-finding-shape: schema uses "${key}" at ${at}, which this evaluator does not implement ` +
+          '— it would be silently ignored. Implement it or remove it.',
+      );
+      process.exit(2);
+    }
+  }
+
+  for (const key of ['not', 'items', 'if', 'then', 'else']) {
+    if (node[key] !== undefined) assertSupported(node[key], `${at}/${key}`);
+  }
+  for (const branch of node.allOf ?? []) assertSupported(branch, `${at}/allOf`);
+  for (const [name, sub] of Object.entries(node.properties ?? {})) {
+    assertSupported(sub, `${at}/properties/${name}`);
+  }
+}
+
+const argv = process.argv.slice(2);
+const valueAfter = (flag) => {
+  const index = argv.indexOf(flag);
+  return index === -1 ? null : argv[index + 1];
+};
+
+const file = valueAfter('--file');
+const directory = valueAfter('--dir');
+// Inverts the verdict: every file must FAIL validation. This is what makes the
+// validator itself testable — without it, deleting the code that enforces every
+// §5 clause would leave the whole suite green.
+const expectInvalid = argv.includes('--expect-invalid');
+
+if (!file && !directory) {
+  console.error(
+    'Usage: node scripts/check-finding-shape.mjs --file <record or array> [--expect-invalid]\n' +
+      '       node scripts/check-finding-shape.mjs --dir <directory of records> [--expect-invalid]',
+  );
   process.exit(2);
 }
 
-const schema = JSON.parse(await readFile(join(root, 'catalogue/finding-record.schema.json'), 'utf8'));
-const parsed = JSON.parse(await readFile(file, 'utf8'));
-const records = Array.isArray(parsed) ? parsed : [parsed];
-
-let failures = 0;
-records.forEach((record, index) => {
-  const label = record?.id ?? `record ${index}`;
-  for (const problem of validate(record, schema)) {
-    console.error(`check-finding-shape: ${label}: ${problem}`);
-    failures += 1;
+const readJson = async (path) => {
+  const text = await readFile(path, 'utf8').catch((error) => {
+    console.error(
+      error.code === 'ENOENT'
+        ? `check-finding-shape: no such file: ${path}`
+        : `check-finding-shape: cannot read ${path}: ${error.message}`,
+    );
+    process.exit(2);
+  });
+  try {
+    return JSON.parse(text);
+  } catch (error) {
+    console.error(`check-finding-shape: ${path} is not valid JSON — ${error.message}`);
+    process.exit(2);
   }
-});
+};
 
-if (failures > 0) {
-  console.error(`check-finding-shape: ${failures} problem(s) across ${records.length} record(s) in ${file}`);
-  process.exit(1);
+const schema = await readJson(join(root, 'catalogue/finding-record.schema.json'));
+assertSupported(schema);
+
+const targets = file
+  ? [file]
+  : (await readdir(directory)).filter((name) => name.endsWith('.json')).sort().map((name) => join(directory, name));
+
+if (targets.length === 0) {
+  console.error(`check-finding-shape: no .json files found in ${directory}`);
+  process.exit(2);
 }
 
-console.log(`check-finding-shape: ${records.length} record(s) in ${file} conform to the §5 schema.`);
+let exitCode = 0;
+let checked = 0;
+
+for (const path of targets) {
+  const parsed = await readJson(path);
+  const records = Array.isArray(parsed) ? parsed : [parsed];
+  const problems = records.flatMap((record, index) =>
+    validate(record, schema).map((problem) => `${record?.id ?? `record ${index}`}: ${problem}`),
+  );
+  checked += records.length;
+
+  if (expectInvalid) {
+    if (problems.length === 0) {
+      console.error(`check-finding-shape: ${path} was expected to FAIL validation, but it passed.`);
+      exitCode = 1;
+    } else {
+      console.log(`check-finding-shape: ${path} correctly rejected — ${problems[0]}`);
+    }
+    continue;
+  }
+
+  for (const problem of problems) {
+    console.error(`check-finding-shape: ${problem}`);
+    exitCode = 1;
+  }
+}
+
+if (exitCode !== 0) {
+  console.error(`check-finding-shape: validation failed across ${targets.length} file(s).`);
+  process.exit(exitCode);
+}
+
+console.log(
+  expectInvalid
+    ? `check-finding-shape: all ${targets.length} negative fixture(s) were rejected, as required.`
+    : `check-finding-shape: ${checked} record(s) across ${targets.length} file(s) conform to the §5 schema.`,
+);

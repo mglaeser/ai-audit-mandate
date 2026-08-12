@@ -7,6 +7,95 @@ checks across three tracks.
 Because engagements pin the mandate by hash, every release records the combined
 digest of the two volumes.
 
+## 2.4.0
+
+A second adversarial audit, run because the first one's method was wrong. Its
+refuters returned a single boolean, so a real defect filed with the wrong
+severity was discarded outright — 73 of the 94 dismissals conceded in writing
+that the facts held. Re-adjudicating them with validity separated from severity,
+and auditing the ~600 lines of verification code the first pass had itself
+introduced, produced 97 live defects. Volume text and digests are unchanged.
+
+### Fixed
+
+- **`--dir .` and `--dir ..` still escaped the target.** The guard added in 2.3.0
+  compared against `basename`, which is the identity function on both, so
+  `--dir . --force` overwrote the audited repository's own `README.md` and
+  `--dir ..` wrote outside the target — the precise clobber 2.3.0 claimed to have
+  closed. Both are now rejected, and CI asserts seven hostile values.
+- **`--force` silently destroyed recorded verdicts** and exited 0, orphaning the
+  evidence files those verdicts cited. It now refuses once any verdict has moved
+  off `NO-EVIDENCE`, requires `--discard-verdicts`, and says what would be lost.
+  It does not write a backup: an unattested second copy that no gate reads is the
+  decorative control this mandate exists to name.
+- **The scaffolder seeded 119 finding records where §5 requires exactly 79.** §5
+  gates on the findings id-set equalling the *active* id-set, so the extra 40 broke
+  the comparison rather than strengthening it. `audit/03-findings.json` now
+  carries the active scope; the master index still carries all 119; and Track C's
+  40 are named in `pending_check_ids`, which is what §5 means by "registered,
+  counted, **and named**" — that field previously shipped empty.
+- **`engagement-status.json` contradicted the file written beside it**, reporting
+  `highest_open_band: null` and zero open findings while every record was
+  `NO-EVIDENCE`, a state §5 defines as blocking exactly like an open finding of
+  its band. The counters are now derived.
+- **The unconditional `STOP-SHIP` set had no oracle.** It came from one literal
+  regex over the heading, so reformatting a heading demoted a priority-10 check
+  out of the set with every gate green. The §3 band table is now the oracle.
+- **The escalation table had no oracle in §3** — only §7's italic tails, which
+  omit `C-09` entirely, so deleting that entry produced a green build publishing
+  `C-09` as a check that never escalates. §3's bullets are now parsed and compared
+  in both directions.
+- **`--check` was selected by `argv.includes`,** so any near-miss argument —
+  `--verify`, the name of this repository's own npm script — fell through to
+  **write** mode and silently re-attested. All three generators now reject
+  unknown arguments.
+- **The link checker produced false passes.** Its fence tracking was a parity
+  toggle that ignored fence length, so a `##` inside a nested code block minted a
+  real anchor and links to it were approved; its slugger diverged from GitHub's on
+  underscores, links inside headings and duplicate collisions; and it never saw
+  reference-style links at all. The slugger is now verified byte-for-byte against
+  the anchors GitHub actually generates for this README.
+- **The release check could be defeated by editing the digest** — it matched only
+  quotes ending in `…`, so a full-length wrong digest was skipped rather than
+  caught, and its third invariant compared two fields the same generator wrote
+  from one expression, making it incapable of failing. It now cross-checks the
+  manifest against the catalogue and the README's severity counts against both.
+- **The schema validator ignored every keyword it did not implement**, so any
+  future tightening of §5 would have been a silent no-op. It now refuses to run
+  against a schema it cannot fully honour.
+- **The structural-fix rule had been weakened**, scoped to "verdict is not
+  `NO-EVIDENCE`" to accommodate a seed that asserted `taken: false` — a decision
+  nobody had made. The seed now says `taken: null`, and the rule matches §5.
+- **The README showed scaffolder output the script never prints** — a relative
+  path where it always prints an absolute one, and two missing lines. Carried over
+  unchecked during the 2.3.0 redesign.
+- The routing table had a hole and an overlap: a prototype holding real
+  credentials matched no row, and a repository serving real users matched two.
+  Level 2 is now the explicit catch-all.
+- `npm run verify` was described in three places as regenerating files. It writes
+  nothing; `npm run build` does.
+- `CONTRIBUTING.md` documented a conditional-escalation heading syntax the
+  extractor stopped reading in 2.3.0, so a contributor following it would have had
+  their escalation silently discarded.
+- Prompt and adoption-level corrections: a scaffold command that could not run as
+  written, a catch rate stated as its own complement, four false statements about
+  what the prompts contain, a PR figure matching no surveyed engagement, and the
+  credential-boundary guidance attributed to the wrong check.
+
+### Added
+
+- **Negative fixtures.** `npm run schema` previously validated one always-valid
+  file, proving nothing about the validator: deleting the code that enforces every
+  §5 clause left the suite green. Seven fixtures now assert that each fail-closed
+  rule rejects, and gutting the evaluator turns CI red.
+- CI assertions on relations rather than literals — the findings id-set against
+  the active id-set, the record key set against the committed template, the
+  mandate pin, and the two `catalogue_version` values that must stay different.
+- `LICENSE-CODE` (MIT) for `scripts/` and `templates/`. A content licence grants
+  no patent rights and is not written for software; the parts you run are now
+  licensed as software.
+- Branch protection on `main`, with both CI jobs required.
+
 ## 2.3.0
 
 An adversarial audit of this repository against its own standards. The catalogue
@@ -129,7 +218,7 @@ and no meaning to a first-time reader.
 - Effort is stated in units a reader can picture — **how many control scripts**,
   **how many tests**, **how many pull requests** — rather than lines of code.
 - Test figures are re-measured as individual test cases rather than lines of test
-  code: the observed engagements added 0, 15, 176 and 2,023 tests respectively.
+  code: the observed engagements added 15, 42, 176 and 2,023 tests respectively.
 
 ## 2.2.0
 

@@ -29,7 +29,7 @@ disagrees with the prose that states them, the build fails and refuses to write.
 | `stop_ship` | Whether the check can stop a ship, by either route. |
 | `stop_ship_class` | `direct` — marked unconditionally, holds production down from Phase 0. `conditional` — escalates when its stated condition holds. |
 | `escalation` | `{ to, condition }` when §3 states a condition that re-bands the check, otherwise `null`. |
-| `substitutions` | Which substitution principles (`S1`–`S13`) the check invokes. |
+| `substitutions` | The substitution principles the check names **in its heading trailer** — in practice `S1`–`S6` and `S8`–`S10`. Section-level principles (`S7` commentary, `S11` ratchet, `S12` calibration, `S13` structural fix) are stated in check bodies rather than trailers, so they never appear here; `S13` is surfaced by `has_structural_fix`. |
 | `has_structural_fix` | Whether the check carries an `S13` refactor that makes the defect unrepresentable. |
 | `has_standing_control` | Whether permanent machinery is defined. Always `true` — a check without one could never be recorded as `PASS`. |
 | `volume` / `part` | Which volume defines the check. |

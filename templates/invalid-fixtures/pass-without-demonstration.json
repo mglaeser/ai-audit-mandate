@@ -1,0 +1,12 @@
+{
+  "id": "A-02",
+  "title": "A control nobody watched fire",
+  "priority": 9,
+  "band": "BLOCKER-1",
+  "verdict": "PASS",
+  "standing_control": {
+    "mechanism": "A CI rule that blocks the merge.",
+    "cadence": "every merge",
+    "demonstrated": null
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "id": "A-01",
+  "title": "A PASS with nothing holding it",
+  "priority": 9,
+  "band": "BLOCKER-1",
+  "verdict": "PASS",
+  "standing_control": null
+}

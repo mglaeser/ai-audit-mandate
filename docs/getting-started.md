@@ -23,10 +23,10 @@ cd ai-audit-mandate
 node scripts/new-engagement.mjs --target ../your-repository
 ```
 
-That creates `../your-repository/audit/` with all 119 checks seeded at
-`NO-EVIDENCE`, Track C registered as a planned extension, and the mandate's
-combined hash stamped into the status file. From this point the engagement is
-pinned to an exact text.
+That creates `../your-repository/audit/` with Volume I's 79 active checks seeded
+at `NO-EVIDENCE`, Track C's 40 registered as a planned extension and named in
+`pending_check_ids`, and the mandate's combined hash stamped into the status
+file. From this point the engagement is pinned to an exact text.
 
 `NO-EVIDENCE` is a blocking state, not a neutral one. A freshly scaffolded
 workspace therefore holds `production_eligible: false` — which is correct, and
@@ -78,7 +78,8 @@ is a gate-bypass finding, filed before any Track C check runs.
 npm run verify
 ```
 
-This regenerates the catalogue and manifest and fails if either drifted from the
+This re-derives the catalogue, the check index and the manifest and fails if any
+of them drifted from the
 prose. Run it in CI. An engagement whose mandate changed mid-flight is an
 engagement with no fixed denominator.
 

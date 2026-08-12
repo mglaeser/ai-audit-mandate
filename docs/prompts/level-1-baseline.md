@@ -48,7 +48,7 @@ do not fix it.
 HOW TO WORK
 
 1. Scaffold the workspace:
-     node scripts/new-engagement.mjs --target <this repository>
+     node ../ai-audit-mandate/scripts/new-engagement.mjs --target .
    Every check starts at NO-EVIDENCE and production_eligible reads false. Both
    are correct. Leave them until evidence changes them.
 
@@ -64,7 +64,10 @@ HOW TO WORK
    against the code. Names are claims. A function called validateInput that
    validates nothing is a finding, not a naming quibble.
 
-5. Run all 119 checks. For each, record: the probe you actually ran, the evidence
+5. Run all 119 checks — Volume I's 79 into audit/03-findings.json, and Track C's
+   40 as discovery notes in audit/03c-track-c-discovery.md, since they are not
+   active scope until Part 2 opens catalogue v2.0. For each, record: the probe
+   you actually ran, the evidence
    (file paths, line numbers, command output), and a verdict. Then sweep every
    finding repository-wide before closing it — one generator wrote this code, so
    a defect is rarely singular. Record how many clones you found.
@@ -84,7 +87,7 @@ RULES I WILL CHECK YOU ON
 
 DELIVER
 
-audit/00-audit-surface.json, 01-claims-ledger.md, 03-findings.json (all 119),
+audit/00-audit-surface.json, 01-claims-ledger.md, 03-findings.json (79 active records),
 03b-coverage-ledger.md mapping every surface item to the checks that touched it,
 and 09-executive-summary.md.
 

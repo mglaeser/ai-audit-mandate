@@ -118,7 +118,9 @@ const CHECK_ID = /`([ABC]-\d{2})`/g;
 const bandFor = (priority) =>
   BANDS.find(({ min, max }) => priority >= min && priority <= max)?.band ?? 'UNBANDED';
 
-const sha256 = (value) => createHash('sha256').update(value).digest('hex');
+// Prefixed, matching mandate/manifest.json. The same digest published under the
+// same field name in two encodings is a trap for anyone comparing them.
+const sha256 = (value) => `sha256:${createHash('sha256').update(value).digest('hex')}`;
 
 function parseVolume(source, volume) {
   const checks = [];
@@ -135,7 +137,12 @@ function parseVolume(source, volume) {
     const blockStart = match.index + match[0].length;
     const blockEnd = index + 1 < matches.length ? matches[index + 1].index : source.length;
     const span = source.slice(blockStart, blockEnd);
-    const sectionBreak = span.search(/^#{1,6} /m);
+    // Mask fenced code before looking for the section break: a `# comment` line
+    // inside a shell example would otherwise truncate the body and drop the
+    // check's structural-fix and standing-control markers. Masking rather than
+    // deleting keeps offsets aligned with `span` for the slice below.
+    const masked = span.replace(/^```[\s\S]*?^```/gm, (fence) => fence.replace(/[^\n]/g, ' '));
+    const sectionBreak = masked.search(/^#{1,6} /m);
     const block = sectionBreak === -1 ? span : span.slice(0, sectionBreak);
 
     // A check is STOP-SHIP either by direct mark in its heading (outside the italic
@@ -178,11 +185,24 @@ function assertBandTable(source, assert) {
     return false;
   }
 
+  // Build the priority→band map, rejecting overlap rather than letting a later
+  // row win. Without this, a `≤10` row anywhere above the last would silently
+  // absorb every priority beneath it and the build would stay green.
   const expected = new Map();
   for (const { priority, band, atMost } of rows) {
     for (const value of atMost ? [...Array(priority).keys()].map((n) => n + 1) : [priority]) {
+      if (expected.has(value) && expected.get(value) !== band) {
+        return assert(
+          false,
+          `§3 band table assigns priority ${value} to both ${expected.get(value)} and ${band}`,
+        );
+      }
       expected.set(value, band);
     }
+  }
+
+  if (!assert(expected.size === 10, `§3 band table covers ${expected.size} priorities, expected 10`)) {
+    return false;
   }
 
   const disagreements = [...expected.entries()]
@@ -190,6 +210,56 @@ function assertBandTable(source, assert) {
     .map(([priority, band]) => `priority ${priority}: §3 says ${band}, generator says ${bandFor(priority)}`);
 
   return assert(disagreements.length === 0, `band table disagrees with §3 — ${disagreements.join('; ')}`);
+}
+
+// Re-parse §3's conditional-escalation bullets and assert the ESCALATIONS table
+// against them in BOTH directions. Without this the table has no oracle in the
+// text that defines it: §7's italic tails omit C-09 entirely, so deleting that
+// entry produced a green build publishing C-09 as a check that never escalates.
+function assertEscalationSet(source, directlyMarked, assert) {
+  const heading = '**Conditional escalations — apply these before you begin:**';
+  const start = source.indexOf(heading);
+  if (!assert(start !== -1, '§3 conditional-escalation list not found')) return false;
+
+  const end = source.indexOf('\n---', start);
+  const bullets = source
+    .slice(start + heading.length, end === -1 ? source.length : end)
+    .split('\n')
+    .filter((line) => line.startsWith('- '));
+
+  if (!assert(bullets.length > 0, '§3 conditional-escalation list parsed no bullets')) return false;
+
+  const stated = new Map();
+  for (const bullet of bullets) {
+    // A bullet without a re-banding arrow is commentary, not an escalation —
+    // the C-27 applicability note is the case in point.
+    if (!bullet.includes('→')) continue;
+
+    const to = /`STOP-SHIP`|priority 10|hard gate at 10/.test(bullet)
+      ? 'STOP-SHIP'
+      : /`BLOCKER-1`/.test(bullet)
+        ? 'BLOCKER-1'
+        : null;
+    if (to === null) continue;
+
+    for (const [, id] of bullet.matchAll(/\b([ABC]-\d{2})\b/g)) {
+      // A check already carrying a direct mark cannot escalate into one. This is
+      // what excludes the C-04 bullet, which restates its standing priority.
+      if (directlyMarked.has(id)) continue;
+      stated.set(id, to);
+    }
+  }
+
+  const missing = [...stated.keys()].filter((id) => !ESCALATIONS[id]);
+  const extra = Object.keys(ESCALATIONS).filter((id) => !stated.has(id));
+  const wrongTarget = [...stated.entries()]
+    .filter(([id, to]) => ESCALATIONS[id] && ESCALATIONS[id].to !== to)
+    .map(([id, to]) => `${id}: §3 says ${to}, table says ${ESCALATIONS[id].to}`);
+
+  let healthy = assert(missing.length === 0, `§3 states escalations the table omits: ${missing.join(', ')}`);
+  healthy = assert(extra.length === 0, `the table records escalations §3 does not state: ${extra.join(', ')}`) && healthy;
+  healthy = assert(wrongTarget.length === 0, `escalation targets disagree with §3 — ${wrongTarget.join('; ')}`) && healthy;
+  return healthy;
 }
 
 // The §7 execution-order tables list every check under its band, with
@@ -201,7 +271,10 @@ function parseOrderTables(source) {
   const conditional = new Map();
 
   for (const [, band, cells] of source.matchAll(ORDER_TABLE_ROW)) {
-    const [baseCell, ...tail] = cells.split(/—\s*\*/);
+    // Accept either italic marker: rewriting `— *plus …*` as `— _plus …_` would
+    // otherwise collapse the conditional map to nothing, and every escalation
+    // oracle downstream would pass vacuously.
+    const [baseCell, ...tail] = cells.split(/—\s*[*_]/);
     for (const [, id] of baseCell.matchAll(CHECK_ID)) base.set(id, band);
     for (const [, id] of tail.join(' ').matchAll(CHECK_ID)) conditional.set(id, band);
   }
@@ -225,6 +298,7 @@ async function build() {
 
   const orderBase = new Map();
   const orderConditional = new Map();
+  let volumeOneSource = null;
 
   for (const volume of VOLUMES) {
     const source = await readFile(join(root, volume.path), 'utf8');
@@ -236,11 +310,24 @@ async function build() {
         `${volume.path}: expected ${volume.expectedChecks} checks, parsed ${parsed.length}`,
       ) && healthy;
 
-    if (volume.part === 1) healthy = assertBandTable(source, assert) && healthy;
+    // §3 lives in Volume I, but its escalation bullets name Track C checks, so
+    // the assert needs the full catalogue and runs once the loop has finished.
+    if (volume.part === 1) {
+      healthy = assertBandTable(source, assert) && healthy;
+      volumeOneSource = source;
+    }
 
     // Volume I restates Track C's order for planning awareness, so the same id
     // is listed in both volumes. Disagreement between them is itself a defect.
     const { base, conditional } = parseOrderTables(source);
+
+    // Each volume's own §7 must cover the checks that volume defines. Without
+    // this, Volume II's entire table could vanish and Volume I's restatement of
+    // Track C would keep the merged coverage assert green.
+    const uncovered = parsed.map((check) => check.id).filter((id) => !base.has(id));
+    healthy =
+      assert(uncovered.length === 0, `${volume.path}: §7 tables omit ${uncovered.join(', ')}`) && healthy;
+
     for (const [id, band] of base) {
       healthy =
         assert(
@@ -281,6 +368,25 @@ async function build() {
   const structural = checks.filter((check) => check.has_structural_fix).length;
   healthy = assert(structural === 44, `expected 44 checks with a structural fix, parsed ${structural}`) && healthy;
 
+  // The direct STOP-SHIP mark is read by one literal regex over the heading, and
+  // was the last catalogue fact with no oracle behind it: reformatting a heading
+  // would demote a priority-10 check out of the STOP-SHIP set with every gate
+  // green. The §3 band table is the oracle — priority 10 IS STOP-SHIP.
+  const unmarked = checks
+    .filter((check) => check.band === 'STOP-SHIP' && check.stop_ship_class !== 'direct')
+    .map((check) => check.id);
+  healthy = assert(
+    unmarked.length === 0,
+    `priority-10 checks whose heading yielded no direct \`STOP-SHIP\` mark: ${unmarked.join(', ')}`,
+  ) && healthy;
+
+  healthy =
+    assertEscalationSet(
+      volumeOneSource ?? '',
+      new Set(checks.filter((check) => check.stop_ship_class === 'direct').map((check) => check.id)),
+      assert,
+    ) && healthy;
+
   // Every escalation id must exist, so the table cannot rot across a renumber.
   const unknownEscalations = Object.keys(ESCALATIONS).filter((id) => !ids.includes(id));
   healthy = assert(
@@ -290,10 +396,13 @@ async function build() {
 
   // §7 is an independent statement of every check's band. If it disagrees with
   // the band derived from the check heading, one of the two is wrong.
-  healthy = assert(
-    orderBase.size === checks.length,
-    `§7 tables list ${orderBase.size} checks, catalogue has ${checks.length}`,
-  ) && healthy;
+  // Set equality, not cardinality: equal counts with a swapped pair would pass a
+  // size comparison unnoticed.
+  const idSet = new Set(ids);
+  const notListed = ids.filter((id) => !orderBase.has(id));
+  const phantom = [...orderBase.keys()].filter((id) => !idSet.has(id));
+  healthy = assert(notListed.length === 0, `§7 tables omit: ${notListed.join(', ')}`) && healthy;
+  healthy = assert(phantom.length === 0, `§7 tables list checks the catalogue does not define: ${phantom.join(', ')}`) && healthy;
 
   const bandConflicts = checks
     .filter((check) => orderBase.has(check.id) && orderBase.get(check.id) !== check.band)
@@ -308,6 +417,18 @@ async function build() {
   healthy = assert(
     unrecorded.length === 0,
     `§7 states escalations the catalogue does not record: ${unrecorded.join(', ')}`,
+  ) && healthy;
+
+  // And the reverse, so a table entry cannot exist that §7 never mentions.
+  // C-09 is the documented exception: §3 escalates it, §7 lists it at its base
+  // band. Naming it here keeps the exception visible instead of emergent.
+  const SECTION_7_SILENT = new Set(['C-09']);
+  const unstated = Object.entries(ESCALATIONS)
+    .filter(([id]) => !SECTION_7_SILENT.has(id) && !orderConditional.has(id))
+    .map(([id, { to }]) => `${id} → ${to}`);
+  healthy = assert(
+    unstated.length === 0,
+    `escalations the catalogue records that §7's tails do not state: ${unstated.join(', ')}`,
   ) && healthy;
 
   const tally = (key) =>
@@ -354,7 +475,18 @@ async function build() {
 const { healthy, catalogue } = await build();
 const serialised = `${JSON.stringify(catalogue, null, 2)}\n`;
 const target = join(root, 'catalogue/checks.json');
-const checkMode = process.argv.includes('--check');
+// Mode selection is explicit and closed: an unrecognised argument must never
+// fall through to write mode, where it would silently re-attest whatever the
+// prose currently says. `--verify` — the name of this repo's own npm script —
+// is exactly the near-miss that would do it.
+const args = process.argv.slice(2);
+const unknown = args.filter((arg) => arg !== '--check');
+if (unknown.length > 0) {
+  console.error(`build-catalogue: unknown argument(s): ${unknown.join(', ')}. Only --check is accepted.`);
+  process.exit(2);
+}
+const checkMode = args.includes('--check');
+
 
 if (checkMode) {
   const current = await readFile(target, 'utf8').catch(() => null);

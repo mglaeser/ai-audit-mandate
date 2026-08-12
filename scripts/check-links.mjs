@@ -54,38 +54,80 @@ const { files, source } = await inventory();
 const tracked = new Set(files);
 const markdown = files.filter((path) => path.endsWith('.md'));
 
-// GitHub's heading slugger: lowercase, drop anything that is not a word
-// character, space or hyphen, then spaces to hyphens. Repeats get -1, -2, …
+// GitHub's heading slugger: lowercase, strip anything that is not a letter,
+// number, space, hyphen or UNDERSCORE, then spaces to hyphens. Underscores
+// survive — `x86_64 notes` is `x86_64-notes`, not `x8664-notes`.
 const slug = (heading) =>
   heading
+    .replace(/[\t\p{Cc}]/gu, '')
     .trim()
     .toLowerCase()
-    .replace(/[^\p{L}\p{N}\s-]/gu, '')
+    .replace(/[^\p{L}\p{N}\s_-]/gu, '')
     .replace(/\s/g, '-');
+
+// CommonMark fence tracking. A parity toggle is not enough: fences nest by
+// length, so a ```` ```` ```` block containing ``` would flip the flag back and
+// every heading after it would be treated as real. That mints anchors GitHub
+// never renders, and this checker would then approve links to them.
+function* unfencedLines(text) {
+  let marker = null;
+  let length = 0;
+
+  for (const line of text.split('\n')) {
+    const fence = line.match(/^ {0,3}(`{3,}|~{3,})(.*)$/);
+
+    if (marker === null) {
+      // An opening backtick fence may not carry a backtick in its info string.
+      if (fence && !(fence[1][0] === '`' && fence[2].includes('`'))) {
+        marker = fence[1][0];
+        length = fence[1].length;
+        continue;
+      }
+      yield line;
+      continue;
+    }
+
+    // Close only on the same character, at least as long, with no info string.
+    if (fence && fence[1][0] === marker && fence[1].length >= length && fence[2].trim() === '') {
+      marker = null;
+    }
+  }
+}
 
 async function anchorsFor(path) {
   const text = await readFile(join(root, path), 'utf8');
-  const seen = new Map();
   const anchors = new Set();
 
-  // Skip fenced code blocks so a commented-out heading cannot mint an anchor.
-  let fenced = false;
-  for (const line of text.split('\n')) {
-    if (/^\s*(```|~~~)/.test(line)) fenced = !fenced;
-    if (fenced) continue;
-
-    const heading = line.match(/^(#{1,6})\s+(.+?)\s*$/);
+  for (const line of unfencedLines(text)) {
+    const heading = line.match(/^ {0,3}(#{1,6})\s+(.+?)\s*$/);
     if (!heading) continue;
 
-    // Strip inline markdown so `## \`code\` and **bold**` slugs like GitHub's.
-    const base = slug(heading[2].replace(/[*_`]/g, ''));
-    const count = seen.get(base) ?? 0;
-    seen.set(base, count + 1);
-    anchors.add(count === 0 ? base : `${base}-${count}`);
+    const base = slug(
+      heading[2]
+        // A link inside a heading contributes only its text.
+        .replace(/!?\[([^\]]*)\]\([^)]*\)/g, '$1')
+        .replace(/[*`]/g, '')
+        // ATX closing sequence: `## Title ##`.
+        .replace(/\s+#+\s*$/, ''),
+    );
+
+    // github-slugger's collision rule: probe upward until the slug is free.
+    let candidate = base;
+    let n = 0;
+    while (anchors.has(candidate)) {
+      n += 1;
+      candidate = `${base}-${n}`;
+    }
+    anchors.add(candidate);
   }
 
-  // Explicit HTML anchors, e.g. <a id="foo"> or <h2 id="foo">.
-  for (const [, id] of text.matchAll(/<[a-z][^>]*\sid=["']([^"']+)["']/gi)) anchors.add(id);
+  // Explicit HTML anchors, e.g. <a id="foo"> or <h2 id="foo">. GitHub matches
+  // these case-sensitively, so keep the raw id and add a lowercase alias for
+  // heading-style lookups.
+  for (const [, id] of text.matchAll(/<[a-z][^>]*\sid=["']?([^"'>\s]+)["']?/gi)) {
+    anchors.add(id);
+    anchors.add(id.toLowerCase());
+  }
 
   return anchors;
 }
@@ -96,20 +138,37 @@ const anchorsCached = async (path) => {
   return anchorCache.get(path);
 };
 
-// Inline links and images, plus HTML href/src.
-const LINK = /!?\[[^\]]*\]\(([^)\s]+)(?:\s+"[^"]*")?\)/g;
-const HTML_ATTR = /<[a-z][^>]*\s(?:href|src)=["']([^"']+)["']/gi;
+// Inline links and images, with optional <…> destination and an optional title
+// in any of markdown's three quotings.
+const LINK = /!?\[[^\]]*\]\(\s*(<[^>]*>|[^)\s]+)(?:\s+(?:"[^"]*"|'[^']*'|\([^)]*\)))?\s*\)/g;
+// Link reference definitions. Every full, collapsed and shortcut reference link
+// resolves through one of these, so checking definitions covers all three.
+const LINK_DEFINITION = /^ {0,3}\[[^\]]+\]:\s*(<[^>]*>|\S+)/gm;
+// No autolink pattern: CommonMark autolinks require a URI scheme, so a relative
+// one does not exist, and matching `<…>` loosely just collects closing tags.
+const HTML_ATTR = /<[a-z][^>]*\s(?:href|src)=["']?([^"'>\s]+)["']?/gi;
 
 const problems = [];
 let checked = 0;
 let external = 0;
 
 for (const file of markdown) {
-  const text = await readFile(join(root, file), 'utf8');
+  const text = await readFile(join(root, file), 'utf8').catch((error) => {
+    if (error.code === 'ENOENT') {
+      problems.push(`${file}: tracked by git but missing from the working tree`);
+      return null;
+    }
+    throw error;
+  });
+  if (text === null) continue;
+
+  // Links inside fenced code are samples, not links.
+  const prose = [...unfencedLines(text)].join('\n');
   const targets = [
-    ...[...text.matchAll(LINK)].map((m) => m[1]),
-    ...[...text.matchAll(HTML_ATTR)].map((m) => m[1]),
-  ];
+    ...[...prose.matchAll(LINK)].map((m) => m[1]),
+    ...[...prose.matchAll(LINK_DEFINITION)].map((m) => m[1]),
+    ...[...prose.matchAll(HTML_ATTR)].map((m) => m[1]),
+  ].map((target) => target.replace(/^<|>$/g, ''));
 
   for (const target of targets) {
     if (/^(https?:|mailto:|tel:|data:)/i.test(target)) {
@@ -118,7 +177,19 @@ for (const file of markdown) {
     }
 
     checked += 1;
-    const [pathPart, fragment] = target.split('#');
+    const [rawPath, rawFragment] = target.split('#');
+    // A percent-encoded path or fragment must be decoded before it is compared
+    // with a filename or a slug: `my%20file.md` is `my file.md` on disk.
+    const decode = (value) => {
+      if (value === undefined) return undefined;
+      try {
+        return decodeURIComponent(value);
+      } catch {
+        return value;
+      }
+    };
+    const pathPart = decode(rawPath);
+    const fragment = decode(rawFragment);
     const resolved = pathPart === '' ? file : normalize(join(dirname(file), pathPart));
 
     if (pathPart !== '') {
@@ -135,7 +206,9 @@ for (const file of markdown) {
     if (!fragment) continue;
 
     const anchors = await anchorsCached(pathPart === '' ? file : relative(root, join(root, resolved)));
-    if (!anchors.has(fragment.toLowerCase())) {
+    // Case-sensitive: GitHub does not fold `#HELLO` onto `## hello`. Lowercase
+    // aliases for HTML ids are added at definition time instead.
+    if (!anchors.has(fragment)) {
       problems.push(`${file}: "${target}" → no heading in that file produces the anchor "#${fragment}"`);
     }
   }

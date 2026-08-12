@@ -11,7 +11,7 @@ the engagement's own timeline.
 | `00-check-catalogue.json` | 0 | The active catalogue, seeded from `catalogue/checks.json`. |
 | `01-claims-ledger.md` | 1 | Every claim the repository makes about itself, and whether it is true. |
 | `02-calibration.md` | 2 | Seeded defects, and how many the pipeline caught before you trusted it. |
-| `03-findings.json` / `.md` | 3 | One record per check. The machine-readable file is authoritative. |
+| `03-findings.json` / `.md` | 3 | One record per **active** check — Volume I's 79 at catalogue v1.0. Track C's 40 join when Part 2 opens v2.0. The machine-readable file is authoritative. |
 | `03b-coverage-ledger.md` | 3 | Every surface item mapped to the checks that touched it. |
 | `04-remediation-plan.md` | 4 | Waves, dependencies, and the structural ledger. |
 | `05-verification.md` | 5–6 | Per-fix proof: red test, green test, mutation score, sweep, control fired. |

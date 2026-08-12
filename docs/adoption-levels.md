@@ -12,12 +12,16 @@ Constitution already defines in Article XV.
 | --- | --- | --- | --- |
 | **Repository class** | Experimental | Incubating | Production |
 | **Question it answers** | What is actually true here? | What is true, and what keeps it true? | What survives everyone leaving? |
-| **Checks run** | 119, triaged | 119, evidenced | 119, evidenced and re-verified |
+| **Checks run** | 119, evidenced | 119, evidenced against a calibrated pipeline | 119, evidenced and independently re-verified |
 | **Volumes** | I, plus II's catalogue | I, then II | I, then II, then ratification |
 | **Controls** | recommended, not built | executable, blocking merges | blocking, self-testing, calibrated |
 | **Constitution** | none | `IN_FORCE_PROVISIONAL` | `RATIFIED` |
 | **Clears production** | no | no | yes, when computed |
 | **Effort** | hours | days | weeks, then permanent |
+
+Each row is the typical attribute at that level, not a sufficient condition. A
+repository can ratify its constitution and still be at Level 2 — see *Breadth and
+depth are different axes* below.
 
 ## What it costs
 
@@ -34,6 +38,13 @@ repositories.
 
 ### Reading these numbers
 
+**Where these come from.** A *control script* is one executable file a CI job runs
+or a CI-invoked runner discovers; a *test* is one individual test case, not a line
+of test code. Counts are the difference between each repository's last
+pre-mandate commit and its state on 2026-08-11. **No surveyed engagement stopped
+at Level 1** — that column is the floor the other three imply, a findings-only
+pass with no controls built, rather than a measurement.
+
 **The written findings barely vary.** Every engagement produced a similar
 `audit/` set, because the catalogue is fixed at 119 checks — so the writing is
 roughly fixed too. It is the one predictable part.
@@ -46,7 +57,8 @@ code, and had to test all of it.
 
 **Pull requests track remediation waves, not findings.** Controls land one
 reviewed change at a time, which is the point of the exercise. One engagement
-batched everything into 3; another spread it across 48. Both were legitimate.
+landed the whole regime in a single reviewed change; another spread it across
+forty. Both were legitimate.
 
 ## What separates the levels
 
@@ -78,8 +90,10 @@ The two that separate a serious regime from a thorough one:
   vendor that attacks the change, with the deterministic gate as sole merge
   authority. Hard, and usually the first thing dropped.
 - **Separation of the gate from the gated (`B-35`, Article II).** The identity
-  that writes code cannot modify the gate, and the reviewed artifact never holds
-  the reviewer's credentials.
+  that writes code cannot modify the gate — and, by extension of the same rule to
+  the evidence ledger (§9.8), the reviewed artifact never holds the reviewer's
+  credentials. That second half is a consequence drawn here, not a sentence the
+  mandate states; the verifier-panel mechanics themselves live under `A-39`.
 
 Level 3 requires both. If you have broad coverage but neither of these, you are
 at Level 2 with good documentation — which is a fine place to be, provided the
@@ -95,9 +109,9 @@ reality, and the findings are banded so you know what is actually dangerous.
 you stand; it does not hold the ground.
 
 **Stop here when** the repository is exploratory and structurally cannot reach
-production — no production credentials, no personal data, sandboxed egress. That
-exemption is safe because it is structural, not because anyone promised to be
-careful.
+production — no secrets, no production credentials, no personal data, sandboxed
+egress. That exemption is safe because it is structural, not because anyone
+promised to be careful.
 
 ## Level 2 — Governed
 

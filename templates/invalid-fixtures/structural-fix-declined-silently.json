@@ -1,0 +1,15 @@
+{
+  "id": "A-07",
+  "title": "A structural fix declined by default rather than by decision",
+  "priority": 7,
+  "band": "MUST-FIX",
+  "verdict": "FAIL",
+  "structural_fix": {
+    "available": true,
+    "move": "Push tenancy into the data-access layer.",
+    "collapses": [],
+    "taken": false,
+    "standing_control_avoided": null,
+    "rationale": null
+  }
+}

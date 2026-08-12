@@ -1,0 +1,8 @@
+{
+  "id": "C-27",
+  "title": "Declared not applicable, with no reason",
+  "priority": 9,
+  "band": "BLOCKER-1",
+  "verdict": "NOT-APPLICABLE",
+  "na_justification": null
+}

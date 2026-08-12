@@ -91,7 +91,19 @@ for (const track of catalogue.tracks) {
 const serialised = `${lines.join('\n')}`;
 const target = join(root, 'docs/check-index.md');
 
-if (process.argv.includes('--check')) {
+// Mode selection is explicit and closed: an unrecognised argument must never
+// fall through to write mode, where it would silently re-attest whatever the
+// prose currently says. `--verify` — the name of this repo's own npm script —
+// is exactly the near-miss that would do it.
+const args = process.argv.slice(2);
+const unknown = args.filter((arg) => arg !== '--check');
+if (unknown.length > 0) {
+  console.error(`build-check-index: unknown argument(s): ${unknown.join(', ')}. Only --check is accepted.`);
+  process.exit(2);
+}
+const checkMode = args.includes('--check');
+
+if (checkMode) {
   const current = await readFile(target, 'utf8').catch(() => null);
   if (current !== serialised) {
     console.error('build-check-index: docs/check-index.md is stale — run `npm run docs`.');

@@ -3,9 +3,9 @@
 Three prompts, one per adoption level. Copy the block, paste it into your coding
 agent, and it will read the mandate itself and start working.
 
-Each prompt names the parts of the mandate to adopt and — just as importantly —
+Levels 1 and 2 name the parts of the mandate to adopt and — just as importantly —
 the parts to skip, so the agent does not build apparatus the project cannot
-sustain.
+sustain. Level 3 skips nothing; that is what makes it Level 3.
 
 | Level | Prompt | Answers | Control scripts | New tests | PRs | Time |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -35,19 +35,21 @@ Read https://github.com/mglaeser/ai-audit-mandate/blob/main/docs/prompts/level-2
 Read https://github.com/mglaeser/ai-audit-mandate/blob/main/docs/prompts/level-3-standing-regime.md and execute it against this repository.
 ```
 
-Agents without network access need the full prompt pasted directly — the blocks
-in each level's page are self-contained.
+Agents without network access cannot run these prompts unmodified: every block
+begins by reading the mandate. Give the agent a local copy of the two volumes and
+replace the block's first sentence with a pointer to that path.
 
 Not sure which? [Adoption levels](../adoption-levels.md) has the comparison. The
-short version: **Level 1** if the repository cannot reach production, **Level 2**
-if it is real but single-operator, **Level 3** if you can field an independent
-verifier from a second vendor and a scheduled runner.
+short version: **Level 1** if the repository structurally cannot reach
+production, **Level 3** if you can field a second-vendor verifier, a scheduled
+runner and a gate its authors cannot write to, **Level 2** for everything else.
 
 ## Using them
 
 They work with any capable coding agent. Each prompt asks the agent to read the
-mandate from its public URL, so you do not need to clone anything first — though
-cloning helps, because the scaffolding script is in the repository.
+mandate from its public URL, so nothing has to be cloned to read it. Levels 1 and
+2 do need a clone: their first step runs `scripts/new-engagement.mjs`, which
+reads the catalogue, the manifest and the templates from it.
 
 Levels are cumulative. Running Level 2 after Level 1 starts from the existing
 findings rather than re-deriving them, so nothing is wasted by starting lower.
@@ -63,7 +65,9 @@ or no multi-tenancy, say so. The agent will mark the dependent checks
 **Name your stack.** The prompts are deliberately language-agnostic. Telling the
 agent what it is auditing produces better probes.
 
-What not to edit: the rules about evidence, `NO-EVIDENCE` blocking, watching
-controls fire, and never discharging a finding by having a human review it. Those
-are what separate an audit from a code review, and softening them is how you get
-a report that says a system is safe when it is not.
+What not to edit, wherever a block states them: the rules about evidence,
+`NO-EVIDENCE` blocking, watching controls fire, and never discharging a finding
+by having a human review it. Level 1 inlines them; Levels 2 and 3 inherit them
+from §1 and the Definition of Done, which those blocks require reading in full.
+They are what separate an audit from a code review, and softening them is how you
+get a report that says a system is safe when it is not.

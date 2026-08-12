@@ -31,7 +31,7 @@
         "B"
       ],
       "check_count": 79,
-      "sha256": "f0aff08aaf82b767bea05916f1dfa2173261faaf1c68a3bf42e93b521b61673a"
+      "sha256": "sha256:f0aff08aaf82b767bea05916f1dfa2173261faaf1c68a3bf42e93b521b61673a"
     },
     {
       "id": "volume-ii",
@@ -42,7 +42,7 @@
         "C"
       ],
       "check_count": 40,
-      "sha256": "5a6fc70b43fb1eb74829b4a775f9103b9a0dd6ad5151829914599a7850f1c8bc"
+      "sha256": "sha256:5a6fc70b43fb1eb74829b4a775f9103b9a0dd6ad5151829914599a7850f1c8bc"
     }
   ],
   "totals": {

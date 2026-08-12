@@ -7,7 +7,7 @@ repository under audit, then fill them from evidence — never from expectation.
 | --- | --- | --- |
 | [`engagement-status.json`](engagement-status.json) | `audit/engagement-status.json` | The computed state of the engagement. A deploy gate reads this file and fails closed on it. |
 | [`finding-record.json`](finding-record.json) | one element of `audit/03-findings.json` | One check's record: probe, evidence, clone sweep, structural fix, standing control, verification. |
-| [`audit-workspace/`](audit-workspace) | `audit/` | The full artifact set, numbered in the order the phases produce them. |
+| [`audit-workspace/`](audit-workspace) | `audit/` | A manifest of the artifacts an engagement produces, numbered in phase order. The scaffolder writes four of them; the phases produce the rest. |
 
 ## The two rules these templates encode
 

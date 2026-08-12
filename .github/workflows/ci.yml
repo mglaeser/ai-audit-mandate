@@ -83,15 +83,52 @@ jobs:
       # state has stopped being safe.
       - name: Assert the fresh workspace fails closed
         run: |
+          set -euo pipefail
           status="$ENGAGEMENT_SCRATCH/audit/engagement-status.json"
           findings="$ENGAGEMENT_SCRATCH/audit/03-findings.json"
+          index="$ENGAGEMENT_SCRATCH/audit/00-check-catalogue.json"
 
+          # Types, not just values: `jq -r` renders the string "false" and the
+          # boolean false identically, so a stringified flag would pass silently.
+          test "$(jq -r '.production_eligible | type' "$status")" = 'boolean'
           test "$(jq -r '.production_eligible' "$status")" = 'false'
           test "$(jq -r '.constitution_state' "$status")" = 'NOT_INSTANTIATED'
+          test "$(jq -r '.registered_check_count | type' "$status")" = 'number'
           test "$(jq -r '.registered_check_count' "$status")" = '119'
-          test "$(jq 'length' "$findings")" = '119'
+
+          # Relations, not literals. §5 gates on the findings id-set equalling
+          # the ACTIVE id-set, so assert exactly that rather than a constant that
+          # has to be edited every time the catalogue grows.
+          test "$(jq 'length' "$findings")" = "$(jq -r '.active_check_count' "$status")"
+          test "$(jq -r '.present_check_count' "$status")" = "$(jq 'length' "$findings")"
+          test "$(jq -S -r '[.[].id] | unique' "$findings")" = \
+               "$(jq -S -r '[.checks[] | select(.state == "active") | .id] | unique' "$index")"
           test "$(jq '[.[] | select(.verdict != "NO-EVIDENCE")] | length' "$findings")" = '0'
-          test "$(jq -r '[.[].id] | unique | length' "$findings")" = '119'
+
+          # Planned-extension scope must be registered, counted AND named (§5).
+          test "$(jq -r '.checks | length' "$index")" = '119'
+          test "$(jq -r '.pending_check_ids | length' "$status")" = \
+               "$(( $(jq -r '.registered_check_count' "$status") - $(jq -r '.active_check_count' "$status") ))"
+
+          # NO-EVIDENCE blocks as an open finding of its band, so the counters
+          # must not read quiet while every record is unevidenced.
+          test "$(jq -r '.highest_open_band' "$status")" != 'null'
+          test "$(jq -r '.open_stop_ship_count' "$status")" != '0'
+
+          # The engagement must be pinned to the mandate it ran under.
+          test "$(jq -r '.mandate_manifest_hash' "$status")" = \
+               "$(jq -r '.combined.sha256' mandate/manifest.json)"
+
+          # An engagement opens at catalogue v1.0 while the catalogue defines
+          # v2.0. Unifying the two would erase the active/registered distinction.
+          test "$(jq -r '.catalogue_version' "$index")" = '1.0'
+          test "$(jq -r '.catalogue_version' catalogue/checks.json)" = '2.0'
+
+          # Pin the record key set to the committed template so the scaffolder
+          # cannot quietly drop fields the §5 rules are written against.
+          expected="$(jq -r 'del(."$schema", ._comment) | keys_unsorted | join(",")' templates/finding-record.json)"
+          test "$(jq -r '.[0] | keys_unsorted | join(",")' "$findings")" = "$expected"
+          test "$(jq -r '[.[] | keys_unsorted | join(",")] | unique | length' "$findings")" = '1'
 
       # The workspace is what a real engagement actually fills in, so its shape
       # is a contract. Nothing else in CI looks at it.
@@ -105,12 +142,26 @@ jobs:
             exit 1
           fi
 
-      # --dir is the one argument that can write outside the workspace.
+      # --dir is the one argument that can write outside the workspace. "." and
+      # ".." are the dangerous pair: basename() is identity on both.
       - name: Assert the scaffolder refuses a --dir that escapes the target
         run: |
-          for bad in "" "../escaped" "nested/path"; do
+          for bad in "" "." ".." "../escaped" "nested/path" "/abs" "a/../.."; do
             if node scripts/new-engagement.mjs --target "$ENGAGEMENT_SCRATCH" --dir "$bad" --force; then
               echo "Scaffolder accepted --dir '$bad'; it must refuse." >&2
               exit 1
             fi
           done
+
+      # --force must not be a silent data-loss path once verdicts exist.
+      - name: Assert --force refuses to discard recorded verdicts
+        run: |
+          set -euo pipefail
+          findings="$ENGAGEMENT_SCRATCH/audit/03-findings.json"
+          node -e 'const f=process.argv[1],a=require(f);a[0].verdict="FAIL";require("fs").writeFileSync(f,JSON.stringify(a,null,2))' "$findings"
+          if node scripts/new-engagement.mjs --target "$ENGAGEMENT_SCRATCH" --force; then
+            echo '--force discarded a recorded verdict without --discard-verdicts.' >&2
+            exit 1
+          fi
+          test "$(jq '[.[] | select(.verdict != "NO-EVIDENCE")] | length' "$findings")" = '1'
+          node scripts/new-engagement.mjs --target "$ENGAGEMENT_SCRATCH" --force --discard-verdicts

@@ -30,7 +30,7 @@ Two corollaries:
 
 ## Development setup
 
-The build scripts are dependency-free and need only Node.js 20 or newer. The
+The build scripts are dependency-free and need only Node.js 22 or newer. The
 Markdown linter is a single pinned dev dependency, so install it first.
 
 ```bash
@@ -40,8 +40,9 @@ npm ci
 npm run verify
 ```
 
-`verify` regenerates the catalogue, the check index and the manifest, then fails
-if any of them drifted from the prose.
+`verify` re-derives the catalogue, the check index and the manifest without
+writing, then fails if any of them drifted from the prose. `npm run build` is
+what rewrites them.
 
 ## Changing a volume
 
@@ -71,14 +72,30 @@ The extractor parses check headings, so the format is load-bearing:
 - `·` separates the identifier from the title.
 - Priority is `**N/10**`.
 - An unconditional `STOP-SHIP` is marked with `— \`STOP-SHIP\`` outside the
-  italic annotation; a conditional one reads `escalates to \`STOP-SHIP\`` inside
-  it. The distinction is not cosmetic — only a direct mark holds production down
-  from Phase 0.
-- Substitution identifiers appear as `` `S1` `` in the italic annotation.
+  italic annotation. The extractor reads this from the heading, and the build
+  fails if a priority-10 check does not carry it.
+- A **conditional** escalation is *not* read from the heading. It is stated as a
+  bullet in Volume I §3, listed in the relevant §7 execution-order row's italic
+  `— *plus \`X\` if …*` tail, and transcribed into the `ESCALATIONS` table in
+  [the extractor](scripts/build-catalogue.mjs). All three must
+  agree or the build fails. The distinction is not cosmetic — only a direct mark
+  holds production down from Phase 0.
+- Substitution identifiers appear as `` `S1` `` in the italic annotation. Only
+  those named in the heading trailer reach the catalogue.
 
-Adding a check means updating the expected count in
-[`scripts/build-catalogue.mjs`](scripts/build-catalogue.mjs). That count is
-deliberately hard-coded so a check cannot go missing unnoticed.
+Adding or re-banding a check means moving every hard-coded value that describes
+the catalogue, all of them in the extractor:
+
+- `VOLUMES[].expectedChecks`, per volume;
+- the `checks.length === 119` assert;
+- the `structural === 44` assert;
+- the `ESCALATIONS` table, if the check escalates;
+- the §7 execution-order rows in **both** volumes, and the §3 band table if the
+  banding rule itself changes.
+
+They are deliberately hard-coded so a check cannot go missing unnoticed, and each
+one is asserted against the prose, so a stale value fails the build rather than
+publishing a wrong catalogue.
 
 ## Pull requests
 
