@@ -8,8 +8,13 @@ everything else in the repository.
 | **I** | [`01-foundation-and-core-tracks.md`](01-foundation-and-core-tracks.md) | Rules of engagement, substitution principles, severity bands, execution protocol, finding schema, Tracks A and B (79 checks), structural remediation, the standing regime, and the Constitution. |
 | **II** | [`02-security-privacy-assurance.md`](02-security-privacy-assurance.md) | Track C — Security, Privacy and Assurance (40 checks), catalogue v2.0, re-ratification, and the closing definition of done. |
 
+Inside the volume text the two are called **Part 1** and **Part 2**: Volume I is
+Part 1, Volume II is Part 2. The filenames were changed to describe their scope;
+the prose was not rewritten, because its bytes are attested.
+
 [`manifest.json`](manifest.json) records a SHA-256 per volume plus a combined
-digest over their deterministic concatenation.
+digest over their deterministic concatenation. The digest is a plain `sha256sum`
+of the file bytes, published with a `sha256:` prefix.
 
 ## Read in order
 

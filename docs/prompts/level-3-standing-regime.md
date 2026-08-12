@@ -62,10 +62,11 @@ THE PART THAT ACTUALLY MATTERS — MAKE THE CONTROLS PROVE THEMSELVES
 A safeguard installed once and never re-proven has already begun to fail. Build,
 in scripts/regime/ and wired into CI and a schedule:
 
-1. A calibration corpus (S12, A-36). Seeded defects covering at minimum: prompt
-   injection, an exfiltration path, a cross-tenant read, a hallucinated
-   dependency, a swallowed exception, an assertion-free test. Re-inject on a
-   schedule. The catch rate is a live SLI. When it falls, releases freeze
+1. A calibration corpus (S12, A-36). Seeded defects covering at minimum: a
+   hard-coded credential, prompt injection, an exfiltration path, a cross-tenant
+   read, a hallucinated dependency, a swallowed exception, an assertion-free
+   test. Do not drop the credential — it is the seed for B-06, the only
+   unconditional STOP-SHIP that Volume I can close. Re-inject on a schedule. The catch rate is a live SLI. When it falls, releases freeze
    automatically — not a dashboard, a freeze.
 
 2. A gate self-test (A-01). The policy bundle carries its own suite proving it
@@ -105,12 +106,15 @@ Build the panel so it cannot be faked green:
     confidence is a veto, and a missing or fallback-replaced approver blocks;
   - at least one additional DISTINCT model approving — repeat votes from the same
     model never count twice;
+  - no key present means the panel is INACTIVE and says so, exiting visibly with
+    the residual recorded — never fake-green, never fake-blocking.
+
+Two further anti-tamper mechanisms, not stated in the mandate but learned from
+practice — adopt them as engineering judgement, not as a mandate requirement:
   - anti-canned-green: a majority of approvals must carry substantive, mutually
     distinct reasons;
   - anti-hardcoded-green: issue a random per-run challenge each approval must
-    echo, so a future "return green" shortcut without a real round-trip fails;
-  - no key present means the panel is INACTIVE and says so, exiting visibly with
-    the residual recorded — never fake-green, never fake-blocking.
+    echo, so a future "return green" shortcut without a real round-trip fails.
 
 AND MIND WHERE THE CREDENTIAL LIVES — THIS IS THE TRAP
 
