@@ -218,7 +218,9 @@
       "has_structural_fix": false,
       "has_standing_control": true,
       "volume": "volume-i",
-      "part": 1
+      "part": 1,
+      "doors": [],
+      "within_band_order": 0
     },
     {
       "id": "A-02",
@@ -239,7 +241,9 @@
       "has_structural_fix": true,
       "has_standing_control": true,
       "volume": "volume-i",
-      "part": 1
+      "part": 1,
+      "doors": [],
+      "within_band_order": 1
     },
     {
       "id": "A-03",
@@ -256,7 +260,9 @@
       "has_structural_fix": false,
       "has_standing_control": true,
       "volume": "volume-i",
-      "part": 1
+      "part": 1,
+      "doors": [],
+      "within_band_order": 0
     },
     {
       "id": "A-04",
@@ -274,7 +280,9 @@
       "has_structural_fix": false,
       "has_standing_control": true,
       "volume": "volume-i",
-      "part": 1
+      "part": 1,
+      "doors": [],
+      "within_band_order": 0
     },
     {
       "id": "A-05",
@@ -291,7 +299,11 @@
       "has_structural_fix": true,
       "has_standing_control": true,
       "volume": "volume-i",
-      "part": 1
+      "part": 1,
+      "doors": [
+        "Enforced module visibility"
+      ],
+      "within_band_order": 0
     },
     {
       "id": "A-06",
@@ -308,7 +320,9 @@
       "has_structural_fix": true,
       "has_standing_control": true,
       "volume": "volume-i",
-      "part": 1
+      "part": 1,
+      "doors": [],
+      "within_band_order": 2
     },
     {
       "id": "A-07",
@@ -325,7 +339,9 @@
       "has_structural_fix": true,
       "has_standing_control": true,
       "volume": "volume-i",
-      "part": 1
+      "part": 1,
+      "doors": [],
+      "within_band_order": 1
     },
     {
       "id": "A-08",
@@ -343,7 +359,9 @@
       "has_structural_fix": false,
       "has_standing_control": true,
       "volume": "volume-i",
-      "part": 1
+      "part": 1,
+      "doors": [],
+      "within_band_order": 3
     },
     {
       "id": "A-09",
@@ -360,7 +378,11 @@
       "has_structural_fix": true,
       "has_standing_control": true,
       "volume": "volume-i",
-      "part": 1
+      "part": 1,
+      "doors": [
+        "Enforced module visibility"
+      ],
+      "within_band_order": 1
     },
     {
       "id": "A-10",
@@ -378,7 +400,9 @@
       "has_structural_fix": false,
       "has_standing_control": true,
       "volume": "volume-i",
-      "part": 1
+      "part": 1,
+      "doors": [],
+      "within_band_order": 2
     },
     {
       "id": "A-11",
@@ -396,7 +420,11 @@
       "has_structural_fix": true,
       "has_standing_control": true,
       "volume": "volume-i",
-      "part": 1
+      "part": 1,
+      "doors": [
+        "One mediated tool gateway"
+      ],
+      "within_band_order": 2
     },
     {
       "id": "A-12",
@@ -413,7 +441,9 @@
       "has_structural_fix": true,
       "has_standing_control": true,
       "volume": "volume-i",
-      "part": 1
+      "part": 1,
+      "doors": [],
+      "within_band_order": 3
     },
     {
       "id": "A-13",
@@ -431,7 +461,9 @@
       "has_structural_fix": false,
       "has_standing_control": true,
       "volume": "volume-i",
-      "part": 1
+      "part": 1,
+      "doors": [],
+      "within_band_order": 4
     },
     {
       "id": "A-14",
@@ -446,7 +478,9 @@
       "has_structural_fix": false,
       "has_standing_control": true,
       "volume": "volume-i",
-      "part": 1
+      "part": 1,
+      "doors": [],
+      "within_band_order": 1
     },
     {
       "id": "A-15",
@@ -463,7 +497,9 @@
       "has_structural_fix": false,
       "has_standing_control": true,
       "volume": "volume-i",
-      "part": 1
+      "part": 1,
+      "doors": [],
+      "within_band_order": 0
     },
     {
       "id": "A-16",
@@ -480,7 +516,9 @@
       "has_structural_fix": false,
       "has_standing_control": true,
       "volume": "volume-i",
-      "part": 1
+      "part": 1,
+      "doors": [],
+      "within_band_order": 2
     },
     {
       "id": "A-17",
@@ -495,7 +533,9 @@
       "has_structural_fix": false,
       "has_standing_control": true,
       "volume": "volume-i",
-      "part": 1
+      "part": 1,
+      "doors": [],
+      "within_band_order": 3
     },
     {
       "id": "A-18",
@@ -510,7 +550,9 @@
       "has_structural_fix": false,
       "has_standing_control": true,
       "volume": "volume-i",
-      "part": 1
+      "part": 1,
+      "doors": [],
+      "within_band_order": 5
     },
     {
       "id": "A-19",
@@ -527,7 +569,9 @@
       "has_structural_fix": true,
       "has_standing_control": true,
       "volume": "volume-i",
-      "part": 1
+      "part": 1,
+      "doors": [],
+      "within_band_order": 6
     },
     {
       "id": "A-20",
@@ -544,7 +588,11 @@
       "has_structural_fix": true,
       "has_standing_control": true,
       "volume": "volume-i",
-      "part": 1
+      "part": 1,
+      "doors": [
+        "The prompt registry as the only loader"
+      ],
+      "within_band_order": 3
     },
     {
       "id": "A-21",
@@ -559,7 +607,9 @@
       "has_structural_fix": false,
       "has_standing_control": true,
       "volume": "volume-i",
-      "part": 1
+      "part": 1,
+      "doors": [],
+      "within_band_order": 7
     },
     {
       "id": "A-22",
@@ -576,7 +626,9 @@
       "has_structural_fix": false,
       "has_standing_control": true,
       "volume": "volume-i",
-      "part": 1
+      "part": 1,
+      "doors": [],
+      "within_band_order": 4
     },
     {
       "id": "A-23",
@@ -593,7 +645,9 @@
       "has_structural_fix": false,
       "has_standing_control": true,
       "volume": "volume-i",
-      "part": 1
+      "part": 1,
+      "doors": [],
+      "within_band_order": 8
     },
     {
       "id": "A-24",
@@ -611,7 +665,9 @@
       "has_structural_fix": false,
       "has_standing_control": true,
       "volume": "volume-i",
-      "part": 1
+      "part": 1,
+      "doors": [],
+      "within_band_order": 4
     },
     {
       "id": "A-25",
@@ -628,7 +684,9 @@
       "has_structural_fix": false,
       "has_standing_control": true,
       "volume": "volume-i",
-      "part": 1
+      "part": 1,
+      "doors": [],
+      "within_band_order": 5
     },
     {
       "id": "A-26",
@@ -646,7 +704,9 @@
       "has_structural_fix": false,
       "has_standing_control": true,
       "volume": "volume-i",
-      "part": 1
+      "part": 1,
+      "doors": [],
+      "within_band_order": 9
     },
     {
       "id": "A-27",
@@ -663,7 +723,9 @@
       "has_structural_fix": false,
       "has_standing_control": true,
       "volume": "volume-i",
-      "part": 1
+      "part": 1,
+      "doors": [],
+      "within_band_order": 10
     },
     {
       "id": "A-28",
@@ -680,7 +742,11 @@
       "has_structural_fix": true,
       "has_standing_control": true,
       "volume": "volume-i",
-      "part": 1
+      "part": 1,
+      "doors": [
+        "A guarded outbound client"
+      ],
+      "within_band_order": 11
     },
     {
       "id": "A-29",
@@ -695,7 +761,11 @@
       "has_structural_fix": true,
       "has_standing_control": true,
       "volume": "volume-i",
-      "part": 1
+      "part": 1,
+      "doors": [
+        "One model gateway"
+      ],
+      "within_band_order": 4
     },
     {
       "id": "A-30",
@@ -710,7 +780,9 @@
       "has_structural_fix": false,
       "has_standing_control": true,
       "volume": "volume-i",
-      "part": 1
+      "part": 1,
+      "doors": [],
+      "within_band_order": 5
     },
     {
       "id": "A-31",
@@ -725,7 +797,11 @@
       "has_structural_fix": true,
       "has_standing_control": true,
       "volume": "volume-i",
-      "part": 1
+      "part": 1,
+      "doors": [
+        "One model gateway"
+      ],
+      "within_band_order": 6
     },
     {
       "id": "A-32",
@@ -742,7 +818,9 @@
       "has_structural_fix": false,
       "has_standing_control": true,
       "volume": "volume-i",
-      "part": 1
+      "part": 1,
+      "doors": [],
+      "within_band_order": 12
     },
     {
       "id": "A-33",
@@ -760,7 +838,9 @@
       "has_structural_fix": false,
       "has_standing_control": true,
       "volume": "volume-i",
-      "part": 1
+      "part": 1,
+      "doors": [],
+      "within_band_order": 6
     },
     {
       "id": "A-34",
@@ -779,7 +859,11 @@
       "has_structural_fix": true,
       "has_standing_control": true,
       "volume": "volume-i",
-      "part": 1
+      "part": 1,
+      "doors": [
+        "One mediated tool gateway"
+      ],
+      "within_band_order": 7
     },
     {
       "id": "A-35",
@@ -797,7 +881,9 @@
       "has_structural_fix": false,
       "has_standing_control": true,
       "volume": "volume-i",
-      "part": 1
+      "part": 1,
+      "doors": [],
+      "within_band_order": 7
     },
     {
       "id": "A-36",
@@ -818,7 +904,9 @@
       "has_structural_fix": false,
       "has_standing_control": true,
       "volume": "volume-i",
-      "part": 1
+      "part": 1,
+      "doors": [],
+      "within_band_order": 8
     },
     {
       "id": "A-37",
@@ -833,7 +921,9 @@
       "has_structural_fix": false,
       "has_standing_control": true,
       "volume": "volume-i",
-      "part": 1
+      "part": 1,
+      "doors": [],
+      "within_band_order": 1
     },
     {
       "id": "A-38",
@@ -851,7 +941,9 @@
       "has_structural_fix": false,
       "has_standing_control": true,
       "volume": "volume-i",
-      "part": 1
+      "part": 1,
+      "doors": [],
+      "within_band_order": 13
     },
     {
       "id": "A-39",
@@ -871,7 +963,9 @@
       "has_structural_fix": false,
       "has_standing_control": true,
       "volume": "volume-i",
-      "part": 1
+      "part": 1,
+      "doors": [],
+      "within_band_order": 2
     },
     {
       "id": "A-40",
@@ -886,7 +980,9 @@
       "has_structural_fix": false,
       "has_standing_control": true,
       "volume": "volume-i",
-      "part": 1
+      "part": 1,
+      "doors": [],
+      "within_band_order": 0
     },
     {
       "id": "B-01",
@@ -903,7 +999,9 @@
       "has_structural_fix": false,
       "has_standing_control": true,
       "volume": "volume-i",
-      "part": 1
+      "part": 1,
+      "doors": [],
+      "within_band_order": 5
     },
     {
       "id": "B-02",
@@ -918,7 +1016,9 @@
       "has_structural_fix": false,
       "has_standing_control": true,
       "volume": "volume-i",
-      "part": 1
+      "part": 1,
+      "doors": [],
+      "within_band_order": 8
     },
     {
       "id": "B-03",
@@ -933,7 +1033,9 @@
       "has_structural_fix": false,
       "has_standing_control": true,
       "volume": "volume-i",
-      "part": 1
+      "part": 1,
+      "doors": [],
+      "within_band_order": 6
     },
     {
       "id": "B-04",
@@ -951,7 +1053,9 @@
       "has_structural_fix": false,
       "has_standing_control": true,
       "volume": "volume-i",
-      "part": 1
+      "part": 1,
+      "doors": [],
+      "within_band_order": 7
     },
     {
       "id": "B-05",
@@ -968,7 +1072,11 @@
       "has_structural_fix": true,
       "has_standing_control": true,
       "volume": "volume-i",
-      "part": 1
+      "part": 1,
+      "doors": [
+        "The prompt registry as the only loader"
+      ],
+      "within_band_order": 9
     },
     {
       "id": "B-06",
@@ -986,7 +1094,9 @@
       "has_structural_fix": false,
       "has_standing_control": true,
       "volume": "volume-i",
-      "part": 1
+      "part": 1,
+      "doors": [],
+      "within_band_order": 0
     },
     {
       "id": "B-07",
@@ -1003,7 +1113,11 @@
       "has_structural_fix": true,
       "has_standing_control": true,
       "volume": "volume-i",
-      "part": 1
+      "part": 1,
+      "doors": [
+        "One typed telemetry emitter"
+      ],
+      "within_band_order": 10
     },
     {
       "id": "B-08",
@@ -1020,7 +1134,11 @@
       "has_structural_fix": true,
       "has_standing_control": true,
       "volume": "volume-i",
-      "part": 1
+      "part": 1,
+      "doors": [
+        "One mediated tool gateway"
+      ],
+      "within_band_order": 14
     },
     {
       "id": "B-09",
@@ -1037,7 +1155,9 @@
       "has_structural_fix": false,
       "has_standing_control": true,
       "volume": "volume-i",
-      "part": 1
+      "part": 1,
+      "doors": [],
+      "within_band_order": 15
     },
     {
       "id": "B-10",
@@ -1055,7 +1175,11 @@
       "has_structural_fix": true,
       "has_standing_control": true,
       "volume": "volume-i",
-      "part": 1
+      "part": 1,
+      "doors": [
+        "Held-out evaluation sets in a store the pipeline has no credential for"
+      ],
+      "within_band_order": 11
     },
     {
       "id": "B-11",
@@ -1073,7 +1197,9 @@
       "has_structural_fix": false,
       "has_standing_control": true,
       "volume": "volume-i",
-      "part": 1
+      "part": 1,
+      "doors": [],
+      "within_band_order": 8
     },
     {
       "id": "B-12",
@@ -1088,7 +1214,9 @@
       "has_structural_fix": false,
       "has_standing_control": true,
       "volume": "volume-i",
-      "part": 1
+      "part": 1,
+      "doors": [],
+      "within_band_order": 12
     },
     {
       "id": "B-13",
@@ -1105,7 +1233,11 @@
       "has_structural_fix": true,
       "has_standing_control": true,
       "volume": "volume-i",
-      "part": 1
+      "part": 1,
+      "doors": [
+        "One model gateway"
+      ],
+      "within_band_order": 13
     },
     {
       "id": "B-14",
@@ -1122,7 +1254,11 @@
       "has_structural_fix": true,
       "has_standing_control": true,
       "volume": "volume-i",
-      "part": 1
+      "part": 1,
+      "doors": [
+        "The prompt registry as the only loader"
+      ],
+      "within_band_order": 9
     },
     {
       "id": "B-15",
@@ -1139,7 +1275,9 @@
       "has_structural_fix": false,
       "has_standing_control": true,
       "volume": "volume-i",
-      "part": 1
+      "part": 1,
+      "doors": [],
+      "within_band_order": 14
     },
     {
       "id": "B-16",
@@ -1156,7 +1294,11 @@
       "has_structural_fix": true,
       "has_standing_control": true,
       "volume": "volume-i",
-      "part": 1
+      "part": 1,
+      "doors": [
+        "One model gateway"
+      ],
+      "within_band_order": 10
     },
     {
       "id": "B-17",
@@ -1173,7 +1315,9 @@
       "has_structural_fix": false,
       "has_standing_control": true,
       "volume": "volume-i",
-      "part": 1
+      "part": 1,
+      "doors": [],
+      "within_band_order": 16
     },
     {
       "id": "B-18",
@@ -1190,7 +1334,9 @@
       "has_structural_fix": false,
       "has_standing_control": true,
       "volume": "volume-i",
-      "part": 1
+      "part": 1,
+      "doors": [],
+      "within_band_order": 11
     },
     {
       "id": "B-19",
@@ -1207,7 +1353,9 @@
       "has_structural_fix": false,
       "has_standing_control": true,
       "volume": "volume-i",
-      "part": 1
+      "part": 1,
+      "doors": [],
+      "within_band_order": 17
     },
     {
       "id": "B-20",
@@ -1225,7 +1373,11 @@
       "has_structural_fix": true,
       "has_standing_control": true,
       "volume": "volume-i",
-      "part": 1
+      "part": 1,
+      "doors": [
+        "Agent split: the agent that reads private data has no egress; the agent with egress never sees private data"
+      ],
+      "within_band_order": 9
     },
     {
       "id": "B-21",
@@ -1242,7 +1394,9 @@
       "has_structural_fix": false,
       "has_standing_control": true,
       "volume": "volume-i",
-      "part": 1
+      "part": 1,
+      "doors": [],
+      "within_band_order": 12
     },
     {
       "id": "B-22",
@@ -1259,7 +1413,11 @@
       "has_structural_fix": true,
       "has_standing_control": true,
       "volume": "volume-i",
-      "part": 1
+      "part": 1,
+      "doors": [
+        "One mediated tool gateway"
+      ],
+      "within_band_order": 10
     },
     {
       "id": "B-23",
@@ -1277,7 +1435,9 @@
       "has_structural_fix": false,
       "has_standing_control": true,
       "volume": "volume-i",
-      "part": 1
+      "part": 1,
+      "doors": [],
+      "within_band_order": 18
     },
     {
       "id": "B-24",
@@ -1294,7 +1454,9 @@
       "has_structural_fix": false,
       "has_standing_control": true,
       "volume": "volume-i",
-      "part": 1
+      "part": 1,
+      "doors": [],
+      "within_band_order": 19
     },
     {
       "id": "B-25",
@@ -1312,7 +1474,11 @@
       "has_structural_fix": true,
       "has_standing_control": true,
       "volume": "volume-i",
-      "part": 1
+      "part": 1,
+      "doors": [
+        "A credential broker that can only mint credentials for the environment it runs in"
+      ],
+      "within_band_order": 20
     },
     {
       "id": "B-26",
@@ -1330,7 +1496,9 @@
       "has_structural_fix": false,
       "has_standing_control": true,
       "volume": "volume-i",
-      "part": 1
+      "part": 1,
+      "doors": [],
+      "within_band_order": 13
     },
     {
       "id": "B-27",
@@ -1348,7 +1516,9 @@
       "has_structural_fix": false,
       "has_standing_control": true,
       "volume": "volume-i",
-      "part": 1
+      "part": 1,
+      "doors": [],
+      "within_band_order": 21
     },
     {
       "id": "B-28",
@@ -1366,7 +1536,9 @@
       "has_structural_fix": false,
       "has_standing_control": true,
       "volume": "volume-i",
-      "part": 1
+      "part": 1,
+      "doors": [],
+      "within_band_order": 15
     },
     {
       "id": "B-29",
@@ -1383,7 +1555,9 @@
       "has_structural_fix": false,
       "has_standing_control": true,
       "volume": "volume-i",
-      "part": 1
+      "part": 1,
+      "doors": [],
+      "within_band_order": 22
     },
     {
       "id": "B-30",
@@ -1400,7 +1574,9 @@
       "has_structural_fix": false,
       "has_standing_control": true,
       "volume": "volume-i",
-      "part": 1
+      "part": 1,
+      "doors": [],
+      "within_band_order": 14
     },
     {
       "id": "B-31",
@@ -1417,7 +1593,9 @@
       "has_structural_fix": false,
       "has_standing_control": true,
       "volume": "volume-i",
-      "part": 1
+      "part": 1,
+      "doors": [],
+      "within_band_order": 16
     },
     {
       "id": "B-32",
@@ -1434,7 +1612,9 @@
       "has_structural_fix": false,
       "has_standing_control": true,
       "volume": "volume-i",
-      "part": 1
+      "part": 1,
+      "doors": [],
+      "within_band_order": 3
     },
     {
       "id": "B-33",
@@ -1451,7 +1631,9 @@
       "has_structural_fix": false,
       "has_standing_control": true,
       "volume": "volume-i",
-      "part": 1
+      "part": 1,
+      "doors": [],
+      "within_band_order": 23
     },
     {
       "id": "B-34",
@@ -1466,7 +1648,11 @@
       "has_structural_fix": true,
       "has_standing_control": true,
       "volume": "volume-i",
-      "part": 1
+      "part": 1,
+      "doors": [
+        "One model gateway"
+      ],
+      "within_band_order": 4
     },
     {
       "id": "B-35",
@@ -1487,7 +1673,11 @@
       "has_structural_fix": true,
       "has_standing_control": true,
       "volume": "volume-i",
-      "part": 1
+      "part": 1,
+      "doors": [
+        "The policy bundle in its own repository, with its own identity and its own write permissions"
+      ],
+      "within_band_order": 15
     },
     {
       "id": "B-36",
@@ -1502,7 +1692,11 @@
       "has_structural_fix": true,
       "has_standing_control": true,
       "volume": "volume-i",
-      "part": 1
+      "part": 1,
+      "doors": [
+        "One model gateway"
+      ],
+      "within_band_order": 16
     },
     {
       "id": "B-37",
@@ -1520,7 +1714,11 @@
       "has_structural_fix": true,
       "has_standing_control": true,
       "volume": "volume-i",
-      "part": 1
+      "part": 1,
+      "doors": [
+        "A derived-store registry"
+      ],
+      "within_band_order": 5
     },
     {
       "id": "B-38",
@@ -1535,7 +1733,11 @@
       "has_structural_fix": true,
       "has_standing_control": true,
       "volume": "volume-i",
-      "part": 1
+      "part": 1,
+      "doors": [
+        "One model gateway"
+      ],
+      "within_band_order": 1
     },
     {
       "id": "B-39",
@@ -1550,7 +1752,9 @@
       "has_structural_fix": false,
       "has_standing_control": true,
       "volume": "volume-i",
-      "part": 1
+      "part": 1,
+      "doors": [],
+      "within_band_order": 6
     },
     {
       "id": "C-01",
@@ -1567,7 +1771,11 @@
       "has_structural_fix": true,
       "has_standing_control": true,
       "volume": "volume-ii",
-      "part": 2
+      "part": 2,
+      "doors": [
+        "Tenancy in the data-access layer"
+      ],
+      "within_band_order": 1
     },
     {
       "id": "C-02",
@@ -1585,7 +1793,9 @@
       "has_structural_fix": true,
       "has_standing_control": true,
       "volume": "volume-ii",
-      "part": 2
+      "part": 2,
+      "doors": [],
+      "within_band_order": 17
     },
     {
       "id": "C-03",
@@ -1602,7 +1812,9 @@
       "has_structural_fix": false,
       "has_standing_control": true,
       "volume": "volume-ii",
-      "part": 2
+      "part": 2,
+      "doors": [],
+      "within_band_order": 11
     },
     {
       "id": "C-04",
@@ -1617,7 +1829,11 @@
       "has_structural_fix": true,
       "has_standing_control": true,
       "volume": "volume-ii",
-      "part": 2
+      "part": 2,
+      "doors": [
+        "A derived-store registry"
+      ],
+      "within_band_order": 2
     },
     {
       "id": "C-05",
@@ -1634,7 +1850,9 @@
       "has_structural_fix": false,
       "has_standing_control": true,
       "volume": "volume-ii",
-      "part": 2
+      "part": 2,
+      "doors": [],
+      "within_band_order": 12
     },
     {
       "id": "C-06",
@@ -1655,7 +1873,11 @@
       "has_structural_fix": true,
       "has_standing_control": true,
       "volume": "volume-ii",
-      "part": 2
+      "part": 2,
+      "doors": [
+        "One mediated tool gateway"
+      ],
+      "within_band_order": 18
     },
     {
       "id": "C-07",
@@ -1672,7 +1894,11 @@
       "has_structural_fix": true,
       "has_standing_control": true,
       "volume": "volume-ii",
-      "part": 2
+      "part": 2,
+      "doors": [
+        "Agent split: the agent that reads private data has no egress; the agent with egress never sees private data"
+      ],
+      "within_band_order": 13
     },
     {
       "id": "C-08",
@@ -1690,7 +1916,12 @@
       "has_structural_fix": true,
       "has_standing_control": true,
       "volume": "volume-ii",
-      "part": 2
+      "part": 2,
+      "doors": [
+        "One mediated tool gateway",
+        "Agent split: the agent that reads private data has no egress; the agent with egress never sees private data"
+      ],
+      "within_band_order": 19
     },
     {
       "id": "C-09",
@@ -1708,7 +1939,9 @@
       "has_structural_fix": true,
       "has_standing_control": true,
       "volume": "volume-ii",
-      "part": 2
+      "part": 2,
+      "doors": [],
+      "within_band_order": 14
     },
     {
       "id": "C-10",
@@ -1725,7 +1958,9 @@
       "has_structural_fix": false,
       "has_standing_control": true,
       "volume": "volume-ii",
-      "part": 2
+      "part": 2,
+      "doors": [],
+      "within_band_order": 20
     },
     {
       "id": "C-11",
@@ -1742,7 +1977,9 @@
       "has_structural_fix": false,
       "has_standing_control": true,
       "volume": "volume-ii",
-      "part": 2
+      "part": 2,
+      "doors": [],
+      "within_band_order": 24
     },
     {
       "id": "C-12",
@@ -1760,7 +1997,11 @@
       "has_structural_fix": true,
       "has_standing_control": true,
       "volume": "volume-ii",
-      "part": 2
+      "part": 2,
+      "doors": [
+        "One mediated tool gateway"
+      ],
+      "within_band_order": 25
     },
     {
       "id": "C-13",
@@ -1775,7 +2016,9 @@
       "has_structural_fix": false,
       "has_standing_control": true,
       "volume": "volume-ii",
-      "part": 2
+      "part": 2,
+      "doors": [],
+      "within_band_order": 17
     },
     {
       "id": "C-14",
@@ -1793,7 +2036,9 @@
       "has_structural_fix": false,
       "has_standing_control": true,
       "volume": "volume-ii",
-      "part": 2
+      "part": 2,
+      "doors": [],
+      "within_band_order": 18
     },
     {
       "id": "C-15",
@@ -1811,7 +2056,9 @@
       "has_structural_fix": false,
       "has_standing_control": true,
       "volume": "volume-ii",
-      "part": 2
+      "part": 2,
+      "doors": [],
+      "within_band_order": 26
     },
     {
       "id": "C-16",
@@ -1829,7 +2076,11 @@
       "has_structural_fix": true,
       "has_standing_control": true,
       "volume": "volume-ii",
-      "part": 2
+      "part": 2,
+      "doors": [
+        "A credential broker that can only mint credentials for the environment it runs in"
+      ],
+      "within_band_order": 27
     },
     {
       "id": "C-17",
@@ -1847,7 +2098,11 @@
       "has_structural_fix": true,
       "has_standing_control": true,
       "volume": "volume-ii",
-      "part": 2
+      "part": 2,
+      "doors": [
+        "One mediated tool gateway"
+      ],
+      "within_band_order": 28
     },
     {
       "id": "C-18",
@@ -1865,7 +2120,9 @@
       "has_structural_fix": false,
       "has_standing_control": true,
       "volume": "volume-ii",
-      "part": 2
+      "part": 2,
+      "doors": [],
+      "within_band_order": 29
     },
     {
       "id": "C-19",
@@ -1882,7 +2139,9 @@
       "has_structural_fix": false,
       "has_standing_control": true,
       "volume": "volume-ii",
-      "part": 2
+      "part": 2,
+      "doors": [],
+      "within_band_order": 19
     },
     {
       "id": "C-20",
@@ -1899,7 +2158,9 @@
       "has_structural_fix": false,
       "has_standing_control": true,
       "volume": "volume-ii",
-      "part": 2
+      "part": 2,
+      "doors": [],
+      "within_band_order": 20
     },
     {
       "id": "C-21",
@@ -1914,7 +2175,9 @@
       "has_structural_fix": false,
       "has_standing_control": true,
       "volume": "volume-ii",
-      "part": 2
+      "part": 2,
+      "doors": [],
+      "within_band_order": 30
     },
     {
       "id": "C-22",
@@ -1931,7 +2194,9 @@
       "has_structural_fix": false,
       "has_standing_control": true,
       "volume": "volume-ii",
-      "part": 2
+      "part": 2,
+      "doors": [],
+      "within_band_order": 31
     },
     {
       "id": "C-23",
@@ -1948,7 +2213,11 @@
       "has_structural_fix": true,
       "has_standing_control": true,
       "volume": "volume-ii",
-      "part": 2
+      "part": 2,
+      "doors": [
+        "One typed telemetry emitter"
+      ],
+      "within_band_order": 21
     },
     {
       "id": "C-24",
@@ -1966,7 +2235,11 @@
       "has_structural_fix": true,
       "has_standing_control": true,
       "volume": "volume-ii",
-      "part": 2
+      "part": 2,
+      "doors": [
+        "One typed telemetry emitter"
+      ],
+      "within_band_order": 32
     },
     {
       "id": "C-25",
@@ -1984,7 +2257,9 @@
       "has_structural_fix": false,
       "has_standing_control": true,
       "volume": "volume-ii",
-      "part": 2
+      "part": 2,
+      "doors": [],
+      "within_band_order": 21
     },
     {
       "id": "C-26",
@@ -2002,7 +2277,9 @@
       "has_structural_fix": false,
       "has_standing_control": true,
       "volume": "volume-ii",
-      "part": 2
+      "part": 2,
+      "doors": [],
+      "within_band_order": 22
     },
     {
       "id": "C-27",
@@ -2017,7 +2294,9 @@
       "has_structural_fix": false,
       "has_standing_control": true,
       "volume": "volume-ii",
-      "part": 2
+      "part": 2,
+      "doors": [],
+      "within_band_order": 15
     },
     {
       "id": "C-28",
@@ -2032,7 +2311,11 @@
       "has_structural_fix": true,
       "has_standing_control": true,
       "volume": "volume-ii",
-      "part": 2
+      "part": 2,
+      "doors": [
+        "A derived-store registry"
+      ],
+      "within_band_order": 33
     },
     {
       "id": "C-29",
@@ -2050,7 +2333,9 @@
       "has_structural_fix": false,
       "has_standing_control": true,
       "volume": "volume-ii",
-      "part": 2
+      "part": 2,
+      "doors": [],
+      "within_band_order": 22
     },
     {
       "id": "C-30",
@@ -2067,7 +2352,9 @@
       "has_structural_fix": false,
       "has_standing_control": true,
       "volume": "volume-ii",
-      "part": 2
+      "part": 2,
+      "doors": [],
+      "within_band_order": 23
     },
     {
       "id": "C-31",
@@ -2082,7 +2369,9 @@
       "has_structural_fix": false,
       "has_standing_control": true,
       "volume": "volume-ii",
-      "part": 2
+      "part": 2,
+      "doors": [],
+      "within_band_order": 7
     },
     {
       "id": "C-32",
@@ -2099,7 +2388,11 @@
       "has_structural_fix": true,
       "has_standing_control": true,
       "volume": "volume-ii",
-      "part": 2
+      "part": 2,
+      "doors": [
+        "A derived-store registry"
+      ],
+      "within_band_order": 24
     },
     {
       "id": "C-33",
@@ -2116,7 +2409,9 @@
       "has_structural_fix": false,
       "has_standing_control": true,
       "volume": "volume-ii",
-      "part": 2
+      "part": 2,
+      "doors": [],
+      "within_band_order": 25
     },
     {
       "id": "C-34",
@@ -2133,7 +2428,11 @@
       "has_structural_fix": true,
       "has_standing_control": true,
       "volume": "volume-ii",
-      "part": 2
+      "part": 2,
+      "doors": [
+        "One model gateway"
+      ],
+      "within_band_order": 34
     },
     {
       "id": "C-35",
@@ -2150,7 +2449,11 @@
       "has_structural_fix": true,
       "has_standing_control": true,
       "volume": "volume-ii",
-      "part": 2
+      "part": 2,
+      "doors": [
+        "Held-out evaluation sets in a store the pipeline has no credential for"
+      ],
+      "within_band_order": 2
     },
     {
       "id": "C-36",
@@ -2165,7 +2468,9 @@
       "has_structural_fix": false,
       "has_standing_control": true,
       "volume": "volume-ii",
-      "part": 2
+      "part": 2,
+      "doors": [],
+      "within_band_order": 26
     },
     {
       "id": "C-37",
@@ -2185,7 +2490,9 @@
       "has_structural_fix": false,
       "has_standing_control": true,
       "volume": "volume-ii",
-      "part": 2
+      "part": 2,
+      "doors": [],
+      "within_band_order": 8
     },
     {
       "id": "C-38",
@@ -2202,7 +2509,9 @@
       "has_structural_fix": false,
       "has_standing_control": true,
       "volume": "volume-ii",
-      "part": 2
+      "part": 2,
+      "doors": [],
+      "within_band_order": 27
     },
     {
       "id": "C-39",
@@ -2217,7 +2526,9 @@
       "has_structural_fix": false,
       "has_standing_control": true,
       "volume": "volume-ii",
-      "part": 2
+      "part": 2,
+      "doors": [],
+      "within_band_order": 3
     },
     {
       "id": "C-40",
@@ -2232,7 +2543,9 @@
       "has_structural_fix": false,
       "has_standing_control": true,
       "volume": "volume-ii",
-      "part": 2
+      "part": 2,
+      "doors": [],
+      "within_band_order": 4
     }
   ]
 }

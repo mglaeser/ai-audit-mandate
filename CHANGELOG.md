@@ -84,6 +84,14 @@ introduced, produced 97 live defects. Volume text and digests are unchanged.
 
 ### Added
 
+- **Door membership and within-band order in the master index.** §5 names both
+  among the per-check fields `audit/00-check-catalogue.json` carries, and neither
+  existed. The §6.5 structural-remediation tables are now parsed — twelve doors
+  across §6.5.1 and §6.5.2, thirty-seven checks, some belonging to more than one
+  — and cross-checked against the count §6.5.1 states about itself. That oracle
+  earned its place immediately: it caught the first parse counting twenty-nine
+  where the prose says twenty-eight, because `A-07` appears parenthetically as
+  "the clone class behind it" rather than as a member.
 - **Negative fixtures.** `npm run schema` previously validated one always-valid
   file, proving nothing about the validator: deleting the code that enforces every
   §5 clause left the suite green. Seven fixtures now assert that each fail-closed

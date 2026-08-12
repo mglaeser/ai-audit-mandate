@@ -115,6 +115,19 @@ const ORDER_TABLE_ROW = new RegExp(
 
 const CHECK_ID = /`([ABC]-\d{2})`/g;
 
+// §6.5's structural-remediation tables. Each row is one move: the bold lead cell
+// names it, the last cell lists the checks it collapses. §5 requires the Phase-0
+// master index to record door membership, so it is parsed rather than restated.
+const DOOR_TABLE_ROW = /^\|\s*\*\*(.+?)\*\*[^|]*\|[^|]*\|([^|]*)\|\s*$/gm;
+
+// Written-out numerals, so the summary sentence in §6.5.1 can be used as an
+// oracle for the parse. Unknown words fail the assert rather than being skipped.
+const NUMBER_WORDS = {
+  one: 1, two: 2, three: 3, four: 4, five: 5, six: 6, seven: 7, eight: 8,
+  nine: 9, ten: 10, eleven: 11, twelve: 12, 'twenty-eight': 28, 'twenty-nine': 29,
+  thirty: 30, 'thirty-one': 31, 'thirty-two': 32,
+};
+
 const bandFor = (priority) =>
   BANDS.find(({ min, max }) => priority >= min && priority <= max)?.band ?? 'UNBANDED';
 
@@ -262,6 +275,70 @@ function assertEscalationSet(source, directlyMarked, assert) {
   return healthy;
 }
 
+// Parse the door tables in §6.5.1 (chokepoints) and §6.5.2 (boundaries), and
+// check the result against the count §6.5.1 states about itself.
+function parseDoors(source, assert) {
+  const start = source.indexOf('### 6.5.1');
+  const end = source.indexOf('### 6.5.3');
+  if (start === -1 || end === -1 || end < start) {
+    assert(false, '§6.5 door tables not found');
+    return { doors: new Map(), healthy: false };
+  }
+
+  const region = source.slice(start, end);
+  const chokepointEnd = region.indexOf('### 6.5.2');
+  const doors = new Map();
+  let chokepointDoors = 0;
+  const chokepointChecks = new Set();
+
+  for (const match of region.matchAll(DOOR_TABLE_ROW)) {
+    const [, rawName, checkCell] = match;
+    // Trim the em-dash gloss that follows several door names.
+    const name = rawName.split(' — ')[0].trim();
+    // Parenthesised ids are annotations, not members: the tenancy door lists
+    // `C-01` and then names "the clone class behind it (`A-07`)". Counting the
+    // annotation is what makes the parse disagree with §6.5.1's own total.
+    const ids = [...checkCell.replace(/\([^)]*\)/g, '').matchAll(CHECK_ID)].map(([, id]) => id);
+    if (ids.length === 0) continue;
+
+    const inChokepoints = match.index < chokepointEnd;
+    if (inChokepoints) {
+      chokepointDoors += 1;
+      for (const id of ids) chokepointChecks.add(id);
+    }
+
+    for (const id of ids) {
+      if (!doors.has(id)) doors.set(id, []);
+      if (!doors.get(id).includes(name)) doors.get(id).push(name);
+    }
+  }
+
+  // "**Seven doors. Twenty-eight checks.**" — the section's own summary.
+  const stated = region.match(/\*\*([A-Za-z-]+) doors\. ([A-Za-z-]+) checks\.\*\*/);
+  let healthy = assert(stated !== null, '§6.5.1 no longer states its door and check counts');
+  if (stated) {
+    const expectedDoors = NUMBER_WORDS[stated[1].toLowerCase()];
+    const expectedChecks = NUMBER_WORDS[stated[2].toLowerCase()];
+    healthy =
+      assert(
+        expectedDoors !== undefined && expectedChecks !== undefined,
+        `§6.5.1 states "${stated[1]} doors, ${stated[2]} checks" and this parser cannot read those numerals`,
+      ) && healthy;
+    healthy =
+      assert(
+        expectedDoors === undefined || chokepointDoors === expectedDoors,
+        `§6.5.1 states ${stated[1]} doors, parsed ${chokepointDoors}`,
+      ) && healthy;
+    healthy =
+      assert(
+        expectedChecks === undefined || chokepointChecks.size === expectedChecks,
+        `§6.5.1 states ${stated[2]} checks across its doors, parsed ${chokepointChecks.size}`,
+      ) && healthy;
+  }
+
+  return { doors, healthy };
+}
+
 // The §7 execution-order tables list every check under its band, with
 // conditional escalations in an italic "— *plus `X` if …*" tail. They are an
 // independent statement of the same facts the check headings carry, so they
@@ -298,6 +375,7 @@ async function build() {
 
   const orderBase = new Map();
   const orderConditional = new Map();
+  const doorsById = new Map();
   let volumeOneSource = null;
 
   for (const volume of VOLUMES) {
@@ -314,6 +392,9 @@ async function build() {
     // the assert needs the full catalogue and runs once the loop has finished.
     if (volume.part === 1) {
       healthy = assertBandTable(source, assert) && healthy;
+      const parsedDoors = parseDoors(source, assert);
+      healthy = parsedDoors.healthy && healthy;
+      for (const [id, names] of parsedDoors.doors) doorsById.set(id, names);
       volumeOneSource = source;
     }
 
@@ -349,6 +430,24 @@ async function build() {
     });
 
     checks.push(...parsed);
+  }
+
+  // §5 requires the Phase-0 master index to carry, per check, its door
+  // membership (§6.5) and its within-band order. Both are derived here so the
+  // scaffolder can project them rather than inventing them.
+  for (const check of checks) {
+    check.doors = doorsById.get(check.id) ?? [];
+  }
+
+  // The §7 queue is worked band by band, highest first, and within a band in id
+  // order. This records each check's position in that queue.
+  const bandCursor = new Map();
+  for (const check of [...checks].sort(
+    (left, right) => right.priority - left.priority || left.id.localeCompare(right.id),
+  )) {
+    const position = bandCursor.get(check.band) ?? 0;
+    check.within_band_order = position;
+    bandCursor.set(check.band, position + 1);
   }
 
   const ids = checks.map((check) => check.id);

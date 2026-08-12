@@ -213,10 +213,7 @@ generated [catalogue](catalogue/checks.json):
 jq -r '.checks[] | select(.has_structural_fix) | "\(.id)  \(.title)"' catalogue/checks.json
 ```
 
-## How deep to go
-
-All three levels run all 119 checks — a check you skip is a denominator you
-quietly shrank. What separates them is whether a control **executes**.
+## What each level leaves behind
 
 | | Level 1 | Level 2 | Level 3 |
 | --- | --- | --- | --- |
@@ -224,8 +221,9 @@ quietly shrank. What separates them is whether a control **executes**.
 | Constitution | none | in force | ratified |
 | Clears production | no | no | when computed |
 
-A described control is a claim. A running control is a fact. A calibrated control
-is a fact that stays true after you stop paying attention.
+Only the last column can ever reach a production clearance, and even there the
+answer is computed rather than granted. [The full comparison](docs/adoption-levels.md)
+sets out what each level costs.
 
 ## Repository layout
 

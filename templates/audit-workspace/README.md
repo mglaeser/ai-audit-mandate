@@ -1,8 +1,10 @@
 # Audit workspace
 
-Copy this directory to `audit/` in the repository under audit. The files are
-numbered in the order the phases produce them, so the directory listing reads as
-the engagement's own timeline.
+Run `node scripts/new-engagement.mjs --target <repository>` to create `audit/`.
+That writes this README, the seeded catalogue, the findings file and the status
+file; the phases produce the rest, and Volume I §8 specifies each one more fully
+than a stub could. The files are numbered in the order the phases produce them,
+so the directory listing reads as the engagement's own timeline.
 
 | File | Phase | What it holds |
 | --- | --- | --- |

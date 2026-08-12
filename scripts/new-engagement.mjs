@@ -165,6 +165,11 @@ const seeded = {
     // metadata, so a re-band cannot be argued after the fact.
     escalation: check.escalation,
     has_structural_fix: check.has_structural_fix,
+    // §5 names door membership (§6.5) and within-band order among the fields the
+    // master index carries, alongside the volume that defines the check.
+    doors: check.doors,
+    within_band_order: check.within_band_order,
+    volume: check.volume,
     state: check.part === 1 ? 'active' : 'planned-extension: part2',
   })),
 };

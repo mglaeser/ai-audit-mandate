@@ -32,6 +32,8 @@ disagrees with the prose that states them, the build fails and refuses to write.
 | `substitutions` | The substitution principles the check names **in its heading trailer** — in practice `S1`–`S6` and `S8`–`S10`. Section-level principles (`S7` commentary, `S11` ratchet, `S12` calibration, `S13` structural fix) are stated in check bodies rather than trailers, so they never appear here; `S13` is surfaced by `has_structural_fix`. |
 | `has_structural_fix` | Whether the check carries an `S13` refactor that makes the defect unrepresentable. |
 | `has_standing_control` | Whether permanent machinery is defined. Always `true` — a check without one could never be recorded as `PASS`. |
+| `doors` | The §6.5 structural moves that collapse this check, by name. Empty for most; a check can belong to more than one. Parsed from §6.5.1 and §6.5.2, and cross-checked against the count §6.5.1 states about itself. |
+| `within_band_order` | Position in the §7 remediation queue for its band, counting from 0. |
 | `volume` / `part` | Which volume defines the check. |
 
 ## Querying
