@@ -22,62 +22,80 @@ It is not a checklist you tick. Every finding closes with a control you have
 
 ## Start in one paste
 
-Three depths. Pick one, paste its line into your coding agent, and it reads the
-full instructions from here and starts working.
+The mandate runs at three depths. Find your row, paste that line into your coding
+agent, and it reads the full instructions from here and starts working.
 
-### Level 1 · Baseline — *what is actually true here?*
+| If this is true of your repository | Start at |
+| --- | --- |
+| It cannot reach production — no live credentials, no real user data | [**Level 1**](#level-1--baseline) |
+| It serves real users, and nobody reads the diffs | [**Level 2**](#level-2--governed) |
+| It must outlive you, and you can field a second-vendor verifier | [**Level 3**](#level-3--standing-regime) |
 
-An honest inventory. All 119 checks get a verdict backed by evidence. Nothing in
-your repository changes.
+What separates them is not how many checks you run. Every serious engagement runs
+all 119. It is whether a control **executes**: described, then running, then
+proven to still be running.
+
+### Level 1 · Baseline
+
+**Finds out what is true.** Every check gets a verdict backed by an artifact
+someone else can re-examine, and every claim your repository makes about itself
+is reconciled against the code. Nothing changes.
 
 ```text
 Read https://github.com/mglaeser/ai-audit-mandate/blob/main/docs/prompts/level-1-baseline.md and execute it against this repository.
 ```
 
-> Adds an `audit/` folder of findings. **No** new code, **no** new tests.
-> Usually **1–3 pull requests**, done in an afternoon.
+Leaves an `audit/` folder behind. No new code, no new tests. An afternoon,
+usually 1–3 pull requests.
 
-### Level 2 · Governed — *what is true, and what keeps it true?*
+### Level 2 · Governed
 
-The findings become gates. Your CI starts refusing the mistakes the audit found,
-and deploy admission fails closed.
+**Makes the findings block.** The audit's conclusions become gates: CI starts
+refusing the mistakes it found, and deploy admission fails closed. Each described
+control becomes a running one.
 
 ```text
 Read https://github.com/mglaeser/ai-audit-mandate/blob/main/docs/prompts/level-2-governed.md and execute it against this repository.
 ```
 
-> Adds roughly **10–25 small control scripts** (a secret scanner, a
-> dependency-existence check, an authorisation-coverage gate…) and **15–200 new
-> tests**, one per fix. Usually **10–25 pull requests** over a few days.
+Leaves 10–25 control scripts and 15–200 tests behind, one per fix. A few days,
+usually 10–25 pull requests.
 
-### Level 3 · Standing regime — *what survives everyone leaving?*
+> [!TIP]
+> Level 2 is the honest ceiling for a single-operator project, and a respectable
+> place to stop — provided you write down *why* you stopped.
 
-The controls start proving themselves. Seeded defects are re-injected on a
-schedule, the gate self-tests, and baselines can only improve.
+### Level 3 · Standing regime
+
+**Proves the controls still block.** Seeded defects are re-injected on a
+schedule, the gate carries a self-test that fails when it stops catching, and
+baselines may only improve. A running control becomes a calibrated one.
 
 ```text
 Read https://github.com/mglaeser/ai-audit-mandate/blob/main/docs/prompts/level-3-standing-regime.md and execute it against this repository.
 ```
 
-> Adds **25–30 control scripts** plus calibration and verification machinery, and
-> **200–2,000 new tests** — the controls get tested too. Usually **30–60 pull
-> requests** over weeks.
+Leaves 25–30 control scripts and 200–2,000 tests behind, because the controls get
+tested too. Weeks, usually 30–60 pull requests. It needs an independent verifier
+from a second vendor and a scheduled runner — if you cannot field both, Level 2
+with the gap recorded is the stronger and more truthful outcome.
 
-**Which one?** Level 1 if the repository cannot reach production. Level 2 if it is
-real but single-operator — the honest ceiling for most projects. Level 3 if you
-can field an independent verifier from a second vendor and a scheduled runner.
-[Compare them side by side](docs/adoption-levels.md).
+Levels are cumulative and resumable: Level 2 starts from Level 1's findings
+rather than re-deriving them. [Compare the three side by side](docs/adoption-levels.md).
 
-*Figures are what four real implementations of this mandate actually added,
-counting individual tests rather than lines of test code. The wide range is real:
-a project that builds its own verification infrastructure wrote 2,000 tests; one
-that configured existing tools wrote 15.*
+> [!IMPORTANT]
+> Whichever you start, do not fix anything before Phase 3 completes. A fix
+> applied during discovery destroys the evidence that justified it.
 
-Prefer to drive it yourself?
+<details>
+<summary><b>Prefer to drive it yourself, without an agent?</b></summary>
+
+Scaffold the workspace directly and work the phases by hand:
 
 ```bash
 git clone https://github.com/mglaeser/ai-audit-mandate.git
 cd ai-audit-mandate
+npm ci
 node scripts/new-engagement.mjs --target ../your-repository
 ```
 
@@ -89,15 +107,18 @@ new-engagement: scaffolded ../your-repository/audit
 
 Your repository now has an `audit/` workspace where every check starts at
 `NO-EVIDENCE` and `production_eligible` reads `false`. Both are correct. Unknown
-is not neutral — it fails closed, and it keeps failing closed until evidence says
+is not neutral — it fails closed, and keeps failing closed until evidence says
 otherwise.
 
 Then read [Volume I](mandate/01-foundation-and-core-tracks.md) before you touch
 anything, and work the phases in order.
 
-> [!IMPORTANT]
-> Do not fix anything before Phase 3 completes. A fix applied during discovery
-> destroys the evidence that justified it.
+</details>
+
+*Effort figures are what four real implementations of this mandate actually
+added, counting individual test cases rather than lines of test code. The spread
+is real: a project that builds its own verification infrastructure wrote 2,023
+tests; one that configured existing tools wrote 15.*
 
 ## The problem this solves
 

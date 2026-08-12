@@ -96,6 +96,18 @@ number of unconditional `STOP-SHIP` checks; re-pin before relying on it.
 
 ### Changed
 
+- **The start section now routes the reader before it explains anything.** It
+  previously presented three levels in sequence and put the "which one?" guidance
+  last, so choosing required reading all three. A visitor now meets a three-row
+  table — one condition each, the level as a link — and jumps to theirs. The rows
+  are mutually exclusive: Level 3's row carries the capability that actually
+  gates it, so a reader who cannot field a second-vendor verifier is routed to
+  Level 2, which is what the mandate says.
+- Each level now leads with a verb rather than a noun — *finds out what is true*,
+  *makes the findings block*, *proves the controls still block* — which is the
+  described → running → calibrated progression stated in the reader's terms.
+- The manual, agent-free path moved into a collapsed block so it no longer
+  competes with the three levels, and gained the `npm ci` step it was missing.
 - `catalogue/checks.json` drops the misleading `escalates` boolean and gains
   `escalation`, an object carrying the target band and the condition that
   triggers it. The Phase-0 workspace manifest now carries it too, as §5 requires.
