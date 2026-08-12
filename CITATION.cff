@@ -7,7 +7,7 @@ authors:
     website: "https://github.com/mglaeser"
 repository-code: "https://github.com/mglaeser/ai-audit-mandate"
 url: "https://github.com/mglaeser/ai-audit-mandate"
-version: 2.2.1
+version: 2.3.0
 license: CC-BY-4.0
 keywords:
   - software audit

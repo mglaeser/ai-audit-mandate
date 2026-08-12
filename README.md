@@ -84,7 +84,7 @@ node scripts/new-engagement.mjs --target ../your-repository
 ```text
 new-engagement: scaffolded ../your-repository/audit
   119 checks seeded at NO-EVIDENCE (79 active, 40 registered for Volume II)
-  mandate pinned at sha256:c381de21…
+  mandate pinned at sha256:60ad9a3f…
 ```
 
 Your repository now has an `audit/` workspace where every check starts at
@@ -157,9 +157,9 @@ flowchart LR
 | **Clears production?** | **Never** | Only this volume can |
 
 Volume I is standalone-complete but is not the whole mandate. It builds the
-apparatus; Volume II extends it and cannot substitute for it. The unconditional
-`STOP-SHIP` checks live in Track C, and no volume that has not audited them may
-clear traffic past them.
+apparatus; Volume II extends it and cannot substitute for it. Two of the three
+unconditional `STOP-SHIP` checks live in Track C, and no volume that has not
+audited them may clear traffic past them.
 
 That constraint is not a sentence a reader can skim. It is a computed field in
 `audit/engagement-status.json` that a deploy gate reads and fails closed on.
@@ -168,11 +168,13 @@ That constraint is not a sentence a reader can skim. It is a computed field in
 
 | Band | Priority | Count | Effect |
 | --- | --- | --- | --- |
-| `STOP-SHIP` | escalated | 3 direct, 2 conditional | No production traffic |
-| `BLOCKER-1` | 9–10 | 19 | Blocks release |
-| `BLOCKER-2` | 7–8 | 58 | Blocks release |
-| `MUST-FIX` | 5–6 | 37 | Fix, or a dated residual record with a tripwire |
-| `SHOULD-FIX` | 3–4 | 5 | Planned |
+| `STOP-SHIP` | 10, or escalated | 3 direct, 6 conditional | No production traffic |
+| `BLOCKER-1` | 9 | 16 | Blocks release |
+| `BLOCKER-2` | 8 | 23 | Blocks release |
+| `MUST-FIX` | 7 | 35 | Fix, or a dated residual record with a tripwire |
+| `SHOULD-FIX` | 6 | 28 | Fix, or schedule with a date and a tripwire |
+| `PLAN` | 5 | 9 | Backlog with written rationale |
+| `ASSESS` | ≤4 | 5 | Assess, document materiality |
 
 Browse everything in the [check index](docs/check-index.md), or query the
 generated [catalogue](catalogue/checks.json):
@@ -206,8 +208,10 @@ is a fact that stays true after you stop paying attention.
 | [`scripts/`](scripts) | Catalogue extraction, manifest generation, engagement scaffolding. |
 
 The prose is authoritative and the JSON is derived — never the reverse. `npm run
-verify` regenerates both and fails if either drifted, so the catalogue cannot
-quietly disagree with the volume that defines it.
+verify` regenerates both and fails if either drifted. Byte comparison alone would
+only prove the catalogue matches today's extractor, so the build additionally
+asserts the extracted bands and escalations against the mandate's own §3 and §7
+tables, and refuses to write a catalogue that disagrees with them.
 
 ## Integrity
 
@@ -221,7 +225,7 @@ npm run verify
 
 ```text
 build-catalogue: catalogue is current (119 checks).
-build-manifest: manifest is current (combined sha256:c381de21…).
+build-manifest: manifest is current (combined sha256:60ad9a3f…).
 ```
 
 A mandate that shifts mid-engagement is an engagement with no fixed denominator.

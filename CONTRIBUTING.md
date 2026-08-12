@@ -30,11 +30,13 @@ Two corollaries:
 
 ## Development setup
 
-The tooling is dependency-free and needs only Node.js 20 or newer.
+The build scripts are dependency-free and need only Node.js 20 or newer. The
+Markdown linter is a single pinned dev dependency, so install it first.
 
 ```bash
 git clone https://github.com/mglaeser/ai-audit-mandate.git
 cd ai-audit-mandate
+npm ci
 npm run verify
 ```
 

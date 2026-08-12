@@ -1,0 +1,167 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/mglaeser/ai-audit-mandate/blob/main/catalogue/finding-record.schema.json",
+  "title": "Finding record",
+  "description": "One record in audit/03-findings.json, as defined by Volume I §5. The conditional rules at the bottom are the mandate's own fail-closed clauses, encoded so they execute rather than merely being written down.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "title", "priority", "band", "verdict"],
+  "properties": {
+    "$schema": { "type": "string" },
+    "_comment": { "type": "string" },
+    "id": { "type": "string", "pattern": "^[ABC]-[0-9]{2}$" },
+    "title": { "type": "string" },
+    "priority": { "type": "integer", "minimum": 1, "maximum": 10 },
+    "band": {
+      "type": "string",
+      "enum": ["STOP-SHIP", "BLOCKER-1", "BLOCKER-2", "MUST-FIX", "SHOULD-FIX", "PLAN", "ASSESS"]
+    },
+    "verdict": {
+      "type": "string",
+      "enum": ["PASS", "FAIL", "PARTIAL", "NO-EVIDENCE", "NOT-APPLICABLE"]
+    },
+    "probe": { "type": ["string", "null"] },
+    "evidence": { "type": "array", "items": { "type": "string" } },
+    "claim_conflict": { "type": ["string", "null"] },
+    "impact": { "type": ["string", "null"] },
+    "clone_sweep": { "type": ["string", "null"] },
+    "human_dependency": { "type": ["string", "null"] },
+    "substitutions_applied": {
+      "type": "array",
+      "items": { "type": "string", "pattern": "^S[0-9]{1,2}$" }
+    },
+    "structural_fix": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "required": ["available", "taken"],
+      "properties": {
+        "available": { "type": "boolean" },
+        "move": { "type": ["string", "null"] },
+        "collapses": { "type": "array", "items": { "type": "string" } },
+        "taken": { "type": "boolean" },
+        "standing_control_avoided": { "type": ["string", "null"] },
+        "rationale": { "type": ["string", "null"] }
+      }
+    },
+    "fix": { "type": ["string", "null"] },
+    "fix_change": { "type": ["string", "null"] },
+    "verification": { "type": ["string", "null"] },
+    "mutation_score": { "type": ["string", "null"] },
+    "standing_control": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "properties": {
+        "mechanism": { "type": ["string", "null"] },
+        "cadence": { "type": ["string", "null"] },
+        "ratchet": { "type": ["string", "null"] },
+        "calibration": { "type": ["string", "null"] },
+        "blocks_on_breach": { "type": ["string", "null"] },
+        "owning_role": { "type": ["string", "null"] },
+        "demonstrated": { "type": ["string", "null"] }
+      }
+    },
+    "independent_verifier": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "properties": {
+        "model": { "type": ["string", "null"] },
+        "vendor": { "type": ["string", "null"] },
+        "objective": { "type": ["string", "null"] },
+        "attempted": { "type": "array", "items": { "type": "string" } },
+        "outcome": { "type": ["string", "null"] }
+      }
+    },
+    "gate_decision": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "properties": {
+        "policy_bundle": { "type": ["string", "null"] },
+        "conditions": { "type": ["object", "null"] },
+        "result": { "type": ["string", "null"] }
+      }
+    },
+    "attestation": { "type": ["string", "null"] },
+    "na_justification": { "type": ["string", "null"] },
+    "residual_risk": { "type": ["string", "null"] },
+    "compensating_control": { "type": ["string", "null"] },
+    "tripwire": { "type": ["string", "null"] }
+  },
+  "allOf": [
+    {
+      "$comment": "§5: any non-null residual_risk requires a non-null compensating_control AND a non-null tripwire. A record with a risk and neither is itself a finding.",
+      "if": {
+        "type": "object",
+        "required": ["residual_risk"],
+        "properties": { "residual_risk": { "not": { "type": "null" } } }
+      },
+      "then": {
+        "type": "object",
+        "required": ["compensating_control", "tripwire"],
+        "properties": {
+          "compensating_control": { "not": { "type": "null" } },
+          "tripwire": { "not": { "type": "null" } }
+        }
+      }
+    },
+    {
+      "$comment": "§5: if structural_fix.available is true and taken is false, rationale may not be null. Choosing to police forever rather than make the defect unrepresentable is a decision with a permanent cost, and must be stated. Scoped to a decided finding: at NO-EVIDENCE nothing has been declined yet, so a freshly scaffolded record is not in breach.",
+      "if": {
+        "type": "object",
+        "required": ["verdict", "structural_fix"],
+        "properties": {
+          "verdict": { "not": { "const": "NO-EVIDENCE" } },
+          "structural_fix": {
+            "type": "object",
+            "required": ["available", "taken"],
+            "properties": {
+              "available": { "const": true },
+              "taken": { "const": false }
+            }
+          }
+        }
+      },
+      "then": {
+        "type": "object",
+        "properties": {
+          "structural_fix": {
+            "type": "object",
+            "required": ["rationale"],
+            "properties": { "rationale": { "not": { "type": "null" } } }
+          }
+        }
+      }
+    },
+    {
+      "$comment": "§5: standing_control may not be null on any PASS, and standing_control.demonstrated may not be null either. A control you have not watched block something is a control you are hoping about.",
+      "if": {
+        "type": "object",
+        "required": ["verdict"],
+        "properties": { "verdict": { "const": "PASS" } }
+      },
+      "then": {
+        "type": "object",
+        "required": ["standing_control"],
+        "properties": {
+          "standing_control": {
+            "type": "object",
+            "required": ["demonstrated"],
+            "properties": { "demonstrated": { "not": { "type": "null" } } }
+          }
+        }
+      }
+    },
+    {
+      "$comment": "§5: NOT-APPLICABLE requires na_justification.",
+      "if": {
+        "type": "object",
+        "required": ["verdict"],
+        "properties": { "verdict": { "const": "NOT-APPLICABLE" } }
+      },
+      "then": {
+        "type": "object",
+        "required": ["na_justification"],
+        "properties": { "na_justification": { "not": { "type": "null" } } }
+      }
+    }
+  ]
+}

@@ -1,5 +1,4 @@
 {
-  "$schema": "./manifest.schema.json",
   "catalogue_version": "2.0",
   "generated_by": "scripts/build-manifest.mjs",
   "note": "Integrity manifest for the two mandate volumes. The combined hash covers the deterministic concatenation of the parts, joined by the separator below.",
@@ -11,8 +10,8 @@
       "path": "mandate/01-foundation-and-core-tracks.md",
       "title": "Foundation and Core Tracks",
       "scope": "Track A + Track B (79 checks), execution protocol, standing regime, Constitution",
-      "bytes": 278405,
-      "sha256": "sha256:dee659438b8fe1e40d8cff0d37c691f8e9a4181f641db5b6c25e99aca9a460dd"
+      "bytes": 278493,
+      "sha256": "sha256:f0aff08aaf82b767bea05916f1dfa2173261faaf1c68a3bf42e93b521b61673a"
     },
     {
       "id": "volume-ii",
@@ -20,12 +19,12 @@
       "path": "mandate/02-security-privacy-assurance.md",
       "title": "Security, Privacy and Assurance",
       "scope": "Track C (40 checks), closing definition of done",
-      "bytes": 112011,
-      "sha256": "sha256:9a906d415341eea37b081bf4d3b169d09a8a0551077e1c14a5c502e35eb8bba0"
+      "bytes": 112017,
+      "sha256": "sha256:5a6fc70b43fb1eb74829b4a775f9103b9a0dd6ad5151829914599a7850f1c8bc"
     }
   ],
   "combined": {
-    "sha256": "sha256:c381de215fdda59e7a9c1ea856144edbdcfdd39b0d169d84495d622756099c52"
+    "sha256": "sha256:60ad9a3f9f9fea23de672651e05c732f985ba003ec4639dd770593e11354a8b9"
   },
   "catalogue_file": {
     "path": "catalogue/checks.json",

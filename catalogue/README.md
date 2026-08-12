@@ -5,9 +5,17 @@ is **generated** from the mandate prose by
 [`scripts/build-catalogue.mjs`](../scripts/build-catalogue.mjs) — do not edit it
 by hand.
 
-The prose is the source of truth. If the two ever disagree, the prose is right
-and the catalogue is stale; `npm run verify` fails in exactly that case, which is
-the point.
+The prose is the source of truth. `npm run verify` regenerates the catalogue from
+the volumes and fails if the committed file was hand-edited, or was not
+regenerated after the prose changed.
+
+Be precise about what that does and does not guarantee. `verify` compares bytes,
+not meaning: it proves the catalogue is what the extractor produces from today's
+prose, so a normative statement the extractor never parses cannot be caught by it
+alone. That gap is closed separately, by asserting the extracted data against a
+second, independent statement of the same facts — the §7 execution-order tables
+and the §3 band table. If the derived band, the escalation set or the check count
+disagrees with the prose that states them, the build fails and refuses to write.
 
 ## Fields
 
@@ -15,10 +23,12 @@ the point.
 | --- | --- |
 | `id` | `TRACK-NN`, for example `C-01`. |
 | `track` | `A`, `B` or `C`. |
+| `title` | The check name, as written in the heading. |
 | `priority` | 1–10, as stated in the check heading. |
-| `band` | Derived from priority: `BLOCKER-1` at 9–10 down to `ADVISORY` at 1–2. |
+| `band` | The base band, derived from priority per Volume I §3: `STOP-SHIP` at 10, down to `ASSESS` at ≤4. Always the base band — escalations are recorded, not applied. |
 | `stop_ship` | Whether the check can stop a ship, by either route. |
 | `stop_ship_class` | `direct` — marked unconditionally, holds production down from Phase 0. `conditional` — escalates when its stated condition holds. |
+| `escalation` | `{ to, condition }` when §3 states a condition that re-bands the check, otherwise `null`. |
 | `substitutions` | Which substitution principles (`S1`–`S13`) the check invokes. |
 | `has_structural_fix` | Whether the check carries an `S13` refactor that makes the defect unrepresentable. |
 | `has_standing_control` | Whether permanent machinery is defined. Always `true` — a check without one could never be recorded as `PASS`. |

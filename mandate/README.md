@@ -18,9 +18,10 @@ builds the apparatus — the regime, the constitution, the gates — that Volume
 extends rather than re-derives.
 
 Volume II opens by verifying that Volume I actually happened, and stops if it did
-not. It is also the only volume that can clear production: Track C holds the
-unconditional `STOP-SHIP` checks, and a volume that has not audited them is not
-entitled to clear traffic past them.
+not. It is also the only volume that can clear production: Track C holds two of
+the three unconditional `STOP-SHIP` checks (`C-01` and `C-04`; the third, `B-06`,
+Volume I closes), and a volume that has not audited them is not entitled to clear
+traffic past them.
 
 ## Why the files carry hashes
 

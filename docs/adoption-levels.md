@@ -13,7 +13,7 @@ Constitution already defines in Article XV.
 | **Repository class** | Experimental | Incubating | Production |
 | **Question it answers** | What is actually true here? | What is true, and what keeps it true? | What survives everyone leaving? |
 | **Checks run** | 119, triaged | 119, evidenced | 119, evidenced and re-verified |
-| **Volumes** | I | I, then II | I, then II, then ratification |
+| **Volumes** | I, plus II's catalogue | I, then II | I, then II, then ratification |
 | **Controls** | recommended, not built | executable, blocking merges | blocking, self-testing, calibrated |
 | **Constitution** | none | `IN_FORCE_PROVISIONAL` | `RATIFIED` |
 | **Clears production** | no | no | yes, when computed |

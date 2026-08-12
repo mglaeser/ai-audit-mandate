@@ -63,8 +63,9 @@ first; report it in the executive summary; never round it up.
 ## 4. Close Volume I, then start Volume II
 
 Volume I is complete for its scope when its Definition of Done is met. It still
-cannot clear production — Track C holds the unconditional `STOP-SHIP` checks, and
-a volume that has not audited them is not entitled to clear traffic past them.
+cannot clear production — Track C holds two of the three unconditional
+`STOP-SHIP` checks, and a volume that has not audited them is not entitled to
+clear traffic past them.
 
 [Volume II](../mandate/02-security-privacy-assurance.md) opens by verifying that
 Volume I actually happened. If the interval between them was not clean — if the

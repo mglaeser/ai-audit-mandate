@@ -2,7 +2,7 @@
 ## Due-Diligence and Remediation Mandate · Part 2 of 2 — Security, Privacy and Assurance
 ### The Track C catalogue — 40 of the mandate's 119 checks, executed after Part 1 closes, as catalogue v2.0 on the regime Part 1 leaves standing, under the Constitution Part 1 ratified and this volume amends and re-ratifies
 
-> **Volume II of II.** Carries Track C — 40 security, privacy and assurance checks, including the mandate's only two
+> **Volume II of II.** Carries Track C — 40 security, privacy and assurance checks, including two of the mandate's three
 > unconditional `STOP-SHIP` items. It does not re-derive the apparatus; it verifies that
 > [Volume I](01-foundation-and-core-tracks.md) established it, then extends the catalogue to v2.0.
 > This is the only volume that can flip `production_eligible` to `true`.
@@ -387,7 +387,7 @@ Verifying that a standing door holds for a Track C case is real work — measure
 
 ## Execution order — Track C
 
-The normative order for this volume's engagement — catalogue v2.0's 40 new checks, in the same six bands defined in Part 1 §3 and §7. Work in this order; do not start a lower band while a higher one has open findings, except where a lower-band fix is a stated dependency of a higher-band one. Findings this volume's work surfaces in Track A/B territory are not out of scope: the regime auto-files them (Part 1 §9), and they join this same queue at their band.
+The normative order for this volume's engagement — catalogue v2.0's 40 new checks, in the same seven bands defined in Part 1 §3 and §7. Work in this order; do not start a lower band while a higher one has open findings, except where a lower-band fix is a stated dependency of a higher-band one. Findings this volume's work surfaces in Track A/B territory are not out of scope: the regime auto-files them (Part 1 §9), and they join this same queue at their band.
 
 | Band | Priority | Checks |
 |---|---|---|

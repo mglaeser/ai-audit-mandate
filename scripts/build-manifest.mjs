@@ -43,7 +43,6 @@ const sources = await Promise.all(
 const catalogue = JSON.parse(await readFile(join(root, 'catalogue/checks.json'), 'utf8'));
 
 const manifest = {
-  $schema: './manifest.schema.json',
   catalogue_version: catalogue.catalogue_version,
   generated_by: 'scripts/build-manifest.mjs',
   note:

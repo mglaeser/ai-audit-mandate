@@ -1,5 +1,6 @@
 {
-  "_comment": "One finding record, matching the schema in Volume I §5. Findings live as an array in audit/03-findings.json — one object per check, all 119 present. A check with no standing_control cannot be recorded as PASS.",
+  "$schema": "../catalogue/finding-record.schema.json",
+  "_comment": "One finding record. The key set and types are those of the schema in Volume I §5, and scripts/check-finding-shape.mjs enforces that in CI. Findings live as an array in audit/03-findings.json — one object per check. A check with no standing_control cannot be recorded as PASS.",
   "id": "C-01",
   "title": "Core application security",
   "priority": 10,
@@ -10,17 +11,23 @@
     "Concrete, checkable artifacts: file paths, line ranges, request/response pairs, run identifiers.",
     "Not impressions. Not 'appears to'. An assertion with no artifact behind it is NO-EVIDENCE."
   ],
-  "clone_sweep": {
-    "pattern": "The repository-wide search that proves this defect class has no survivors.",
-    "instances_found": 0,
-    "instances_fixed": 0,
-    "note": "A finding stays open while a clone of it remains."
-  },
+  "claim_conflict": "The claim the repository makes about itself that this finding contradicts, quoted. Null if none.",
+  "impact": "What an attacker, a regulator or a user actually gets. Not a severity word — a consequence.",
+  "clone_sweep": "The repository-wide search that proves this defect class has no survivors, and what it returned. A finding stays open while a clone of it remains.",
+  "human_dependency": "None — or name the control that rested on a person, and cite the S-substitution applied.",
+  "substitutions_applied": ["S1", "S3", "S13"],
   "structural_fix": {
+    "available": true,
+    "move": "The refactor that makes the defect unrepresentable rather than detectable.",
+    "collapses": ["C-01", "A-07"],
     "taken": false,
-    "description": "The refactor that makes the defect unrepresentable rather than detectable.",
-    "declined_reason": "If not taken, say why here — and register the standing control that runs forever instead. A 'no' arrived at by default rather than by decision is itself a finding."
+    "standing_control_avoided": "The policing this move would retire, forever.",
+    "rationale": "If available and not taken, say why here. A 'no' arrived at by default rather than by decision is itself a finding."
   },
+  "fix": "What was changed, in one sentence.",
+  "fix_change": "The branch, commit or pull request carrying it.",
+  "verification": "The test command and its before/after result — red before, green after, with exit codes.",
+  "mutation_score": "The score on the touched module, and the threshold. Proves the test can actually fail.",
   "standing_control": {
     "mechanism": "The permanent machinery that keeps this true after the audit leaves.",
     "cadence": "every merge | nightly | weekly",
@@ -30,14 +37,29 @@
     "owning_role": "platform-security",
     "demonstrated": "Evidence you WATCHED it block something: re-introduce the defect, record the refusal. A control you have not seen fire is a control you are hoping about."
   },
-  "verification": {
-    "failing_test": "The test that went red before the fix.",
-    "passing_test": "The same test, green after.",
-    "mutation_score": null,
-    "independent_verifier": "Model/vendor that did not write the fix and tried to falsify it.",
-    "gate_decision": "The deterministic gate's verdict — not a model's opinion."
+  "independent_verifier": {
+    "model": "A model that did not write the fix.",
+    "vendor": "A different vendor from the one that wrote it.",
+    "objective": "falsify",
+    "attempted": ["The bypasses it actually tried, named individually."],
+    "outcome": "no bypass found"
   },
+  "gate_decision": {
+    "policy_bundle": "policy@v3.2.1",
+    "conditions": {
+      "red_to_green": true,
+      "suite_green": true,
+      "mutation_ok": true,
+      "clone_sweep_clean": true,
+      "standing_control_demonstrated": true,
+      "no_new_capability": true,
+      "constitution_conform": true
+    },
+    "result": "PASS"
+  },
+  "attestation": "sha256:… signed provenance: model, prompt hash, spec id, policy bundle, evidence set.",
+  "na_justification": null,
   "residual_risk": null,
-  "baseline_commit": null,
-  "verified_at": null
+  "compensating_control": null,
+  "tripwire": null
 }

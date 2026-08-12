@@ -1,5 +1,4 @@
 {
-  "$schema": "./checks.schema.json",
   "catalogue_version": "2.0",
   "generated_by": "scripts/build-catalogue.mjs",
   "note": "Generated from the mandate prose. Edit the volumes, then regenerate; never edit this file by hand.",
@@ -32,7 +31,7 @@
         "B"
       ],
       "check_count": 79,
-      "sha256": "dee659438b8fe1e40d8cff0d37c691f8e9a4181f641db5b6c25e99aca9a460dd"
+      "sha256": "f0aff08aaf82b767bea05916f1dfa2173261faaf1c68a3bf42e93b521b61673a"
     },
     {
       "id": "volume-ii",
@@ -43,7 +42,7 @@
         "C"
       ],
       "check_count": 40,
-      "sha256": "9a906d415341eea37b081bf4d3b169d09a8a0551077e1c14a5c502e35eb8bba0"
+      "sha256": "5a6fc70b43fb1eb74829b4a775f9103b9a0dd6ad5151829914599a7850f1c8bc"
     }
   ],
   "totals": {
@@ -53,10 +52,13 @@
       "C": 40
     },
     "by_band": {
-      "BLOCKER-1": 19,
-      "BLOCKER-2": 58,
-      "MUST-FIX": 37,
-      "SHOULD-FIX": 5
+      "ASSESS": 5,
+      "BLOCKER-1": 16,
+      "BLOCKER-2": 23,
+      "MUST-FIX": 35,
+      "PLAN": 9,
+      "SHOULD-FIX": 28,
+      "STOP-SHIP": 3
     },
     "stop_ship_direct": [
       "B-06",
@@ -64,8 +66,12 @@
       "C-04"
     ],
     "stop_ship_conditional": [
+      "A-01",
       "A-02",
-      "A-39"
+      "A-39",
+      "B-35",
+      "C-06",
+      "C-09"
     ],
     "with_structural_fix": 44,
     "with_standing_control": 119
@@ -198,9 +204,12 @@
       "title": "The verification gate on every production change",
       "priority": 9,
       "band": "BLOCKER-1",
-      "stop_ship": false,
-      "stop_ship_class": null,
-      "escalates": false,
+      "stop_ship": true,
+      "stop_ship_class": "conditional",
+      "escalation": {
+        "to": "STOP-SHIP",
+        "condition": "A-01 fails and A-39 fails — neither a deterministic verification gate nor an independent adversarial verifier exists."
+      },
       "substitutions": [
         "S1",
         "S2",
@@ -219,7 +228,10 @@
       "band": "BLOCKER-1",
       "stop_ship": true,
       "stop_ship_class": "conditional",
-      "escalates": true,
+      "escalation": {
+        "to": "STOP-SHIP",
+        "condition": "Mutation testing shows the suite cannot detect injected faults."
+      },
       "substitutions": [
         "S3",
         "S4"
@@ -234,10 +246,10 @@
       "track": "A",
       "title": "Deterministic and probabilistic assertions kept apart",
       "priority": 6,
-      "band": "MUST-FIX",
+      "band": "SHOULD-FIX",
       "stop_ship": false,
       "stop_ship_class": null,
-      "escalates": false,
+      "escalation": null,
       "substitutions": [
         "S3"
       ],
@@ -254,7 +266,7 @@
       "band": "BLOCKER-2",
       "stop_ship": false,
       "stop_ship_class": null,
-      "escalates": false,
+      "escalation": null,
       "substitutions": [
         "S1",
         "S3"
@@ -269,10 +281,10 @@
       "track": "A",
       "title": "Domain boundaries and a consistent vocabulary",
       "priority": 7,
-      "band": "BLOCKER-2",
+      "band": "MUST-FIX",
       "stop_ship": false,
       "stop_ship_class": null,
-      "escalates": false,
+      "escalation": null,
       "substitutions": [
         "S3"
       ],
@@ -289,7 +301,7 @@
       "band": "BLOCKER-1",
       "stop_ship": false,
       "stop_ship_class": null,
-      "escalates": false,
+      "escalation": null,
       "substitutions": [
         "S8"
       ],
@@ -303,10 +315,10 @@
       "track": "A",
       "title": "Clone, churn and refactoring signature",
       "priority": 7,
-      "band": "BLOCKER-2",
+      "band": "MUST-FIX",
       "stop_ship": false,
       "stop_ship_class": null,
-      "escalates": false,
+      "escalation": null,
       "substitutions": [
         "S3"
       ],
@@ -323,7 +335,7 @@
       "band": "BLOCKER-1",
       "stop_ship": false,
       "stop_ship_class": null,
-      "escalates": false,
+      "escalation": null,
       "substitutions": [
         "S1",
         "S3"
@@ -341,7 +353,7 @@
       "band": "BLOCKER-2",
       "stop_ship": false,
       "stop_ship_class": null,
-      "escalates": false,
+      "escalation": null,
       "substitutions": [
         "S3"
       ],
@@ -358,7 +370,7 @@
       "band": "BLOCKER-2",
       "stop_ship": false,
       "stop_ship_class": null,
-      "escalates": false,
+      "escalation": null,
       "substitutions": [
         "S5",
         "S6"
@@ -373,10 +385,10 @@
       "track": "A",
       "title": "Least-privilege topology for every agent and tool (design)",
       "priority": 7,
-      "band": "BLOCKER-2",
+      "band": "MUST-FIX",
       "stop_ship": false,
       "stop_ship_class": null,
-      "escalates": false,
+      "escalation": null,
       "substitutions": [
         "S5",
         "S6"
@@ -391,10 +403,10 @@
       "track": "A",
       "title": "Technical debt and the comprehension problem",
       "priority": 7,
-      "band": "BLOCKER-2",
+      "band": "MUST-FIX",
       "stop_ship": false,
       "stop_ship_class": null,
-      "escalates": false,
+      "escalation": null,
       "substitutions": [
         "S9"
       ],
@@ -408,10 +420,10 @@
       "track": "A",
       "title": "Enforced coding standards",
       "priority": 7,
-      "band": "BLOCKER-2",
+      "band": "MUST-FIX",
       "stop_ship": false,
       "stop_ship_class": null,
-      "escalates": false,
+      "escalation": null,
       "substitutions": [
         "S1",
         "S3"
@@ -426,10 +438,10 @@
       "track": "A",
       "title": "A written policy for how AI builds and maintains this",
       "priority": 6,
-      "band": "MUST-FIX",
+      "band": "SHOULD-FIX",
       "stop_ship": false,
       "stop_ship_class": null,
-      "escalates": false,
+      "escalation": null,
       "substitutions": [],
       "has_structural_fix": false,
       "has_standing_control": true,
@@ -441,10 +453,10 @@
       "track": "A",
       "title": "The boundary between prototype and production",
       "priority": 5,
-      "band": "MUST-FIX",
+      "band": "PLAN",
       "stop_ship": false,
       "stop_ship_class": null,
-      "escalates": false,
+      "escalation": null,
       "substitutions": [
         "S1"
       ],
@@ -458,10 +470,10 @@
       "track": "A",
       "title": "The last mile: stubs, edge cases and integration",
       "priority": 6,
-      "band": "MUST-FIX",
+      "band": "SHOULD-FIX",
       "stop_ship": false,
       "stop_ship_class": null,
-      "escalates": false,
+      "escalation": null,
       "substitutions": [
         "S3"
       ],
@@ -478,7 +490,7 @@
       "band": "BLOCKER-2",
       "stop_ship": false,
       "stop_ship_class": null,
-      "escalates": false,
+      "escalation": null,
       "substitutions": [],
       "has_structural_fix": false,
       "has_standing_control": true,
@@ -490,10 +502,10 @@
       "track": "A",
       "title": "Model and agent architecture chosen deliberately",
       "priority": 7,
-      "band": "BLOCKER-2",
+      "band": "MUST-FIX",
       "stop_ship": false,
       "stop_ship_class": null,
-      "escalates": false,
+      "escalation": null,
       "substitutions": [],
       "has_structural_fix": false,
       "has_standing_control": true,
@@ -505,10 +517,10 @@
       "track": "A",
       "title": "API contracts that match the implementation",
       "priority": 7,
-      "band": "BLOCKER-2",
+      "band": "MUST-FIX",
       "stop_ship": false,
       "stop_ship_class": null,
-      "escalates": false,
+      "escalation": null,
       "substitutions": [
         "S3"
       ],
@@ -522,10 +534,10 @@
       "track": "A",
       "title": "Prompts and retrieval configuration are code, and pass the same gate",
       "priority": 6,
-      "band": "MUST-FIX",
+      "band": "SHOULD-FIX",
       "stop_ship": false,
       "stop_ship_class": null,
-      "escalates": false,
+      "escalation": null,
       "substitutions": [
         "S1"
       ],
@@ -539,10 +551,10 @@
       "track": "A",
       "title": "Context, retrieval and memory architecture",
       "priority": 7,
-      "band": "BLOCKER-2",
+      "band": "MUST-FIX",
       "stop_ship": false,
       "stop_ship_class": null,
-      "escalates": false,
+      "escalation": null,
       "substitutions": [],
       "has_structural_fix": false,
       "has_standing_control": true,
@@ -557,7 +569,7 @@
       "band": "BLOCKER-2",
       "stop_ship": false,
       "stop_ship_class": null,
-      "escalates": false,
+      "escalation": null,
       "substitutions": [
         "S3"
       ],
@@ -571,10 +583,10 @@
       "track": "A",
       "title": "Data architecture and ownership",
       "priority": 7,
-      "band": "BLOCKER-2",
+      "band": "MUST-FIX",
       "stop_ship": false,
       "stop_ship_class": null,
-      "escalates": false,
+      "escalation": null,
       "substitutions": [
         "S3"
       ],
@@ -591,7 +603,7 @@
       "band": "BLOCKER-1",
       "stop_ship": false,
       "stop_ship_class": null,
-      "escalates": false,
+      "escalation": null,
       "substitutions": [
         "S8",
         "S10"
@@ -609,7 +621,7 @@
       "band": "BLOCKER-2",
       "stop_ship": false,
       "stop_ship_class": null,
-      "escalates": false,
+      "escalation": null,
       "substitutions": [
         "S3"
       ],
@@ -623,10 +635,10 @@
       "track": "A",
       "title": "Error handling that does not lie",
       "priority": 7,
-      "band": "BLOCKER-2",
+      "band": "MUST-FIX",
       "stop_ship": false,
       "stop_ship_class": null,
-      "escalates": false,
+      "escalation": null,
       "substitutions": [
         "S1",
         "S3"
@@ -641,10 +653,10 @@
       "track": "A",
       "title": "Non-functional requirements that are specific to AI",
       "priority": 7,
-      "band": "BLOCKER-2",
+      "band": "MUST-FIX",
       "stop_ship": false,
       "stop_ship_class": null,
-      "escalates": false,
+      "escalation": null,
       "substitutions": [
         "S6"
       ],
@@ -658,10 +670,10 @@
       "track": "A",
       "title": "Dependency topology and blast radius",
       "priority": 7,
-      "band": "BLOCKER-2",
+      "band": "MUST-FIX",
       "stop_ship": false,
       "stop_ship_class": null,
-      "escalates": false,
+      "escalation": null,
       "substitutions": [
         "S6"
       ],
@@ -675,10 +687,10 @@
       "track": "A",
       "title": "Build versus buy versus open source — including the model",
       "priority": 6,
-      "band": "MUST-FIX",
+      "band": "SHOULD-FIX",
       "stop_ship": false,
       "stop_ship_class": null,
-      "escalates": false,
+      "escalation": null,
       "substitutions": [],
       "has_structural_fix": true,
       "has_standing_control": true,
@@ -690,10 +702,10 @@
       "track": "A",
       "title": "Non-functional trade-offs analysed, not stumbled into",
       "priority": 6,
-      "band": "MUST-FIX",
+      "band": "SHOULD-FIX",
       "stop_ship": false,
       "stop_ship_class": null,
-      "escalates": false,
+      "escalation": null,
       "substitutions": [],
       "has_structural_fix": false,
       "has_standing_control": true,
@@ -705,10 +717,10 @@
       "track": "A",
       "title": "Unit economics decided at design time",
       "priority": 6,
-      "band": "MUST-FIX",
+      "band": "SHOULD-FIX",
       "stop_ship": false,
       "stop_ship_class": null,
-      "escalates": false,
+      "escalation": null,
       "substitutions": [],
       "has_structural_fix": true,
       "has_standing_control": true,
@@ -720,10 +732,10 @@
       "track": "A",
       "title": "Documentation that is true — and executable",
       "priority": 7,
-      "band": "BLOCKER-2",
+      "band": "MUST-FIX",
       "stop_ship": false,
       "stop_ship_class": null,
-      "escalates": false,
+      "escalation": null,
       "substitutions": [
         "S3"
       ],
@@ -740,7 +752,7 @@
       "band": "BLOCKER-2",
       "stop_ship": false,
       "stop_ship_class": null,
-      "escalates": false,
+      "escalation": null,
       "substitutions": [
         "S3",
         "S9"
@@ -758,7 +770,7 @@
       "band": "BLOCKER-2",
       "stop_ship": false,
       "stop_ship_class": null,
-      "escalates": false,
+      "escalation": null,
       "substitutions": [
         "S5",
         "S6",
@@ -774,10 +786,10 @@
       "track": "A",
       "title": "Runtime containment without an operator",
       "priority": 6,
-      "band": "MUST-FIX",
+      "band": "SHOULD-FIX",
       "stop_ship": false,
       "stop_ship_class": null,
-      "escalates": false,
+      "escalation": null,
       "substitutions": [
         "S5",
         "S10"
@@ -792,10 +804,13 @@
       "track": "A",
       "title": "Calibration of the verification pipeline",
       "priority": 6,
-      "band": "MUST-FIX",
+      "band": "SHOULD-FIX",
       "stop_ship": false,
       "stop_ship_class": null,
-      "escalates": false,
+      "escalation": {
+        "to": "BLOCKER-1",
+        "condition": "The pipeline's seeded-defect catch rate (§9.3) is not measured on a continuing basis."
+      },
       "substitutions": [
         "S2",
         "S4"
@@ -810,10 +825,10 @@
       "track": "A",
       "title": "Takeover readiness",
       "priority": 5,
-      "band": "MUST-FIX",
+      "band": "PLAN",
       "stop_ship": false,
       "stop_ship_class": null,
-      "escalates": false,
+      "escalation": null,
       "substitutions": [],
       "has_structural_fix": false,
       "has_standing_control": true,
@@ -825,10 +840,10 @@
       "track": "A",
       "title": "Provenance and licensing of the code that shipped",
       "priority": 7,
-      "band": "BLOCKER-2",
+      "band": "MUST-FIX",
       "stop_ship": false,
       "stop_ship_class": null,
-      "escalates": false,
+      "escalation": null,
       "substitutions": [
         "S1",
         "S9"
@@ -843,10 +858,13 @@
       "track": "A",
       "title": "The verification loop must not be self-referential",
       "priority": 5,
-      "band": "MUST-FIX",
+      "band": "PLAN",
       "stop_ship": true,
       "stop_ship_class": "conditional",
-      "escalates": true,
+      "escalation": {
+        "to": "STOP-SHIP",
+        "condition": "A-01 fails and A-39 fails — neither a deterministic verification gate nor an independent adversarial verifier exists."
+      },
       "substitutions": [
         "S2"
       ],
@@ -860,10 +878,10 @@
       "track": "A",
       "title": "Energy and carbon as a design constraint",
       "priority": 4,
-      "band": "SHOULD-FIX",
+      "band": "ASSESS",
       "stop_ship": false,
       "stop_ship_class": null,
-      "escalates": false,
+      "escalation": null,
       "substitutions": [],
       "has_structural_fix": false,
       "has_standing_control": true,
@@ -878,7 +896,7 @@
       "band": "BLOCKER-1",
       "stop_ship": false,
       "stop_ship_class": null,
-      "escalates": false,
+      "escalation": null,
       "substitutions": [
         "S1"
       ],
@@ -895,7 +913,7 @@
       "band": "BLOCKER-2",
       "stop_ship": false,
       "stop_ship_class": null,
-      "escalates": false,
+      "escalation": null,
       "substitutions": [],
       "has_structural_fix": false,
       "has_standing_control": true,
@@ -910,7 +928,7 @@
       "band": "BLOCKER-1",
       "stop_ship": false,
       "stop_ship_class": null,
-      "escalates": false,
+      "escalation": null,
       "substitutions": [],
       "has_structural_fix": false,
       "has_standing_control": true,
@@ -925,7 +943,7 @@
       "band": "BLOCKER-1",
       "stop_ship": false,
       "stop_ship_class": null,
-      "escalates": false,
+      "escalation": null,
       "substitutions": [
         "S1",
         "S3"
@@ -943,7 +961,7 @@
       "band": "BLOCKER-2",
       "stop_ship": false,
       "stop_ship_class": null,
-      "escalates": false,
+      "escalation": null,
       "substitutions": [
         "S9"
       ],
@@ -957,10 +975,10 @@
       "track": "B",
       "title": "Secrets and machine identity",
       "priority": 10,
-      "band": "BLOCKER-1",
+      "band": "STOP-SHIP",
       "stop_ship": true,
       "stop_ship_class": "direct",
-      "escalates": false,
+      "escalation": null,
       "substitutions": [
         "S6",
         "S9"
@@ -978,7 +996,7 @@
       "band": "BLOCKER-2",
       "stop_ship": false,
       "stop_ship_class": null,
-      "escalates": false,
+      "escalation": null,
       "substitutions": [
         "S9"
       ],
@@ -992,10 +1010,10 @@
       "track": "B",
       "title": "No path may consume unbounded tokens or money",
       "priority": 7,
-      "band": "BLOCKER-2",
+      "band": "MUST-FIX",
       "stop_ship": false,
       "stop_ship_class": null,
-      "escalates": false,
+      "escalation": null,
       "substitutions": [
         "S6"
       ],
@@ -1009,10 +1027,10 @@
       "track": "B",
       "title": "Signed provenance for everything shipped, including models",
       "priority": 7,
-      "band": "BLOCKER-2",
+      "band": "MUST-FIX",
       "stop_ship": false,
       "stop_ship_class": null,
-      "escalates": false,
+      "escalation": null,
       "substitutions": [
         "S9"
       ],
@@ -1029,7 +1047,7 @@
       "band": "BLOCKER-2",
       "stop_ship": false,
       "stop_ship_class": null,
-      "escalates": false,
+      "escalation": null,
       "substitutions": [
         "S1",
         "S2"
@@ -1047,7 +1065,7 @@
       "band": "BLOCKER-1",
       "stop_ship": false,
       "stop_ship_class": null,
-      "escalates": false,
+      "escalation": null,
       "substitutions": [
         "S5",
         "S8"
@@ -1065,7 +1083,7 @@
       "band": "BLOCKER-2",
       "stop_ship": false,
       "stop_ship_class": null,
-      "escalates": false,
+      "escalation": null,
       "substitutions": [],
       "has_structural_fix": false,
       "has_standing_control": true,
@@ -1080,7 +1098,7 @@
       "band": "BLOCKER-2",
       "stop_ship": false,
       "stop_ship_class": null,
-      "escalates": false,
+      "escalation": null,
       "substitutions": [
         "S1"
       ],
@@ -1094,10 +1112,10 @@
       "track": "B",
       "title": "Governance over prompt and configuration changes",
       "priority": 6,
-      "band": "MUST-FIX",
+      "band": "SHOULD-FIX",
       "stop_ship": false,
       "stop_ship_class": null,
-      "escalates": false,
+      "escalation": null,
       "substitutions": [
         "S1"
       ],
@@ -1114,7 +1132,7 @@
       "band": "BLOCKER-2",
       "stop_ship": false,
       "stop_ship_class": null,
-      "escalates": false,
+      "escalation": null,
       "substitutions": [
         "S1"
       ],
@@ -1128,10 +1146,10 @@
       "track": "B",
       "title": "Cost attribution and financial operations",
       "priority": 6,
-      "band": "MUST-FIX",
+      "band": "SHOULD-FIX",
       "stop_ship": false,
       "stop_ship_class": null,
-      "escalates": false,
+      "escalation": null,
       "substitutions": [
         "S6"
       ],
@@ -1145,10 +1163,10 @@
       "track": "B",
       "title": "Infrastructure as code, reconciled from version control",
       "priority": 7,
-      "band": "BLOCKER-2",
+      "band": "MUST-FIX",
       "stop_ship": false,
       "stop_ship_class": null,
-      "escalates": false,
+      "escalation": null,
       "substitutions": [
         "S1"
       ],
@@ -1162,10 +1180,10 @@
       "track": "B",
       "title": "Progressive delivery with an automatic abort",
       "priority": 6,
-      "band": "MUST-FIX",
+      "band": "SHOULD-FIX",
       "stop_ship": false,
       "stop_ship_class": null,
-      "escalates": false,
+      "escalation": null,
       "substitutions": [
         "S8"
       ],
@@ -1179,10 +1197,10 @@
       "track": "B",
       "title": "Service objectives with an error budget that bites",
       "priority": 7,
-      "band": "BLOCKER-2",
+      "band": "MUST-FIX",
       "stop_ship": false,
       "stop_ship_class": null,
-      "escalates": false,
+      "escalation": null,
       "substitutions": [
         "S1"
       ],
@@ -1199,7 +1217,7 @@
       "band": "BLOCKER-1",
       "stop_ship": false,
       "stop_ship_class": null,
-      "escalates": false,
+      "escalation": null,
       "substitutions": [
         "S5",
         "S6"
@@ -1214,10 +1232,10 @@
       "track": "B",
       "title": "The application survives a provider outage",
       "priority": 6,
-      "band": "MUST-FIX",
+      "band": "SHOULD-FIX",
       "stop_ship": false,
       "stop_ship_class": null,
-      "escalates": false,
+      "escalation": null,
       "substitutions": [
         "S5"
       ],
@@ -1234,7 +1252,7 @@
       "band": "BLOCKER-1",
       "stop_ship": false,
       "stop_ship_class": null,
-      "escalates": false,
+      "escalation": null,
       "substitutions": [
         "S6"
       ],
@@ -1248,10 +1266,10 @@
       "track": "B",
       "title": "Behavioural baselines for agents, with automatic containment",
       "priority": 7,
-      "band": "BLOCKER-2",
+      "band": "MUST-FIX",
       "stop_ship": false,
       "stop_ship_class": null,
-      "escalates": false,
+      "escalation": null,
       "substitutions": [
         "S6",
         "S8"
@@ -1266,10 +1284,10 @@
       "track": "B",
       "title": "Quality drift detection",
       "priority": 7,
-      "band": "BLOCKER-2",
+      "band": "MUST-FIX",
       "stop_ship": false,
       "stop_ship_class": null,
-      "escalates": false,
+      "escalation": null,
       "substitutions": [
         "S8"
       ],
@@ -1283,10 +1301,10 @@
       "track": "B",
       "title": "Environment separation and parity",
       "priority": 7,
-      "band": "BLOCKER-2",
+      "band": "MUST-FIX",
       "stop_ship": false,
       "stop_ship_class": null,
-      "escalates": false,
+      "escalation": null,
       "substitutions": [
         "S1",
         "S6"
@@ -1301,10 +1319,10 @@
       "track": "B",
       "title": "Feature flags and kill switches that fire themselves",
       "priority": 6,
-      "band": "MUST-FIX",
+      "band": "SHOULD-FIX",
       "stop_ship": false,
       "stop_ship_class": null,
-      "escalates": false,
+      "escalation": null,
       "substitutions": [
         "S8",
         "S10"
@@ -1319,10 +1337,10 @@
       "track": "B",
       "title": "Artifact integrity",
       "priority": 7,
-      "band": "BLOCKER-2",
+      "band": "MUST-FIX",
       "stop_ship": false,
       "stop_ship_class": null,
-      "escalates": false,
+      "escalation": null,
       "substitutions": [
         "S1",
         "S9"
@@ -1340,7 +1358,7 @@
       "band": "BLOCKER-2",
       "stop_ship": false,
       "stop_ship_class": null,
-      "escalates": false,
+      "escalation": null,
       "substitutions": [
         "S8",
         "S10"
@@ -1355,10 +1373,10 @@
       "track": "B",
       "title": "Reliability primitives, validated by breaking things",
       "priority": 7,
-      "band": "BLOCKER-2",
+      "band": "MUST-FIX",
       "stop_ship": false,
       "stop_ship_class": null,
-      "escalates": false,
+      "escalation": null,
       "substitutions": [
         "S3"
       ],
@@ -1372,10 +1390,10 @@
       "track": "B",
       "title": "Capacity, including inference capacity",
       "priority": 6,
-      "band": "MUST-FIX",
+      "band": "SHOULD-FIX",
       "stop_ship": false,
       "stop_ship_class": null,
-      "escalates": false,
+      "escalation": null,
       "substitutions": [
         "S6"
       ],
@@ -1392,7 +1410,7 @@
       "band": "BLOCKER-2",
       "stop_ship": false,
       "stop_ship_class": null,
-      "escalates": false,
+      "escalation": null,
       "substitutions": [
         "S3"
       ],
@@ -1406,10 +1424,10 @@
       "track": "B",
       "title": "Drift detection",
       "priority": 5,
-      "band": "MUST-FIX",
+      "band": "PLAN",
       "stop_ship": false,
       "stop_ship_class": null,
-      "escalates": false,
+      "escalation": null,
       "substitutions": [
         "S1"
       ],
@@ -1423,10 +1441,10 @@
       "track": "B",
       "title": "Integrity of the retrieval corpus",
       "priority": 7,
-      "band": "BLOCKER-2",
+      "band": "MUST-FIX",
       "stop_ship": false,
       "stop_ship_class": null,
-      "escalates": false,
+      "escalation": null,
       "substitutions": [
         "S9"
       ],
@@ -1440,10 +1458,10 @@
       "track": "B",
       "title": "Latency budgets for inference",
       "priority": 5,
-      "band": "MUST-FIX",
+      "band": "PLAN",
       "stop_ship": false,
       "stop_ship_class": null,
-      "escalates": false,
+      "escalation": null,
       "substitutions": [],
       "has_structural_fix": true,
       "has_standing_control": true,
@@ -1455,10 +1473,13 @@
       "track": "B",
       "title": "Release governance: segregate the gate from the gated",
       "priority": 6,
-      "band": "MUST-FIX",
-      "stop_ship": false,
-      "stop_ship_class": null,
-      "escalates": false,
+      "band": "SHOULD-FIX",
+      "stop_ship": true,
+      "stop_ship_class": "conditional",
+      "escalation": {
+        "to": "STOP-SHIP",
+        "condition": "Any code-writing agent identity can write to the policy bundle that gates it."
+      },
       "substitutions": [
         "S1",
         "S9"
@@ -1473,10 +1494,10 @@
       "track": "B",
       "title": "Model deprecation is a plan, not an outage",
       "priority": 6,
-      "band": "MUST-FIX",
+      "band": "SHOULD-FIX",
       "stop_ship": false,
       "stop_ship_class": null,
-      "escalates": false,
+      "escalation": null,
       "substitutions": [],
       "has_structural_fix": true,
       "has_standing_control": true,
@@ -1488,10 +1509,10 @@
       "track": "B",
       "title": "Retirement of AI artifacts and the right to erasure",
       "priority": 5,
-      "band": "MUST-FIX",
+      "band": "PLAN",
       "stop_ship": false,
       "stop_ship_class": null,
-      "escalates": false,
+      "escalation": null,
       "substitutions": [
         "S3",
         "S9"
@@ -1506,10 +1527,10 @@
       "track": "B",
       "title": "Inference economics",
       "priority": 4,
-      "band": "SHOULD-FIX",
+      "band": "ASSESS",
       "stop_ship": false,
       "stop_ship_class": null,
-      "escalates": false,
+      "escalation": null,
       "substitutions": [],
       "has_structural_fix": true,
       "has_standing_control": true,
@@ -1521,10 +1542,10 @@
       "track": "B",
       "title": "Design against a named reference framework",
       "priority": 5,
-      "band": "MUST-FIX",
+      "band": "PLAN",
       "stop_ship": false,
       "stop_ship_class": null,
-      "escalates": false,
+      "escalation": null,
       "substitutions": [],
       "has_structural_fix": false,
       "has_standing_control": true,
@@ -1536,10 +1557,10 @@
       "track": "C",
       "title": "Core application security",
       "priority": 10,
-      "band": "BLOCKER-1",
+      "band": "STOP-SHIP",
       "stop_ship": true,
       "stop_ship_class": "direct",
-      "escalates": false,
+      "escalation": null,
       "substitutions": [
         "S3"
       ],
@@ -1556,7 +1577,7 @@
       "band": "BLOCKER-2",
       "stop_ship": false,
       "stop_ship_class": null,
-      "escalates": false,
+      "escalation": null,
       "substitutions": [
         "S1",
         "S3"
@@ -1574,7 +1595,7 @@
       "band": "BLOCKER-1",
       "stop_ship": false,
       "stop_ship_class": null,
-      "escalates": false,
+      "escalation": null,
       "substitutions": [
         "S1"
       ],
@@ -1588,10 +1609,10 @@
       "track": "C",
       "title": "Privacy and data governance",
       "priority": 10,
-      "band": "BLOCKER-1",
+      "band": "STOP-SHIP",
       "stop_ship": true,
       "stop_ship_class": "direct",
-      "escalates": false,
+      "escalation": null,
       "substitutions": [],
       "has_structural_fix": true,
       "has_standing_control": true,
@@ -1606,7 +1627,7 @@
       "band": "BLOCKER-1",
       "stop_ship": false,
       "stop_ship_class": null,
-      "escalates": false,
+      "escalation": null,
       "substitutions": [
         "S3"
       ],
@@ -1621,9 +1642,12 @@
       "title": "The agentic risk taxonomy",
       "priority": 8,
       "band": "BLOCKER-2",
-      "stop_ship": false,
-      "stop_ship_class": null,
-      "escalates": false,
+      "stop_ship": true,
+      "stop_ship_class": "conditional",
+      "escalation": {
+        "to": "STOP-SHIP",
+        "condition": "Any model here can call a tool that writes, sends, spends, deletes or executes."
+      },
       "substitutions": [
         "S5",
         "S6"
@@ -1641,7 +1665,7 @@
       "band": "BLOCKER-1",
       "stop_ship": false,
       "stop_ship_class": null,
-      "escalates": false,
+      "escalation": null,
       "substitutions": [
         "S5"
       ],
@@ -1658,7 +1682,7 @@
       "band": "BLOCKER-2",
       "stop_ship": false,
       "stop_ship_class": null,
-      "escalates": false,
+      "escalation": null,
       "substitutions": [
         "S5",
         "S6"
@@ -1674,9 +1698,12 @@
       "title": "EU AI Act — and the one place this operating model meets a wall",
       "priority": 9,
       "band": "BLOCKER-1",
-      "stop_ship": false,
-      "stop_ship_class": null,
-      "escalates": false,
+      "stop_ship": true,
+      "stop_ship_class": "conditional",
+      "escalation": {
+        "to": "STOP-SHIP",
+        "condition": "Any AI system here is high-risk on the EU market — §3 makes C-09 a hard gate at 10. Note §7 tables list C-09 at its base band; §3 governs."
+      },
       "substitutions": [],
       "has_structural_fix": true,
       "has_standing_control": true,
@@ -1691,7 +1718,7 @@
       "band": "BLOCKER-2",
       "stop_ship": false,
       "stop_ship_class": null,
-      "escalates": false,
+      "escalation": null,
       "substitutions": [
         "S1"
       ],
@@ -1705,10 +1732,10 @@
       "track": "C",
       "title": "A running AI risk-management programme",
       "priority": 7,
-      "band": "BLOCKER-2",
+      "band": "MUST-FIX",
       "stop_ship": false,
       "stop_ship_class": null,
-      "escalates": false,
+      "escalation": null,
       "substitutions": [
         "S9"
       ],
@@ -1722,10 +1749,10 @@
       "track": "C",
       "title": "Excessive agency and the autonomy policy",
       "priority": 7,
-      "band": "BLOCKER-2",
+      "band": "MUST-FIX",
       "stop_ship": false,
       "stop_ship_class": null,
-      "escalates": false,
+      "escalation": null,
       "substitutions": [
         "S5",
         "S6"
@@ -1740,10 +1767,10 @@
       "track": "C",
       "title": "AI management system",
       "priority": 6,
-      "band": "MUST-FIX",
+      "band": "SHOULD-FIX",
       "stop_ship": false,
       "stop_ship_class": null,
-      "escalates": false,
+      "escalation": null,
       "substitutions": [],
       "has_structural_fix": false,
       "has_standing_control": true,
@@ -1755,10 +1782,10 @@
       "track": "C",
       "title": "Validating the judge",
       "priority": 6,
-      "band": "MUST-FIX",
+      "band": "SHOULD-FIX",
       "stop_ship": false,
       "stop_ship_class": null,
-      "escalates": false,
+      "escalation": null,
       "substitutions": [
         "S2",
         "S3"
@@ -1773,10 +1800,10 @@
       "track": "C",
       "title": "Guardrails have their own tests, and their own adversary",
       "priority": 7,
-      "band": "BLOCKER-2",
+      "band": "MUST-FIX",
       "stop_ship": false,
       "stop_ship_class": null,
-      "escalates": false,
+      "escalation": null,
       "substitutions": [
         "S2",
         "S3"
@@ -1791,10 +1818,10 @@
       "track": "C",
       "title": "Machine identity and agent-to-agent trust",
       "priority": 7,
-      "band": "BLOCKER-2",
+      "band": "MUST-FIX",
       "stop_ship": false,
       "stop_ship_class": null,
-      "escalates": false,
+      "escalation": null,
       "substitutions": [
         "S6",
         "S9"
@@ -1809,10 +1836,10 @@
       "track": "C",
       "title": "Tool poisoning",
       "priority": 7,
-      "band": "BLOCKER-2",
+      "band": "MUST-FIX",
       "stop_ship": false,
       "stop_ship_class": null,
-      "escalates": false,
+      "escalation": null,
       "substitutions": [
         "S1",
         "S9"
@@ -1827,10 +1854,10 @@
       "track": "C",
       "title": "Connector and tool-server security",
       "priority": 7,
-      "band": "BLOCKER-2",
+      "band": "MUST-FIX",
       "stop_ship": false,
       "stop_ship_class": null,
-      "escalates": false,
+      "escalation": null,
       "substitutions": [
         "S1",
         "S6"
@@ -1845,10 +1872,10 @@
       "track": "C",
       "title": "Memory and context poisoning",
       "priority": 6,
-      "band": "MUST-FIX",
+      "band": "SHOULD-FIX",
       "stop_ship": false,
       "stop_ship_class": null,
-      "escalates": false,
+      "escalation": null,
       "substitutions": [
         "S9"
       ],
@@ -1862,10 +1889,10 @@
       "track": "C",
       "title": "Responsible-AI dimensions with owners and numbers",
       "priority": 6,
-      "band": "MUST-FIX",
+      "band": "SHOULD-FIX",
       "stop_ship": false,
       "stop_ship_class": null,
-      "escalates": false,
+      "escalation": null,
       "substitutions": [
         "S3"
       ],
@@ -1879,10 +1906,10 @@
       "track": "C",
       "title": "Training and fine-tuning data governance",
       "priority": 7,
-      "band": "BLOCKER-2",
+      "band": "MUST-FIX",
       "stop_ship": false,
       "stop_ship_class": null,
-      "escalates": false,
+      "escalation": null,
       "substitutions": [],
       "has_structural_fix": false,
       "has_standing_control": true,
@@ -1894,10 +1921,10 @@
       "track": "C",
       "title": "Retrieval evaluated separately from generation",
       "priority": 7,
-      "band": "BLOCKER-2",
+      "band": "MUST-FIX",
       "stop_ship": false,
       "stop_ship_class": null,
-      "escalates": false,
+      "escalation": null,
       "substitutions": [
         "S3"
       ],
@@ -1914,7 +1941,7 @@
       "band": "BLOCKER-2",
       "stop_ship": false,
       "stop_ship_class": null,
-      "escalates": false,
+      "escalation": null,
       "substitutions": [
         "S3"
       ],
@@ -1928,10 +1955,10 @@
       "track": "C",
       "title": "Disclosure through memorisation and system-prompt leakage",
       "priority": 7,
-      "band": "BLOCKER-2",
+      "band": "MUST-FIX",
       "stop_ship": false,
       "stop_ship_class": null,
-      "escalates": false,
+      "escalation": null,
       "substitutions": [
         "S1",
         "S3"
@@ -1946,10 +1973,10 @@
       "track": "C",
       "title": "Copyright and licensing of generated code",
       "priority": 6,
-      "band": "MUST-FIX",
+      "band": "SHOULD-FIX",
       "stop_ship": false,
       "stop_ship_class": null,
-      "escalates": false,
+      "escalation": null,
       "substitutions": [
         "S1",
         "S9"
@@ -1967,7 +1994,7 @@
       "band": "BLOCKER-2",
       "stop_ship": false,
       "stop_ship_class": null,
-      "escalates": false,
+      "escalation": null,
       "substitutions": [
         "S1",
         "S9"
@@ -1985,7 +2012,7 @@
       "band": "BLOCKER-1",
       "stop_ship": false,
       "stop_ship_class": null,
-      "escalates": false,
+      "escalation": null,
       "substitutions": [],
       "has_structural_fix": false,
       "has_standing_control": true,
@@ -1997,10 +2024,10 @@
       "track": "C",
       "title": "Residency and regulatory scope decided at design time",
       "priority": 7,
-      "band": "BLOCKER-2",
+      "band": "MUST-FIX",
       "stop_ship": false,
       "stop_ship_class": null,
-      "escalates": false,
+      "escalation": null,
       "substitutions": [],
       "has_structural_fix": true,
       "has_standing_control": true,
@@ -2012,10 +2039,10 @@
       "track": "C",
       "title": "Content safety and misuse prevention",
       "priority": 6,
-      "band": "MUST-FIX",
+      "band": "SHOULD-FIX",
       "stop_ship": false,
       "stop_ship_class": null,
-      "escalates": false,
+      "escalation": null,
       "substitutions": [
         "S3",
         "S8"
@@ -2030,10 +2057,10 @@
       "track": "C",
       "title": "Jailbreak resistance",
       "priority": 6,
-      "band": "MUST-FIX",
+      "band": "SHOULD-FIX",
       "stop_ship": false,
       "stop_ship_class": null,
-      "escalates": false,
+      "escalation": null,
       "substitutions": [
         "S8"
       ],
@@ -2047,10 +2074,10 @@
       "track": "C",
       "title": "Adversarial technique taxonomy and agentic threat layers",
       "priority": 5,
-      "band": "MUST-FIX",
+      "band": "PLAN",
       "stop_ship": false,
       "stop_ship_class": null,
-      "escalates": false,
+      "escalation": null,
       "substitutions": [],
       "has_structural_fix": false,
       "has_standing_control": true,
@@ -2062,10 +2089,10 @@
       "track": "C",
       "title": "Vector and embedding weaknesses",
       "priority": 6,
-      "band": "MUST-FIX",
+      "band": "SHOULD-FIX",
       "stop_ship": false,
       "stop_ship_class": null,
-      "escalates": false,
+      "escalation": null,
       "substitutions": [
         "S6"
       ],
@@ -2079,10 +2106,10 @@
       "track": "C",
       "title": "An AI usage policy that is enforced, not merely published",
       "priority": 6,
-      "band": "MUST-FIX",
+      "band": "SHOULD-FIX",
       "stop_ship": false,
       "stop_ship_class": null,
-      "escalates": false,
+      "escalation": null,
       "substitutions": [
         "S1"
       ],
@@ -2096,10 +2123,10 @@
       "track": "C",
       "title": "Provider training on your data — check the contract *and* the switch",
       "priority": 7,
-      "band": "BLOCKER-2",
+      "band": "MUST-FIX",
       "stop_ship": false,
       "stop_ship_class": null,
-      "escalates": false,
+      "escalation": null,
       "substitutions": [
         "S3"
       ],
@@ -2113,10 +2140,10 @@
       "track": "C",
       "title": "Benchmark contamination and who evaluates the evaluator",
       "priority": 4,
-      "band": "SHOULD-FIX",
+      "band": "ASSESS",
       "stop_ship": false,
       "stop_ship_class": null,
-      "escalates": false,
+      "escalation": null,
       "substitutions": [
         "S2"
       ],
@@ -2130,10 +2157,10 @@
       "track": "C",
       "title": "Transparency and marking of generated output",
       "priority": 6,
-      "band": "MUST-FIX",
+      "band": "SHOULD-FIX",
       "stop_ship": false,
       "stop_ship_class": null,
-      "escalates": false,
+      "escalation": null,
       "substitutions": [],
       "has_structural_fix": false,
       "has_standing_control": true,
@@ -2145,10 +2172,13 @@
       "track": "C",
       "title": "Accountability without a signature",
       "priority": 5,
-      "band": "MUST-FIX",
+      "band": "PLAN",
       "stop_ship": false,
       "stop_ship_class": null,
-      "escalates": true,
+      "escalation": {
+        "to": "BLOCKER-1",
+        "condition": "Any production component has no attested provenance chain."
+      },
       "substitutions": [
         "S9"
       ],
@@ -2162,10 +2192,10 @@
       "track": "C",
       "title": "Fabrication and the downstream reliance on it",
       "priority": 6,
-      "band": "MUST-FIX",
+      "band": "SHOULD-FIX",
       "stop_ship": false,
       "stop_ship_class": null,
-      "escalates": false,
+      "escalation": null,
       "substitutions": [
         "S3"
       ],
@@ -2179,10 +2209,10 @@
       "track": "C",
       "title": "Lifecycle process and vocabulary standards",
       "priority": 4,
-      "band": "SHOULD-FIX",
+      "band": "ASSESS",
       "stop_ship": false,
       "stop_ship_class": null,
-      "escalates": false,
+      "escalation": null,
       "substitutions": [],
       "has_structural_fix": false,
       "has_standing_control": true,
@@ -2194,10 +2224,10 @@
       "track": "C",
       "title": "Societal and environmental impact",
       "priority": 3,
-      "band": "SHOULD-FIX",
+      "band": "ASSESS",
       "stop_ship": false,
       "stop_ship_class": null,
-      "escalates": false,
+      "escalation": null,
       "substitutions": [],
       "has_structural_fix": false,
       "has_standing_control": true,

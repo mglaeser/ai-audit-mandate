@@ -76,7 +76,7 @@ PHASE 4 — Plan structurally first. For every finding, check whether §6.5 or t
 check itself offers a structural fix (S13). Prefer it over a standing control,
 always. Do not add an ownership check to fifteen routes — push tenancy into the
 data-access layer so the unsafe query cannot be written. Do not write a lint rule
-for a defect a type can make unrepresentable. Record in audit/04b-structural-ledger.md
+for a defect a type can make unrepresentable. Record in audit/04-remediation-plan.md
 every structural fix you took, and every one you declined with the reason and the
 control running forever instead.
 
@@ -129,7 +129,7 @@ reason AND the tripwire that reactivates it when that assumption stops holding.
 
 DELIVER
 
-The full audit/ set through 08, governance/constitution.md, scripts/regime/ with
+The full audit/ set through 09, governance/constitution.md, scripts/regime/ with
 working controls, CI wired to block, and audit/engagement-status.json with
 production_eligible COMPUTED — never asserted.
 

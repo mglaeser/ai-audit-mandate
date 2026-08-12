@@ -1,0 +1,20 @@
+version: 2
+
+updates:
+  # The two actions are pinned to immutable commit SHAs, which is the right
+  # posture and also means nothing will ever tell us a pin has gone stale.
+  # This does. Dependabot rewrites the SHA and the trailing version comment
+  # together, so the pin stays auditable.
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    commit-message:
+      prefix: ci
+
+# Deliberately no npm ecosystem here. The single dev dependency is a Markdown
+# linter, and a minor release of it can add a default rule that trips on
+# docs/check-index.md — a generated file that `npm run verify` holds
+# byte-identical, so the fix would have to be made in the generator rather than
+# the Markdown. That trades a near-zero supply-chain risk for unattended red CI.
+# Vulnerability alerts are enabled at the repository level and cover it.

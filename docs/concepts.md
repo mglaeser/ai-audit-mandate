@@ -52,15 +52,17 @@ Priority drives the band; the band drives what it blocks.
 | Band | Priority | Effect |
 | --- | --- | --- |
 | `STOP-SHIP` | 10, or escalated | No production traffic. Fail closed. |
-| `BLOCKER-1` | 9–10 | Blocks release. |
-| `BLOCKER-2` | 7–8 | Blocks release. |
-| `MUST-FIX` | 5–6 | Fixed, or a dated residual-risk record with a tripwire. |
-| `SHOULD-FIX` | 3–4 | Planned. |
-| `ADVISORY` | 1–2 | Recorded. |
+| `BLOCKER-1` | 9 | Blocks release. |
+| `BLOCKER-2` | 8 | Blocks release. |
+| `MUST-FIX` | 7 | Fixed, or a dated residual-risk record with a tripwire. |
+| `SHOULD-FIX` | 6 | Fixed, or scheduled against an owning role with a date and a tripwire. |
+| `PLAN` | 5 | Backlogged with written rationale. |
+| `ASSESS` | ≤4 | Assessed for materiality, acted on only if material. |
 
-Three checks are `STOP-SHIP` by direct mark; two more escalate into it
-conditionally. The distinction matters: a direct mark holds production down from
-Phase 0, before anyone has looked at anything.
+Three checks are `STOP-SHIP` by direct mark — `B-06`, `C-01` and `C-04`. Six more
+escalate into it when a stated condition holds. The distinction matters: a direct
+mark holds production down from Phase 0, before anyone has looked at anything,
+while an escalation has to be evaluated before it binds.
 
 ## Verdicts
 

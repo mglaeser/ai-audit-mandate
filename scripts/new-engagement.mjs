@@ -10,7 +10,7 @@
 
 import { cp, mkdir, readFile, writeFile, access } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
-import { dirname, join, resolve } from 'node:path';
+import { basename, dirname, join, resolve } from 'node:path';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 
@@ -19,8 +19,20 @@ function parseArguments(argv) {
   for (let index = 0; index < argv.length; index += 1) {
     const flag = argv[index];
     if (flag === '--target') options.target = argv[++index];
-    else if (flag === '--dir') options.dir = argv[++index];
-    else if (flag === '--force') options.force = true;
+    else if (flag === '--dir') {
+      options.dir = argv[++index];
+      // An empty or missing value would make the workspace the target itself,
+      // and --force would then overwrite the target repository's own README.
+      if (!options.dir) {
+        console.error('new-engagement: --dir requires a directory name');
+        process.exit(2);
+      }
+      // A path here escapes the target: `--dir ../..` writes outside it.
+      if (options.dir !== basename(options.dir)) {
+        console.error('new-engagement: --dir must be a single directory name, not a path');
+        process.exit(2);
+      }
+    } else if (flag === '--force') options.force = true;
     else if (flag === '--help' || flag === '-h') options.help = true;
     else {
       console.error(`new-engagement: unknown argument "${flag}"`);
@@ -98,24 +110,54 @@ const seeded = {
     band: check.band,
     stop_ship: check.stop_ship,
     stop_ship_class: check.stop_ship_class,
+    // §5 requires the manifest to carry each check's conditional-escalation
+    // metadata, so a re-band cannot be argued after the fact.
+    escalation: check.escalation,
     has_structural_fix: check.has_structural_fix,
     state: check.part === 1 ? 'active' : 'planned-extension: part2',
   })),
 };
 
+// One record per check, in the §5 key set, every field empty. The shape is
+// asserted in CI against catalogue/finding-record.schema.json, so an engagement
+// starts from a record it cannot later claim was a different schema.
 const findings = catalogue.checks.map((check) => ({
   id: check.id,
   title: check.title,
   priority: check.priority,
+  // Belt and braces: `band` is already STOP-SHIP for a direct mark. Keeping the
+  // explicit branch means a future banding change cannot quietly demote one.
   band: check.stop_ship_class === 'direct' ? 'STOP-SHIP' : check.band,
   verdict: 'NO-EVIDENCE',
   probe: null,
   evidence: [],
+  claim_conflict: null,
+  impact: null,
   clone_sweep: null,
-  structural_fix: check.has_structural_fix ? { taken: false, description: null } : null,
-  standing_control: null,
+  human_dependency: null,
+  substitutions_applied: [],
+  structural_fix: check.has_structural_fix
+    ? {
+        available: true,
+        move: null,
+        collapses: [],
+        taken: false,
+        standing_control_avoided: null,
+        rationale: null,
+      }
+    : null,
+  fix: null,
+  fix_change: null,
   verification: null,
+  mutation_score: null,
+  standing_control: null,
+  independent_verifier: null,
+  gate_decision: null,
+  attestation: null,
+  na_justification: null,
   residual_risk: null,
+  compensating_control: null,
+  tripwire: null,
 }));
 
 status.registered_check_count = catalogue.check_count;

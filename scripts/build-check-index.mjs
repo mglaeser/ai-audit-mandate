@@ -36,7 +36,7 @@ const lines = [
   '# Check index',
   '',
   `All ${catalogue.check_count} checks across ${catalogue.tracks.length} tracks, generated from the mandate prose.`,
-  'Each check links to the volume that defines it.',
+  'Each track links to the volume that defines its checks.',
   '',
   '`S13` marks a check that carries a **structural fix** — the refactor that makes the defect',
   'unrepresentable rather than detectable. Where it appears, read it before the standing control.',

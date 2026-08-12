@@ -41,6 +41,19 @@ jobs:
       - name: Verify generated artifacts are current
         run: npm run verify
 
+      # Anchors included. The obvious version of this check stops at `#` and
+      # then reports success on a repository whose anchors are all broken.
+      - name: Verify every internal link and anchor resolves
+        run: npm run links
+
+      # The version and the quoted mandate digest are written by hand in several
+      # files at once, and `verify` cannot see either of them.
+      - name: Verify release invariants
+        run: npm run release
+
+      - name: Validate the finding-record template against its schema
+        run: npm run schema
+
       - name: Lint Markdown
         run: npm run lint
 
@@ -80,9 +93,24 @@ jobs:
           test "$(jq '[.[] | select(.verdict != "NO-EVIDENCE")] | length' "$findings")" = '0'
           test "$(jq -r '[.[].id] | unique | length' "$findings")" = '119'
 
+      # The workspace is what a real engagement actually fills in, so its shape
+      # is a contract. Nothing else in CI looks at it.
+      - name: Validate the seeded findings against the §5 schema
+        run: node scripts/check-finding-shape.mjs --file "$ENGAGEMENT_SCRATCH/audit/03-findings.json"
+
       - name: Assert the scaffolder refuses to overwrite an engagement in flight
         run: |
           if node scripts/new-engagement.mjs --target "$ENGAGEMENT_SCRATCH"; then
             echo 'Scaffolder overwrote an existing workspace; it must refuse.' >&2
             exit 1
           fi
+
+      # --dir is the one argument that can write outside the workspace.
+      - name: Assert the scaffolder refuses a --dir that escapes the target
+        run: |
+          for bad in "" "../escaped" "nested/path"; do
+            if node scripts/new-engagement.mjs --target "$ENGAGEMENT_SCRATCH" --dir "$bad" --force; then
+              echo "Scaffolder accepted --dir '$bad'; it must refuse." >&2
+              exit 1
+            fi
+          done
