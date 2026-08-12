@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128" role="img" aria-labelledby="t d">
+  <title id="t">AI Audit Mandate</title>
+  <desc id="d">A portcullis lowered across a shield: the deterministic gate that blocks, three tracks crossed by the two volumes.</desc>
+
+  <defs>
+    <linearGradient id="plate" x1="0" y1="11" x2="0" y2="118" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#233246"/>
+      <stop offset="1" stop-color="#0F172A"/>
+    </linearGradient>
+
+    <linearGradient id="bars" x1="0" y1="20" x2="0" y2="118" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#34D399"/>
+      <stop offset="1" stop-color="#10B981"/>
+    </linearGradient>
+
+    <!-- The shield outline, reused as fill, clip and rim. -->
+    <path id="shield" d="M64 11 L111 29 V65 C111 91 90 109 64 118 C38 109 17 91 17 65 V29 Z"/>
+
+    <clipPath id="inside">
+      <use href="#shield"/>
+    </clipPath>
+  </defs>
+
+  <use href="#shield" fill="url(#plate)"/>
+
+  <g clip-path="url(#inside)">
+    <!-- Three vertical bars: Tracks A, B and C. -->
+    <rect x="37.5" y="26" width="9" height="84" rx="4.5" fill="url(#bars)"/>
+    <rect x="59.5" y="26" width="9" height="88" rx="4.5" fill="url(#bars)"/>
+    <rect x="81.5" y="26" width="9" height="84" rx="4.5" fill="url(#bars)"/>
+
+    <!-- Two cross-rails: the volumes that bind the tracks into a closed gate. -->
+    <rect x="12" y="47" width="104" height="6" fill="#0F172A" opacity="0.92"/>
+    <rect x="12" y="73" width="104" height="6" fill="#0F172A" opacity="0.92"/>
+  </g>
+
+  <use href="#shield" fill="none" stroke="#3E5068" stroke-width="3.5"/>
+</svg>

@@ -1,4 +1,7 @@
 <!-- markdownlint-disable MD033 -->
+<p align="center">
+  <img src="assets/icon.svg" alt="" width="104" height="104">
+</p>
 <h1 align="center">AI Audit Mandate</h1>
 <p align="center">
   <strong>A due-diligence and remediation mandate for software that no human reviews.</strong>
