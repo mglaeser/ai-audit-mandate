@@ -1,6 +1,6 @@
 {
   "name": "ai-audit-mandate",
-  "version": "2.4.0",
+  "version": "2.5.0",
   "private": true,
   "description": "A due-diligence and remediation mandate for software that no human reviews",
   "license": "SEE LICENSE IN LICENSE",

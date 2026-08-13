@@ -10,8 +10,8 @@
       "path": "mandate/01-foundation-and-core-tracks.md",
       "title": "Foundation and Core Tracks",
       "scope": "Track A + Track B (79 checks), execution protocol, standing regime, Constitution",
-      "bytes": 278493,
-      "sha256": "sha256:f0aff08aaf82b767bea05916f1dfa2173261faaf1c68a3bf42e93b521b61673a"
+      "bytes": 279485,
+      "sha256": "sha256:e404afb704af91317b127657cf8d4be4dcc93638708cf1f3858d40cbf353332c"
     },
     {
       "id": "volume-ii",
@@ -19,12 +19,12 @@
       "path": "mandate/02-security-privacy-assurance.md",
       "title": "Security, Privacy and Assurance",
       "scope": "Track C (40 checks), closing definition of done",
-      "bytes": 112017,
-      "sha256": "sha256:5a6fc70b43fb1eb74829b4a775f9103b9a0dd6ad5151829914599a7850f1c8bc"
+      "bytes": 112347,
+      "sha256": "sha256:2e1ee77a29d3eb048801fe3cf908f623a78d8b023967fc53d9ed3f5670a38f1c"
     }
   ],
   "combined": {
-    "sha256": "sha256:60ad9a3f9f9fea23de672651e05c732f985ba003ec4639dd770593e11354a8b9"
+    "sha256": "sha256:2e6481a07b1951b459cde389b8d09fe6dc84371b8530329630729dcb9fcba4a8"
   },
   "catalogue_file": {
     "path": "catalogue/checks.json",

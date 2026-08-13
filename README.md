@@ -112,7 +112,7 @@ node scripts/new-engagement.mjs --target ../your-repository
 ```text
 new-engagement: scaffolded /home/you/your-repository/audit
   79 active checks seeded at NO-EVIDENCE (40 Track C checks registered for Volume II)
-  mandate pinned at sha256:60ad9a3f…
+  mandate pinned at sha256:2e6481a0…
 
 Next: Phase 0 — freeze the baseline, then map the audit surface. Change nothing until Phase 3 closes.
 ```
@@ -255,7 +255,7 @@ npm run verify
 ```text
 build-catalogue: catalogue is current (119 checks).
 build-check-index: index is current.
-build-manifest: manifest is current (combined sha256:60ad9a3f…).
+build-manifest: manifest is current (combined sha256:2e6481a0…).
 ```
 
 A mandate that shifts mid-engagement is an engagement with no fixed denominator.

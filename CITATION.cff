@@ -9,8 +9,8 @@ authors:
     website: "https://github.com/mglaeser"
 repository-code: "https://github.com/mglaeser/ai-audit-mandate"
 url: "https://github.com/mglaeser/ai-audit-mandate"
-version: 2.4.0
-date-released: 2026-08-12
+version: 2.5.0
+date-released: 2026-08-13
 # CFF 1.2.0 restricts this to a single SPDX identifier, so it names the licence
 # of the work being cited — the prose. The executable parts are MIT; see
 # LICENSE-CODE.

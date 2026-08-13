@@ -7,6 +7,52 @@ checks across three tracks.
 Because engagements pin the mandate by hash, every release records the combined
 digest of the two volumes.
 
+## 2.5.0
+
+Corrections to the volumes themselves, from a pass that asked whether this
+mandate is really only for web applications. **It is** — that framing stays
+deliberately, and the answer is not why this release exists. Measuring it turned
+up four defects that hold regardless of scope, two of them in the prose.
+
+**The combined mandate digest changes to
+`sha256:2e6481a07b1951b459cde389b8d09fe6dc84371b8530329630729dcb9fcba4a8`.**
+Re-pin before relying on an engagement that quoted the previous one.
+
+For the record, since the question will recur: 88 of the 119 checks are
+platform-neutral as written, 28 carry a web noun or the name of a web standard,
+and exactly three — `A-22`, `A-24`, `B-12` — genuinely assume a browser or an
+operated web runtime. Zero are inapplicable off the web. The specialisation is a
+deliberate choice about who this is written for, not a limit of the catalogue.
+
+### Fixed
+
+- **The exfiltration-channel lists read as closed sets.** `C-08` gated "outbound
+  HTTP, email and chat sends, pull-request creation, rendered links and rendered
+  images", and `B-20`'s probe named a matching list. Both now say plainly that
+  the enumeration is illustrative and instruct the auditor to enumerate this
+  system's own channels first — DNS resolution, webhooks, telemetry fields, log
+  lines an aggregator forwards. An auditor who found no rendered images could
+  previously conclude the lethal trifecta's third leg was absent, which is a
+  missed `STOP-SHIP` rather than a wording preference.
+- **Article XV's Experimental exemption looked structural and was not.** Its four
+  conditions all test whether production is reachable *from* the repository, and
+  say nothing about what leaves it — so a repository could satisfy every one
+  while publishing a package that runs on other people's machines. It now
+  requires that nothing published runs elsewhere, and states that shipping to
+  third parties is reaching production, someone else's, at `Incubating` minimum.
+- **`A-22` overstated the law.** "Accessibility to WCAG 2.2 AA (a legal
+  obligation in the EU, not a nicety)" is flatly true of neither every product
+  nor every body; the Web Accessibility Directive and the Accessibility Act bind
+  particular classes. The check now says so and tells the auditor to establish
+  which applies rather than assume, while keeping the automated gate and treating
+  the defect as worth fixing either way.
+- **The release gate could not see a missing re-pin.** `check-release.mjs`
+  validated whichever digests the newest changelog entry happened to quote, so an
+  entry quoting none passed — exactly the case where a volume changed and nobody
+  recorded it. It now requires the newest entry to record the digest, which is
+  what this file's own preamble has always promised. The gate blocked this
+  release until this entry was written.
+
 ## 2.4.0
 
 A second adversarial audit, run because the first one's method was wrong. Its

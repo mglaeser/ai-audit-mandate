@@ -90,7 +90,17 @@ const changelog = await read('CHANGELOG.md');
 const firstEntry = changelog.indexOf('\n## ');
 const secondEntry = changelog.indexOf('\n## ', firstEntry + 1);
 const newestEntry = changelog.slice(firstEntry, secondEntry === -1 ? changelog.length : secondEntry);
-for (const prefix of quotedIn(newestEntry)) {
+const newestDigests = quotedIn(newestEntry);
+
+// CHANGELOG.md's own preamble promises that "every release records the combined
+// digest of the two volumes". Checking only the digests that ARE quoted lets a
+// release quoting none pass silently — which is exactly how a volume edit could
+// ship with no re-pin notice for the engagements that pinned the old text.
+check(
+  newestDigests.length > 0,
+  "CHANGELOG.md's newest entry records no combined digest, which the file's own preamble requires of every release",
+);
+for (const prefix of newestDigests) {
   check(
     combined.startsWith(prefix),
     `CHANGELOG.md's newest entry quotes sha256:${prefix}…, which is not the digest the manifest records`,
