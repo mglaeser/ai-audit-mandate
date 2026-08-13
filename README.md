@@ -265,6 +265,7 @@ Wire this into CI.
 
 - **[Adoption levels](docs/adoption-levels.md)** — how deep to go, and how to choose honestly.
 - **[Prompts](docs/prompts/README.md)** — three copy-paste starting points, one per level.
+- **[Badges](docs/badge.md)** — show the level you reached, and what earns each one.
 - **[Getting started](docs/getting-started.md)** — clone to running engagement, phase by phase.
 - **[Concepts](docs/concepts.md)** — the operating model, the five hazards, substitution, ratchets and decay.
 - **[Check index](docs/check-index.md)** — all 119 checks, browsable, with bands and structural-fix markers.

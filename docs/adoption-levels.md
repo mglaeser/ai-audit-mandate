@@ -170,3 +170,6 @@ means the answer becomes *knowable*.
 
 **Ready to start?** Each level has a single prompt you can paste into your coding
 agent: [prompts](prompts/README.md).
+
+**Already finished one?** Each level has a [badge](badge.md) — and a stated bar
+it has to clear before you display it.

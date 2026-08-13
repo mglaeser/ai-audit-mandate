@@ -18,7 +18,8 @@
     "release": "node scripts/check-release.mjs",
     "schema": "node scripts/check-finding-shape.mjs --file templates/finding-record.json && node scripts/check-finding-shape.mjs --expect-invalid --dir templates/invalid-fixtures",
     "lint": "markdownlint-cli2",
-    "test": "npm run verify && npm run links && npm run release && npm run schema && npm run lint"
+    "test": "npm run verify && npm run links && npm run release && npm run schema && npm run lint",
+    "badges": "node scripts/build-badges.mjs"
   },
   "devDependencies": {
     "markdownlint-cli2": "0.23.2"
