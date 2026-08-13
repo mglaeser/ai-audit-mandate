@@ -5,9 +5,9 @@ belongs in the badge row at the top of a README, beside CI and licence.
 
 | Level | Badge | Claim it makes |
 | --- | --- | --- |
-| 1 | ![Level 1](../assets/badges/level-1-baseline.svg) | All 119 checks carry an evidenced verdict. Nothing is enforced yet. |
-| 2 | ![Level 2](../assets/badges/level-2-governed.svg) | The findings block: controls run in CI, deploy admission fails closed. |
-| 3 | ![Level 3](../assets/badges/level-3-standing-regime.svg) | The controls are calibrated, self-testing, and independently verified. |
+| 1 | [![Level 1](../assets/badges/level-1-baseline.svg)](https://github.com/mglaeser/ai-audit-mandate) | All 119 checks carry an evidenced verdict. Nothing is enforced yet. |
+| 2 | [![Level 2](../assets/badges/level-2-governed.svg)](https://github.com/mglaeser/ai-audit-mandate) | The findings block: controls run in CI, deploy admission fails closed. |
+| 3 | [![Level 3](../assets/badges/level-3-standing-regime.svg)](https://github.com/mglaeser/ai-audit-mandate) | The controls are calibrated, self-testing, and independently verified. |
 
 ## Copy one
 
@@ -26,9 +26,10 @@ Replace `LEVEL` with `level-1-baseline`, `level-2-governed` or
 <a href="https://github.com/mglaeser/ai-audit-mandate"><img src="https://raw.githubusercontent.com/mglaeser/ai-audit-mandate/main/assets/badges/LEVEL.svg" alt="AI Audit Mandate: Level 2, Governed"></a>
 ```
 
-Point the link at your own `audit/` directory instead if you would rather send
-readers to your evidence than to this repository. The evidence is the more
-interesting destination.
+**Keep the link pointing here.** A reader who meets the badge on your repository
+has no idea what "Level 2" means; the link is how they find out. Sending them to
+your own `audit/` folder instead answers a question they have not formed yet —
+link to your evidence from your README's own text, where it will land better.
 
 ## Earn one
 
