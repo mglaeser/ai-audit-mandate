@@ -104,12 +104,21 @@ async function anchorsFor(path) {
 
     const base = slug(
       heading[2]
-        // A link inside a heading contributes only its text.
-        .replace(/!?\[([^\]]*)\]\([^)]*\)/g, '$1')
+        // An IMAGE contributes nothing to the slug — GitHub does not fold alt
+        // text in. A heading that is only an image renders with id="", so its
+        // anchor does not exist at all. Strip images before links, or the `!`
+        // is left behind and the alt text is wrongly counted.
+        .replace(/!\[[^\]]*\]\([^)]*\)/g, '')
+        // A text link contributes only its label.
+        .replace(/\[([^\]]*)\]\([^)]*\)/g, '$1')
         .replace(/[*`]/g, '')
         // ATX closing sequence: `## Title ##`.
         .replace(/\s+#+\s*$/, ''),
     );
+
+    // An image-only heading mints no anchor. Recording one would approve links
+    // GitHub answers with a dead fragment.
+    if (base === '') continue;
 
     // github-slugger's collision rule: probe upward until the slug is free.
     let candidate = base;

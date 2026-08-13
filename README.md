@@ -40,6 +40,8 @@ proven to still be running.
 
 ### Level 1 · Baseline
 
+[![Level 1 · Baseline](assets/badges/level-1-baseline.svg)](docs/badge.md)
+
 **Finds out what is true.** Every check gets a verdict backed by an artifact
 someone else can re-examine, and every claim your repository makes about itself
 is reconciled against the code. Your code is not changed.
@@ -52,6 +54,8 @@ Leaves an `audit/` folder behind. No new code, no new tests. An afternoon,
 usually 1–3 pull requests.
 
 ### Level 2 · Governed
+
+[![Level 2 · Governed](assets/badges/level-2-governed.svg)](docs/badge.md)
 
 **Makes the findings block.** The audit's conclusions become gates: CI starts
 refusing the mistakes it found, and deploy admission fails closed. Each described
@@ -69,6 +73,8 @@ usually 10–25 pull requests.
 > place to stop — provided you write down *why* you stopped.
 
 ### Level 3 · Standing regime
+
+[![Level 3 · Standing regime](assets/badges/level-3-standing-regime.svg)](docs/badge.md)
 
 **Proves the controls still block.** Seeded defects are re-injected on a
 schedule, the gate carries a self-test that fails when it stops catching, and
